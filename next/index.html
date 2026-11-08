@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="theme-color" content="#0a0d12" />
+    <meta name="color-scheme" content="dark light" />
+    <title>王者教研室</title>
+    <script>
+      // 启动前先按已保存设置应用主题/字号，避免首屏闪白或闪暗
+      try {
+        var s = JSON.parse(localStorage.getItem("wzjs.v2.state") || "{}");
+        if (s.theme) document.documentElement.setAttribute("data-theme", s.theme);
+        if (s.fontScale) document.documentElement.style.setProperty("--fs-scale", String(s.fontScale));
+      } catch (e) {}
+    </script>
+    <script>
+      // 数据热更新：联网下载的数据优先于 APK 内置快照。
+      // 必须在打包 bundle 之前执行，data.js 会读取 window.__RUNTIME_DATA__。
+      try {
+        var rd = localStorage.getItem("wzjs.runtimeData");
+        if (rd) {
+          var d = JSON.parse(rd);
+          if (d && Array.isArray(d.heroes) && d.heroes.length > 0) {
+            window.__RUNTIME_DATA__ = d;
+          }
+        }
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

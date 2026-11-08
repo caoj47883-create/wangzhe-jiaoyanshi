@@ -1,0 +1,87 @@
+{
+  "errors": [],
+  "external": [],
+  "bridgeCalls": [
+    {
+      "type": "share",
+      "len": 1942818,
+      "prefix": "data:image/png;base64,iVBORw0K",
+      "filename": "wzjs-1793793990074.png"
+    },
+    {
+      "type": "share",
+      "len": 2066774,
+      "prefix": "data:image/png;base64,iVBORw0K",
+      "filename": "wzjs-1793794004006.png"
+    },
+    {
+      "type": "share",
+      "len": 2244894,
+      "prefix": "data:image/png;base64,iVBORw0K",
+      "filename": "wzjs-1793794009252.png"
+    },
+    {
+      "type": "openExternal",
+      "url": "https://www.douyin.com/search/%E5%BC%A0%E5%A4%A7%E4%BB%99?type=user"
+    }
+  ],
+  "checks": {
+    "home": {
+      "title": "王者教研室",
+      "brand": "王者教研室",
+      "theme": "dark",
+      "kimi": 0,
+      "fonts": "loaded",
+      "serif": true,
+      "heroArt": [
+        720,
+        330
+      ],
+      "tabs": [
+        "首页",
+        "英雄",
+        "BP",
+        "出装",
+        "更多"
+      ]
+    },
+    "hero": {
+      "tierCards": 4,
+      "gridAvatars": 33
+    },
+    "sheetBack": true,
+    "bpCombined": true,
+    "bpRecs": true,
+    "itemsFromBp": true,
+    "itemsResult": true,
+    "comps": true,
+    "coaches": true,
+    "search": true,
+    "lightTheme": "light",
+    "fontScale": "1.08",
+    "backAtRoot": true
+  },
+  "summary": {
+    "errors": 0,
+    "external": [],
+    "bridgeTypes": [
+      "share",
+      "share",
+      "share",
+      "openExternal"
+    ],
+    "shareLen": [
+      1942818,
+      2066774,
+      2244894
+    ],
+    "sharePrefix": [
+      "data:image/png;base64,iVBORw0K",
+      "data:image/png;base64,iVBORw0K",
+      "data:image/png;base64,iVBORw0K"
+    ],
+    "externalUrls": [
+      "https://www.douyin.com/search/%E5%BC%A0%E5%A4%A7%E4%BB%99?type=user"
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+# 构建产物 / 依赖 / 本地环境
+node_modules/
+.next/
+dist/
+build/
+toolchain/
+dl/
+app/build/
+app/assets/
+app/res/raw/
+app/keystore/
+pipeline/out/
+__pycache__/
+*.pyc
+*.idsig
+*.apk
+*.zip
+*.log
+logs/
+.dsh-office-*/
+.env
+.DS_Store
+Thumbs.db
