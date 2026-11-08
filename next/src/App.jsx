@@ -57,6 +57,58 @@ export default function App() {
     saveState(state);
   }, [state]);
 
+  // iOS 液态玻璃：指针/触摸位置 → 卡片 CSS 变量，形成随手指流动的镜面高光
+  useEffect(() => {
+    const glassSelector = ".card, .tool, .comp-card, .coach-card, .stats, .list";
+    let frame = 0;
+    let lastX = 0;
+    let lastY = 0;
+    let current = null;
+    const paint = () => {
+      frame = 0;
+      if (!current) return;
+      const rect = current.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+      current.style.setProperty("--lx", `${((lastX - rect.left) / rect.width) * 100}%`);
+      current.style.setProperty("--ly", `${((lastY - rect.top) / rect.height) * 100}%`);
+    };
+    const onMove = (e) => {
+      const el = e.target instanceof Element ? e.target.closest(glassSelector) : null;
+      if (!el) { current = null; return; }
+      current = el;
+      lastX = e.clientX;
+      lastY = e.clientY;
+      if (!frame) frame = requestAnimationFrame(paint);
+    };
+    const onDown = (e) => {
+      if (!(e.target instanceof Element)) return;
+      if (e.target.closest("input, textarea, select")) return;
+      const el = e.target.closest(glassSelector);
+      if (el) {
+        const rect = el.getBoundingClientRect();
+        if (rect.width && rect.height) {
+          el.style.setProperty("--lx", `${((e.clientX - rect.left) / rect.width) * 100}%`);
+          el.style.setProperty("--ly", `${((e.clientY - rect.top) / rect.height) * 100}%`);
+        }
+        el.classList.add("is-pressed");
+      }
+    };
+    const clearPressed = () => {
+      document.querySelectorAll(".is-pressed").forEach((el) => el.classList.remove("is-pressed"));
+    };
+    document.addEventListener("pointermove", onMove, { passive: true });
+    document.addEventListener("pointerdown", onDown, { passive: true });
+    document.addEventListener("pointerup", clearPressed, { passive: true });
+    document.addEventListener("pointercancel", clearPressed, { passive: true });
+    return () => {
+      if (frame) cancelAnimationFrame(frame);
+      document.removeEventListener("pointermove", onMove);
+      document.removeEventListener("pointerdown", onDown);
+      document.removeEventListener("pointerup", clearPressed);
+      document.removeEventListener("pointercancel", clearPressed);
+    };
+  }, []);
+
   // 启动后自动检查数据更新（6 小时节流，失败静默）；更新成功整页 reload 让新数据生效
   useEffect(() => {
     window.__checkForUpdates = checkForUpdates;

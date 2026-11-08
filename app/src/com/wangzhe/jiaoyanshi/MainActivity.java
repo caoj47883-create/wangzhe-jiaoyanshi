@@ -72,7 +72,7 @@ public class MainActivity extends Activity {
     private static final int HTTP_PORT_TRIES = 12;
 
     private WebView webView;
-    private String appVersion = "2.1.1";
+    private String appVersion = "2.2.0";
 
     // 本地 HTTP 服务
     private File siteDir;

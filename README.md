@@ -4,7 +4,7 @@
 
 ![Platform](https://img.shields.io/badge/Android-6.0%2B-3ddc84?logo=android&logoColor=white)
 ![WebView](https://img.shields.io/badge/WebView-%E2%89%A5%20111-4285F4?logo=googlechrome&logoColor=white)
-![Version](https://img.shields.io/badge/version-2.1.1-d3a659)
+![Version](https://img.shields.io/badge/version-2.2.0-d3a659)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Build APK](https://github.com/caoj47883-create/wangzhe-jiaoyanshi/actions/workflows/build-apk.yml/badge.svg)
 
@@ -13,7 +13,7 @@
 [PRD](docs/PRD-王者教研室-V2.1.1.md) ·
 [架构说明](docs/ONLINE_UPDATE_ARCHITECTURE.md)
 
-![界面预览](next/shots/v2-showcase.png)
+![界面预览](next/shots/v2.2.0-home-dark.png)
 
 ---
 
@@ -47,14 +47,20 @@
 | 数据热更新 | GitHub Pages manifest + SHA-256 校验 + 回滚 |
 | AI 问答 | 本地数据 RAG + 外部 OpenAI 兼容接口（Key 仅存本机） |
 
+### V2.2.0：iOS 液态玻璃 × 悬浮底栏
+
+- **Liquid Glass 卡片**：半透明模糊 + 边缘折射高光 + 随手指移动的镜面反射 + 按压缩放；
+- **悬浮底栏**：圆角玻璃浮层、滑动弹簧指示器、下滑自动收起 / 上滑出现；
+- 深色「暗夜战术」与浅色「暖纸玻璃」两套材质，均保留完整对比度。
+
 <table>
   <tr>
-    <td><img src="next/shots/prd-shots-1.png" alt="首页与 BP 助手"></td>
-    <td><img src="next/shots/prd-shots-2.png" alt="出装与设置"></td>
+    <td><img src="next/shots/v2.2.0-home-dark.png" alt="暗夜液态玻璃首页"></td>
+    <td><img src="next/shots/v2.2.0-home-light.png" alt="暖纸液态玻璃首页"></td>
   </tr>
   <tr>
-    <td><img src="next/shots/prd-shots-3.png" alt="AI 问答与图标"></td>
-    <td><img src="next/shots/icon-v2.1.1.png" alt="图标预览"></td>
+    <td><img src="next/shots/v2.2.0-bp.png" alt="BP 助手与悬浮底栏"></td>
+    <td><img src="next/shots/v2.2.0-settings-light.png" alt="设置页玻璃列表"></td>
   </tr>
 </table>
 
@@ -252,6 +258,7 @@ GitHub Pages（数据仓库）         App（启动/手动检查）
 ## 路线图
 
 - [x] V2.1.1：马可波罗「暗影游猎」图标、数据热更新、AI 问答
+- [x] V2.2.0：iOS 液态玻璃卡片、悬浮底栏、随动高光与滚动收起
 - [ ] V2.2：数据更新安全加固、BP→出装联动、阵容收藏、英雄对比、更新日志详情页
 - [ ] GitHub Actions 全自动构建 + Release（本仓库已内置 workflow）
 

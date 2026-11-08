@@ -125,7 +125,8 @@ if ($LASTEXITCODE -ne 0) { throw 'zipalign failed' }
 
 Step 'Signing APK'
 $unsigned = Join-Path $build 'aligned.apk'
-$apk = Join-Path $dist 'wangzhe-jiaoyanshi-v2.1.1.apk'
+$versionName = ([regex]::Match((Get-Content (Join-Path $app 'AndroidManifest.xml') -Raw), 'android:versionName="([^"]+)"')).Groups[1].Value
+$apk = Join-Path $dist ('wangzhe-jiaoyanshi-v' + $versionName + '.apk')
 & $java -jar $apksignerJar sign --ks $ksFile --ks-key-alias $ksAlias `
     --ks-pass ('pass:' + $ksPass) --key-pass ('pass:' + $ksPass) `
     --out $apk $unsigned

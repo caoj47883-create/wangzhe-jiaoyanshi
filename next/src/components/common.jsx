@@ -161,10 +161,44 @@ const TABS = [
 
 export function TabBar() {
   const { tab, goTab } = useApp();
+  const [hidden, setHidden] = useState(false);
+  const idx = TABS.findIndex((t) => t.id === tab);
+  const tabIndex = idx < 0 ? 0 : idx;
+
+  // iOS 式交互：下滑隐藏、上滑/回顶出现；切 Tab 时立即复位
+  useEffect(() => {
+    let lastY = 0;
+    let ticking = false;
+    const onScroll = (e) => {
+      const el = e.target;
+      if (!el || !el.classList || !el.classList.contains("page")) return;
+      const y = el.scrollTop;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        if (y < 24) { setHidden(false); lastY = y; return; }
+        const dy = y - lastY;
+        if (dy > 10) setHidden(true);
+        else if (dy < -10) setHidden(false);
+        lastY = y;
+      });
+    };
+    document.addEventListener("scroll", onScroll, true);
+    return () => document.removeEventListener("scroll", onScroll, true);
+  }, []);
+  useEffect(() => { setHidden(false); }, [tab]);
+
   return (
-    <nav className="tabbar">
+    <nav className={`tabbar ${hidden ? "hidden" : ""}`} style={{ "--tab-index": tabIndex }} aria-label="主导航">
+      <span className="tab-indicator" aria-hidden="true" />
       {TABS.map((t) => (
-        <button key={t.id} className={`tab ${tab === t.id ? "on" : ""}`} onClick={() => goTab(t.id)}>
+        <button
+          key={t.id}
+          className={`tab ${tab === t.id ? "on" : ""}`}
+          aria-current={tab === t.id ? "page" : undefined}
+          onClick={() => goTab(t.id)}
+        >
           <span className="wrap">
             <Icon name={t.icon} />
           </span>
