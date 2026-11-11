@@ -4,7 +4,7 @@
 
 ![Platform](https://img.shields.io/badge/Android-6.0%2B-3ddc84?logo=android&logoColor=white)
 ![WebView](https://img.shields.io/badge/WebView-%E2%89%A5%20111-4285F4?logo=googlechrome&logoColor=white)
-![Version](https://img.shields.io/badge/version-2.3.1-d3a659)
+![Version](https://img.shields.io/badge/version-2.3.2-d3a659)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Build APK](https://github.com/caoj47883-create/wangzhe-jiaoyanshi/actions/workflows/build-apk.yml/badge.svg)
 
@@ -90,8 +90,15 @@
 
 - **词库拆出来**：`heroVoice.js` 里内嵌的别名表拆成人工维护的 `next/src/data/hero-voice-aliases.json`，不再和匹配算法混在一个文件；
 - **生成器**：`next/scripts/build-voice-lexicon.mjs` 读取英雄数据 + 别名表，预生成 `next/src/data/hero-voice-lexicon.json`（拼音、权重、单字英雄、共享词条）和可读表 `docs/VOICE_LEXICON.md`；
-- **当前覆盖**：133 英雄 / 130 条别名、外号、ASR 常见错字 / 8 个单字英雄（镜、瑶、暃、澜、铠、影、曜、苍）；「元流之子」五形态仍作为受控歧义处理；
+- **当前覆盖**：133 英雄 / 250 条别名、外号、ASR 常见错字 / 8 个单字英雄（镜、瑶、暃、澜、铠、影、曜、苍）；「元流之子」五形态仍作为受控歧义处理；
 - **可校验**：`pnpm voice:lexicon:check` 校验生成物是否过期，CI 构建前自动执行；改别名后运行 `pnpm voice:lexicon` 重新生成即可。
+
+### V2.3.2：英雄外号扩充
+
+- **社区外号**：新增司空震「老大 / 牢大 / 电狗」、李元芳「米老鼠 / 老鼠 / 耗子」、卢雅那「那那 / 卢亚那」、沈梦溪「炸弹猫」、鲁班七号「小短腿」、蔡文姬「奶妈」、韩信「韩跳跳」等 120 条常用叫法；
+- **ASR 变体**：补充卢雅那「卢雅娜 / 卢雅」、司空震「司空镇」、李元芳「李元方」等易错读法；
+- **词库规模**：133 英雄 / 250 条别名 / 388 个可匹配词条（V2.3.1 为 268 个）；
+- **回归**：新增「老大 / 牢大 / 电狗 → 司空震」「米老鼠 → 李元芳」「那那 / 卢亚那 → 卢雅那」等用例，全部通过。
 
 ## 技术架构
 
@@ -292,6 +299,8 @@ GitHub Pages（数据仓库）         App（启动/手动检查）
 - [x] V2.1.1：马可波罗「暗影游猎」图标、数据热更新、AI 问答
 - [x] V2.2.0：iOS 液态玻璃卡片、悬浮底栏、随动高光与滚动收起
 - [x] V2.3.0：BP 语音输入 MVP（系统 ASR + 英雄词典模糊匹配 + 候选/混合意图）
+- [x] V2.3.1：英雄语音词库工程化（生成器 + CI 过期校验）
+- [x] V2.3.2：社区外号扩充（司空震 / 李元芳 / 卢雅那等 120 条）
 - [ ] V2.2：数据更新安全加固、BP→出装联动、阵容收藏、英雄对比、更新日志详情页
 - [ ] GitHub Actions 全自动构建 + Release（本仓库已内置 workflow）
 

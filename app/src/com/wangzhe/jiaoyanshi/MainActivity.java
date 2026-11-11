@@ -79,7 +79,7 @@ public class MainActivity extends Activity {
     private static final int HTTP_PORT_TRIES = 12;
 
     private WebView webView;
-    private String appVersion = "2.3.1";
+    private String appVersion = "2.3.2";
 
     // 语音输入（Android 原生 SpeechRecognizer，不依赖 WebView 的 Web Speech API）
     private static final int REQ_RECORD_AUDIO = 7101;

@@ -3,7 +3,7 @@
   "sourceDataVersion": "2.0.3",
   "sourceSnapshot": "2026-11-04",
   "heroCount": 133,
-  "aliasTermCount": 130,
+  "aliasTermCount": 250,
   "singleCharHeroes": [
     "镜",
     "瑶",
@@ -52,6 +52,24 @@
           "pinyin": [
             "a",
             "li"
+          ]
+        },
+        {
+          "text": "兔子",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "tu",
+            "zi"
+          ]
+        },
+        {
+          "text": "兔兔",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "tu",
+            "tu"
           ]
         }
       ]
@@ -129,6 +147,25 @@
             "er",
             "ye"
           ]
+        },
+        {
+          "text": "关二爷",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "guan",
+            "er",
+            "ye"
+          ]
+        },
+        {
+          "text": "关公",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "guan",
+            "gong"
+          ]
         }
       ]
     },
@@ -169,6 +206,15 @@
             "hou",
             "dun"
           ]
+        },
+        {
+          "text": "独眼",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "du",
+            "yan"
+          ]
         }
       ]
     },
@@ -196,6 +242,17 @@
           "pinyin": [
             "wa",
             "huang"
+          ]
+        },
+        {
+          "text": "女娲娘娘",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "nv",
+            "wa",
+            "niang",
+            "niang"
           ]
         }
       ]
@@ -235,6 +292,15 @@
             "xiao",
             "yuan"
           ]
+        },
+        {
+          "text": "缘神",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "yuan",
+            "shen"
+          ]
         }
       ]
     },
@@ -262,6 +328,25 @@
           "pinyin": [
             "yi",
             "de"
+          ]
+        },
+        {
+          "text": "三爷",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "san",
+            "ye"
+          ]
+        },
+        {
+          "text": "张三爷",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "zhang",
+            "san",
+            "ye"
           ]
         }
       ]
@@ -338,6 +423,15 @@
             "zhen",
             "mi"
           ]
+        },
+        {
+          "text": "洛神",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "luo",
+            "shen"
+          ]
         }
       ]
     },
@@ -368,6 +462,25 @@
             "shou",
             "yue"
           ]
+        },
+        {
+          "text": "百里",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "bai",
+            "li"
+          ]
+        },
+        {
+          "text": "狙击手",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "ju",
+            "ji",
+            "shou"
+          ]
         }
       ]
     },
@@ -386,6 +499,15 @@
           "pinyin": [
             "dun",
             "shan"
+          ]
+        },
+        {
+          "text": "盾哥",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "dun",
+            "ge"
           ]
         }
       ]
@@ -425,6 +547,24 @@
             "pei",
             "qin"
           ]
+        },
+        {
+          "text": "虎子",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "hu",
+            "zi"
+          ]
+        },
+        {
+          "text": "虎哥",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "hu",
+            "ge"
+          ]
         }
       ]
     },
@@ -454,6 +594,16 @@
             "zi",
             "long"
           ]
+        },
+        {
+          "text": "赵子龙",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "zhao",
+            "zi",
+            "long"
+          ]
         }
       ]
     },
@@ -479,6 +629,24 @@
           "weight": 0.97,
           "pinyin": [
             "jing"
+          ]
+        },
+        {
+          "text": "镜姐",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "jing",
+            "jie"
+          ]
+        },
+        {
+          "text": "镜皇",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "jing",
+            "huang"
           ]
         }
       ]
@@ -585,6 +753,16 @@
             "yuan",
             "ge"
           ]
+        },
+        {
+          "text": "傀儡师",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "kui",
+            "lei",
+            "shi"
+          ]
         }
       ]
     },
@@ -623,6 +801,24 @@
             "feng",
             "xian"
           ]
+        },
+        {
+          "text": "布哥",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "bu",
+            "ge"
+          ]
+        },
+        {
+          "text": "战神",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "zhan",
+            "shen"
+          ]
         }
       ]
     },
@@ -651,6 +847,16 @@
             "na",
             "zha"
           ]
+        },
+        {
+          "text": "三太子",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "san",
+            "tai",
+            "zi"
+          ]
         }
       ]
     },
@@ -666,6 +872,24 @@
           "text": "大乔",
           "kind": "name",
           "weight": 1,
+          "pinyin": [
+            "da",
+            "qiao"
+          ]
+        },
+        {
+          "text": "乔姐",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "qiao",
+            "jie"
+          ]
+        },
+        {
+          "text": "大桥",
+          "kind": "alias",
+          "weight": 0.97,
           "pinyin": [
             "da",
             "qiao"
@@ -796,6 +1020,25 @@
             "meng",
             "xi"
           ]
+        },
+        {
+          "text": "炸弹猫",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "zha",
+            "dan",
+            "mao"
+          ]
+        },
+        {
+          "text": "猫猫",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "mao",
+            "mao"
+          ]
         }
       ]
     },
@@ -826,6 +1069,15 @@
             "da",
             "ren"
           ]
+        },
+        {
+          "text": "杰哥",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "jie",
+            "ge"
+          ]
         }
       ]
     },
@@ -852,6 +1104,15 @@
           "weight": 0.97,
           "pinyin": [
             "wang",
+            "mo",
+            "jie"
+          ]
+        },
+        {
+          "text": "摩诘",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
             "mo",
             "jie"
           ]
@@ -888,6 +1149,24 @@
           "weight": 0.97,
           "pinyin": [
             "yao"
+          ]
+        },
+        {
+          "text": "瑶妹",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "yao",
+            "mei"
+          ]
+        },
+        {
+          "text": "鹿女",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "lu",
+            "nv"
           ]
         }
       ]
@@ -937,6 +1216,24 @@
             "zhong",
             "xu"
           ]
+        },
+        {
+          "text": "钩子",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "gou",
+            "zi"
+          ]
+        },
+        {
+          "text": "钩神",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "gou",
+            "shen"
+          ]
         }
       ]
     },
@@ -976,6 +1273,15 @@
             "bu",
             "zhi",
             "huo"
+          ]
+        },
+        {
+          "text": "舞姐",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "wu",
+            "jie"
           ]
         }
       ]
@@ -1110,6 +1416,25 @@
             "xuan",
             "de"
           ]
+        },
+        {
+          "text": "刘皇叔",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "liu",
+            "huang",
+            "shu"
+          ]
+        },
+        {
+          "text": "皇叔",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "huang",
+            "shu"
+          ]
         }
       ]
     },
@@ -1136,6 +1461,44 @@
           "kind": "alias",
           "weight": 0.97,
           "pinyin": [
+            "ya",
+            "na"
+          ]
+        },
+        {
+          "text": "那那",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "na",
+            "na"
+          ]
+        },
+        {
+          "text": "卢雅",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "lu",
+            "ya"
+          ]
+        },
+        {
+          "text": "卢亚那",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "lu",
+            "ya",
+            "na"
+          ]
+        },
+        {
+          "text": "卢雅娜",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "lu",
             "ya",
             "na"
           ]
@@ -1169,6 +1532,52 @@
             "si",
             "kong"
           ]
+        },
+        {
+          "text": "老大",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "lao",
+            "da"
+          ]
+        },
+        {
+          "text": "牢大",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "lao",
+            "da"
+          ]
+        },
+        {
+          "text": "电狗",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "dian",
+            "gou"
+          ]
+        },
+        {
+          "text": "雷神",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "lei",
+            "shen"
+          ]
+        },
+        {
+          "text": "司空镇",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "si",
+            "kong",
+            "zhen"
+          ]
         }
       ]
     },
@@ -1196,6 +1605,15 @@
           "pinyin": [
             "hou",
             "yi"
+          ]
+        },
+        {
+          "text": "射日",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "she",
+            "ri"
           ]
         }
       ]
@@ -1226,6 +1644,16 @@
             "xia",
             "luo"
           ]
+        },
+        {
+          "text": "夏师傅",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "xia",
+            "shi",
+            "fu"
+          ]
         }
       ]
     },
@@ -1252,6 +1680,15 @@
           "weight": 0.97,
           "pinyin": [
             "yu"
+          ]
+        },
+        {
+          "text": "禹哥",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "yu",
+            "ge"
           ]
         }
       ]
@@ -1361,6 +1798,17 @@
             "xiao",
             "jie"
           ]
+        },
+        {
+          "text": "孙大小姐",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "sun",
+            "da",
+            "xiao",
+            "jie"
+          ]
         }
       ]
     },
@@ -1379,6 +1827,15 @@
           "pinyin": [
             "xiao",
             "qiao"
+          ]
+        },
+        {
+          "text": "乔妹",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "qiao",
+            "mei"
           ]
         }
       ]
@@ -1407,6 +1864,14 @@
           "pinyin": [
             "yu"
           ]
+        },
+        {
+          "text": "鲲",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "kun"
+          ]
         }
       ]
     },
@@ -1433,6 +1898,15 @@
           "weight": 0.97,
           "pinyin": [
             "ge",
+            "ya"
+          ]
+        },
+        {
+          "text": "娅娅",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "ya",
             "ya"
           ]
         }
@@ -1490,6 +1964,16 @@
             "meng",
             "de"
           ]
+        },
+        {
+          "text": "曹老板",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "cao",
+            "lao",
+            "ban"
+          ]
         }
       ]
     },
@@ -1519,6 +2003,15 @@
             "duo",
             "li"
           ]
+        },
+        {
+          "text": "朵妹",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "duo",
+            "mei"
+          ]
         }
       ]
     },
@@ -1536,6 +2029,24 @@
           "weight": 1,
           "pinyin": [
             "li",
+            "xin"
+          ]
+        },
+        {
+          "text": "光信",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "guang",
+            "xin"
+          ]
+        },
+        {
+          "text": "暗信",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "an",
             "xin"
           ]
         }
@@ -1577,6 +2088,16 @@
             "gui",
             "fei"
           ]
+        },
+        {
+          "text": "杨贵妃",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "yang",
+            "gui",
+            "fei"
+          ]
         }
       ]
     },
@@ -1606,6 +2127,15 @@
             "nv",
             "di"
           ]
+        },
+        {
+          "text": "武皇",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "wu",
+            "huang"
+          ]
         }
       ]
     },
@@ -1632,6 +2162,16 @@
           "pinyin": [
             "lan"
           ]
+        },
+        {
+          "text": "澜朋友",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "lan",
+            "peng",
+            "you"
+          ]
         }
       ]
     },
@@ -1650,6 +2190,15 @@
           "pinyin": [
             "kuang",
             "tie"
+          ]
+        },
+        {
+          "text": "铁哥",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "tie",
+            "ge"
           ]
         }
       ]
@@ -1680,6 +2229,17 @@
           "pinyin": [
             "zhao",
             "jun"
+          ]
+        },
+        {
+          "text": "昭君姐姐",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "zhao",
+            "jun",
+            "jie",
+            "jie"
           ]
         }
       ]
@@ -1740,6 +2300,15 @@
             "fu",
             "zi"
           ]
+        },
+        {
+          "text": "老头",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "lao",
+            "tou"
+          ]
         }
       ]
     },
@@ -1777,6 +2346,17 @@
           "pinyin": [
             "meng",
             "tian"
+          ]
+        },
+        {
+          "text": "蒙大将军",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "meng",
+            "da",
+            "jiang",
+            "jun"
           ]
         }
       ]
@@ -1816,6 +2396,15 @@
             "cai",
             "wen"
           ]
+        },
+        {
+          "text": "奶妈",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "nai",
+            "ma"
+          ]
         }
       ]
     },
@@ -1834,6 +2423,16 @@
           "pinyin": [
             "yu",
             "ji"
+          ]
+        },
+        {
+          "text": "虞美人",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "yu",
+            "mei",
+            "ren"
           ]
         }
       ]
@@ -1894,6 +2493,26 @@
             "kong",
             "ming"
           ]
+        },
+        {
+          "text": "村夫",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "cun",
+            "fu"
+          ]
+        },
+        {
+          "text": "诸葛村夫",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "zhu",
+            "ge",
+            "cun",
+            "fu"
+          ]
         }
       ]
     },
@@ -1913,6 +2532,15 @@
           "pinyin": [
             "diao",
             "chan"
+          ]
+        },
+        {
+          "text": "蝉姐",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "chan",
+            "jie"
           ]
         }
       ]
@@ -1940,6 +2568,24 @@
           "weight": 0.97,
           "pinyin": [
             "kai"
+          ]
+        },
+        {
+          "text": "铠爹",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "kai",
+            "die"
+          ]
+        },
+        {
+          "text": "铠皇",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "kai",
+            "huang"
           ]
         }
       ]
@@ -1969,6 +2615,15 @@
             "yue",
             "guang"
           ]
+        },
+        {
+          "text": "紫霞",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "zi",
+            "xia"
+          ]
         }
       ]
     },
@@ -1996,6 +2651,25 @@
           "pinyin": [
             "bing",
             "xian"
+          ]
+        },
+        {
+          "text": "韩跳跳",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "han",
+            "tiao",
+            "tiao"
+          ]
+        },
+        {
+          "text": "跳跳",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "tiao",
+            "tiao"
           ]
         }
       ]
@@ -2065,6 +2739,15 @@
             "shang",
             "guan"
           ]
+        },
+        {
+          "text": "婉姐",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "wan",
+            "jie"
+          ]
         }
       ]
     },
@@ -2093,6 +2776,15 @@
           "pinyin": [
             "yun",
             "zhong"
+          ]
+        },
+        {
+          "text": "鸟人",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "niao",
+            "ren"
           ]
         }
       ]
@@ -2123,6 +2815,16 @@
             "ya",
             "se",
             "wang"
+          ]
+        },
+        {
+          "text": "老亚瑟",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "lao",
+            "ya",
+            "se"
           ]
         }
       ]
@@ -2344,6 +3046,15 @@
             "lan",
             "ling"
           ]
+        },
+        {
+          "text": "隐身",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "yin",
+            "shen"
+          ]
         }
       ]
     },
@@ -2363,6 +3074,15 @@
           "pinyin": [
             "dian",
             "wei"
+          ]
+        },
+        {
+          "text": "疯狗",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "feng",
+            "gou"
           ]
         }
       ]
@@ -2392,6 +3112,15 @@
             "liu",
             "chan"
           ]
+        },
+        {
+          "text": "阿斗",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "a",
+            "dou"
+          ]
         }
       ]
     },
@@ -2411,6 +3140,15 @@
           "pinyin": [
             "liu",
             "bang"
+          ]
+        },
+        {
+          "text": "邦哥",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "bang",
+            "ge"
           ]
         }
       ]
@@ -2442,6 +3180,15 @@
             "si",
             "ma"
           ]
+        },
+        {
+          "text": "懿哥",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "yi",
+            "ge"
+          ]
         }
       ]
     },
@@ -2470,6 +3217,15 @@
             "gong",
             "jin"
           ]
+        },
+        {
+          "text": "周郎",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "zhou",
+            "lang"
+          ]
         }
       ]
     },
@@ -2489,6 +3245,15 @@
           "pinyin": [
             "mo",
             "zi"
+          ]
+        },
+        {
+          "text": "墨哥",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "mo",
+            "ge"
           ]
         }
       ]
@@ -2539,6 +3304,24 @@
             "da",
             "ji"
           ]
+        },
+        {
+          "text": "狐狸",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "hu",
+            "li"
+          ]
+        },
+        {
+          "text": "狐妖",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "hu",
+            "yao"
+          ]
         }
       ]
     },
@@ -2568,6 +3351,16 @@
           "pinyin": [
             "zi",
             "ya"
+          ]
+        },
+        {
+          "text": "姜太公",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "jiang",
+            "tai",
+            "gong"
           ]
         }
       ]
@@ -2637,6 +3430,15 @@
             "shi",
             "huang"
           ]
+        },
+        {
+          "text": "政哥",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "zheng",
+            "ge"
+          ]
         }
       ]
     },
@@ -2674,6 +3476,26 @@
           "pinyin": [
             "wu",
             "kong"
+          ]
+        },
+        {
+          "text": "猴哥",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "hou",
+            "ge"
+          ]
+        },
+        {
+          "text": "齐天大圣",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "qi",
+            "tian",
+            "da",
+            "sheng"
           ]
         }
       ]
@@ -2731,6 +3553,15 @@
           "pinyin": [
             "sun",
             "bin"
+          ]
+        },
+        {
+          "text": "膑哥",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "bin",
+            "ge"
           ]
         }
       ]
@@ -2819,6 +3650,15 @@
           "pinyin": [
             "lian",
             "po"
+          ]
+        },
+        {
+          "text": "颇哥",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "po",
+            "ge"
           ]
         }
       ]
@@ -2923,6 +3763,15 @@
             "bian",
             "que"
           ]
+        },
+        {
+          "text": "毒奶",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "du",
+            "nai"
+          ]
         }
       ]
     },
@@ -2952,6 +3801,15 @@
             "xiao",
             "ming"
           ]
+        },
+        {
+          "text": "明哥",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "ming",
+            "ge"
+          ]
         }
       ]
     },
@@ -2979,6 +3837,15 @@
           "pinyin": [
             "yao"
           ]
+        },
+        {
+          "text": "曜哥",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "yao",
+            "ge"
+          ]
         }
       ]
     },
@@ -3005,6 +3872,44 @@
           "kind": "alias",
           "weight": 0.97,
           "pinyin": [
+            "yuan",
+            "fang"
+          ]
+        },
+        {
+          "text": "米老鼠",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "mi",
+            "lao",
+            "shu"
+          ]
+        },
+        {
+          "text": "老鼠",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "lao",
+            "shu"
+          ]
+        },
+        {
+          "text": "耗子",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "hao",
+            "zi"
+          ]
+        },
+        {
+          "text": "李元方",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "li",
             "yuan",
             "fang"
           ]
@@ -3047,6 +3952,15 @@
             "jian",
             "xian"
           ]
+        },
+        {
+          "text": "白哥",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "bai",
+            "ge"
+          ]
         }
       ]
     },
@@ -3086,6 +4000,15 @@
             "meng",
             "qi"
           ]
+        },
+        {
+          "text": "胖达",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "pang",
+            "da"
+          ]
         }
       ]
     },
@@ -3116,6 +4039,15 @@
             "ju",
             "jing"
           ]
+        },
+        {
+          "text": "橘子",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "ju",
+            "zi"
+          ]
         }
       ]
     },
@@ -3135,6 +4067,15 @@
           "pinyin": [
             "hai",
             "nuo"
+          ]
+        },
+        {
+          "text": "诺哥",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "nuo",
+            "ge"
           ]
         }
       ]
@@ -3161,6 +4102,15 @@
           "kind": "alias",
           "weight": 0.97,
           "pinyin": [
+            "niu"
+          ]
+        },
+        {
+          "text": "老牛",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "lao",
             "niu"
           ]
         }
@@ -3193,6 +4143,16 @@
             "ba",
             "jie"
           ]
+        },
+        {
+          "text": "二师兄",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "er",
+            "shi",
+            "xiong"
+          ]
         }
       ]
     },
@@ -3213,6 +4173,15 @@
             "bai",
             "qi"
           ]
+        },
+        {
+          "text": "起哥",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "qi",
+            "ge"
+          ]
         }
       ]
     },
@@ -3232,6 +4201,17 @@
           "pinyin": [
             "pan",
             "gu"
+          ]
+        },
+        {
+          "text": "盘古大神",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "pan",
+            "gu",
+            "da",
+            "shen"
           ]
         }
       ]
@@ -3340,6 +4320,16 @@
             "mu",
             "lan"
           ]
+        },
+        {
+          "text": "木兰姐",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "mu",
+            "lan",
+            "jie"
+          ]
         }
       ]
     },
@@ -3377,6 +4367,15 @@
           "pinyin": [
             "su",
             "lie"
+          ]
+        },
+        {
+          "text": "烈哥",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "lie",
+            "ge"
           ]
         }
       ]
@@ -3435,6 +4434,15 @@
             "meng",
             "ya"
           ]
+        },
+        {
+          "text": "犽哥",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "ya",
+            "ge"
+          ]
         }
       ]
     },
@@ -3485,6 +4493,15 @@
             "da",
             "mo"
           ]
+        },
+        {
+          "text": "和尚",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "he",
+            "shang"
+          ]
         }
       ]
     },
@@ -3515,6 +4532,15 @@
             "chan",
             "zi"
           ]
+        },
+        {
+          "text": "唐僧",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "tang",
+            "seng"
+          ]
         }
       ]
     },
@@ -3544,6 +4570,15 @@
             "wu",
             "yan"
           ]
+        },
+        {
+          "text": "锤姐",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "chui",
+            "jie"
+          ]
         }
       ]
     },
@@ -3563,6 +4598,15 @@
             "a",
             "gu",
             "duo"
+          ]
+        },
+        {
+          "text": "阿古",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "a",
+            "gu"
           ]
         }
       ]
@@ -3592,6 +4636,15 @@
             "a",
             "ke"
           ]
+        },
+        {
+          "text": "荆轲",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "jing",
+            "ke"
+          ]
         }
       ]
     },
@@ -3613,6 +4666,15 @@
             "dian",
             "na"
           ]
+        },
+        {
+          "text": "娜姐",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "na",
+            "jie"
+          ]
         }
       ]
     },
@@ -3632,6 +4694,15 @@
           "pinyin": [
             "xiang",
             "yu"
+          ]
+        },
+        {
+          "text": "霸王",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "ba",
+            "wang"
           ]
         }
       ]
@@ -3701,6 +4772,16 @@
             "jian",
             "li"
           ]
+        },
+        {
+          "text": "吉他手",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "ji",
+            "ta",
+            "shou"
+          ]
         }
       ]
     },
@@ -3751,6 +4832,16 @@
             "ban",
             "qi"
           ]
+        },
+        {
+          "text": "小短腿",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "xiao",
+            "duan",
+            "tui"
+          ]
         }
       ]
     },
@@ -3799,6 +4890,15 @@
           "pinyin": [
             "huang",
             "zhong"
+          ]
+        },
+        {
+          "text": "炮王",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "pao",
+            "wang"
           ]
         }
       ]
@@ -3883,6 +4983,15 @@
             "lang",
             "shen"
           ]
+        },
+        {
+          "text": "二郎",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "er",
+            "lang"
+          ]
         }
       ]
     },
@@ -3912,6 +5021,15 @@
           "pinyin": [
             "yao",
             "jin"
+          ]
+        },
+        {
+          "text": "老程",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "lao",
+            "cheng"
           ]
         }
       ]
