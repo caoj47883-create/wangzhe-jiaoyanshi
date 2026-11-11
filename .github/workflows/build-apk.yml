@@ -57,6 +57,7 @@ jobs:
         run: |
           cd next
           pnpm install --frozen-lockfile
+          pnpm voice:lexicon:check
           pnpm build
 
       - name: Prepare signing key

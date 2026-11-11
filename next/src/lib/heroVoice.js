@@ -4,164 +4,31 @@
  * 设计原则：
  * 1. 这是“封闭词表 + 短句槽位”问题，不是通用自然语言理解；
  * 2. 拼音优先，字符相似度兜底，允许 ASR 近音错字（张亮 -> 张良）；
- * 3. 单字英雄（镜/曜/铠/瑶/澜/影/暃）只在原文精确出现时才自动采用；
- * 4. 优先选择更长的命中（“鲁班大师”不能被“鲁班”抢走）。
+ * 3. 单字英雄（镜/曜/铠/瑶/澜/影/暃/苍）只在原文精确出现时才自动采用；
+ * 4. 优先选择更长的命中（“鲁班大师”不能被“鲁班”抢走）；
+ * 5. 英雄别名/外号/ASR 变体来自 `src/data/hero-voice-lexicon.json`，
+ *    由 `scripts/build-voice-lexicon.mjs` 从人工维护的别名表预生成。
  */
 import { pinyin } from "pinyin-pro";
 import { HEROES } from "./data.js";
-
-const ALIASES = {
-  "东皇太一": ["东皇", "东皇太乙", "太一"],
-  "张良": ["张亮", "张梁"],
-  "鬼谷子": ["鬼谷", "鬼谷子"],
-  "盾山": ["盾山"],
-  "蔡文姬": ["文姬", "蔡文"],
-  "鲁班七号": ["鲁班", "小鲁班", "鲁班七"],
-  "鲁班大师": ["鲁班大师", "大师"],
-  "马超": ["马超"],
-  "吕布": ["吕布", "奉先"],
-  "张飞": ["张飞", "翼德"],
-  "关羽": ["关羽", "云长"],
-  "赵云": ["赵云", "子龙"],
-  "韩信": ["韩信", "兵仙"],
-  "李白": ["李白", "青莲剑仙"],
-  "诸葛亮": ["诸葛", "孔明", "诸葛亮"],
-  "司马懿": ["司马", "司马懿"],
-  "貂蝉": ["貂蝉"],
-  "王昭君": ["昭君", "王昭君"],
-  "西施": ["西施"],
-  "杨玉环": ["杨玉环", "玉环", "贵妃"],
-  "武则天": ["武则天", "女帝"],
-  "上官婉儿": ["婉儿", "上官"],
-  "不知火舞": ["火舞", "不知火"],
-  "娜可露露": ["露露", "娜可"],
-  "橘右京": ["橘右京", "橘京"],
-  "宫本武藏": ["宫本", "武藏"],
-  "铠": ["铠", "凯"],
-  "曜": ["曜", "耀"],
-  "镜": ["镜", "静"],
-  "瑶": ["瑶", "摇", "姚"],
-  "澜": ["澜", "蓝"],
-  "影": ["影"],
-  "暃": ["暃", "飞"],
-  "云缨": ["云缨", "云樱"],
-  "姬小满": ["小满", "姬小满"],
-  "戈娅": ["戈娅", "戈雅"],
-  "海月": ["海月"],
-  "赵怀真": ["怀真", "赵怀真"],
-  "莱西奥": ["莱西奥", "莱西"],
-  "亚连": ["亚连", "亚莲"],
-  "朵莉亚": ["朵莉亚", "朵莉"],
-  "少司缘": ["少司缘", "司缘"],
-  "大司命": ["大司命", "司命"],
-  "元流之子(法师)": ["元流之子", "元流法师", "元法"],
-  "元流之子(坦克)": ["元流之子", "元流坦克", "元坦"],
-  "元流之子(射手)": ["元流之子", "元流射手", "元射"],
-  "元流之子(辅助)": ["元流之子", "元流辅助", "元辅"],
-  "元流之子(刺客)": ["元流之子", "元流刺客", "元刺"],
-  "公孙离": ["公孙离", "阿离"],
-  "公孙离": ["公孙离", "阿离"],
-  "孙尚香": ["孙尚香", "大小姐", "香香"],
-  "马可波罗": ["马可", "马可波罗", "马克"],
-  "狄仁杰": ["狄仁杰", "狄大人"],
-  "虞姬": ["虞姬"],
-  "黄忠": ["黄忠"],
-  "伽罗": ["伽罗"],
-  "成吉思汗": ["成吉思汗", "狼狗"],
-  "后羿": ["后羿"],
-  "艾琳": ["艾琳"],
-  "蒙犽": ["蒙犽", "蒙牙"],
-  "阿古朵": ["阿古朵"],
-  "桑启": ["桑启"],
-  "太乙真人": ["太乙", "太乙真人"],
-  "明世隐": ["明世隐", "小明"],
-  "鬼谷子": ["鬼谷子"],
-  "大乔": ["大乔"],
-  "小乔": ["小乔"],
-  "孙膑": ["孙膑", "孙滨"],
-  "庄周": ["庄周", "鱼"],
-  "刘禅": ["刘禅", "刘婵"],
-  "蔡文姬": ["蔡文姬"],
-  "牛魔": ["牛魔", "牛"],
-  "张飞": ["张飞"],
-  "项羽": ["项羽"],
-  "白起": ["白起"],
-  "夏侯惇": ["夏侯", "夏侯惇"],
-  "程咬金": ["程咬金", "咬金"],
-  "廉颇": ["廉颇"],
-  "苏烈": ["苏烈"],
-  "猪八戒": ["猪八戒", "八戒"],
-  "嫦娥": ["嫦娥"],
-  "刘邦": ["刘邦"],
-  "哪吒": ["哪吒", "哪咤"],
-  "杨戬": ["杨戬", "二郎神"],
-  "雅典娜": ["雅典娜"],
-  "露娜": ["露娜", "月光"],
-  "花木兰": ["花木兰", "木兰"],
-  "达摩": ["达摩"],
-  "曹操": ["曹操"],
-  "典韦": ["典韦"],
-  "刘备": ["刘备"],
-  "李信": ["李信"],
-  "盘古": ["盘古"],
-  "曜": ["曜"],
-  "蒙恬": ["蒙恬"],
-  "阿轲": ["阿轲", "阿珂"],
-  "兰陵王": ["兰陵王", "兰陵"],
-  "娜可露露": ["娜可露露"],
-  "裴擒虎": ["裴擒虎", "老虎", "裴擒"],
-  "百里玄策": ["玄策", "百里玄策"],
-  "百里守约": ["守约", "百里守约"],
-  "云中君": ["云中君", "云中"],
-  "上官婉儿": ["上官婉儿"],
-  "司马懿": ["司马懿"],
-  "元歌": ["元歌"],
-  "露娜": ["露娜"],
-  "镜": ["镜"],
-  "澜": ["澜"],
-  "暃": ["暃"],
-  "赵怀真": ["赵怀真"],
-  "姬小满": ["姬小满"],
-  "亚连": ["亚连"],
-  "朵莉亚": ["朵莉亚"],
-  "海诺": ["海诺"],
-  "少司缘": ["少司缘"],
-  "元流之子(法师)": ["元流之子"],
-  "大司命": ["大司命"],
-  "敖隐": ["敖隐", "敖影"],
-  "影": ["影"],
-  "空空儿": ["空空儿", "空空"],
-  "元流之子(射手)": ["元流之子"],
-  "苍": ["苍"],
-  "阿古朵": ["阿古朵"],
-  "孙权": ["孙权"],
-  "曹操": ["曹操"],
-  "刘备": ["刘备"],
-  "关羽": ["关羽"],
-  "张飞": ["张飞"],
-  "赵云": ["赵云"],
-  "马超": ["马超"],
-  "黄忠": ["黄忠"],
-  "吕布": ["吕布"],
-  "貂蝉": ["貂蝉"],
-  "董卓": ["董卓"],
-  "袁绍": ["袁绍"],
-  "公孙瓒": ["公孙瓒"],
-};
+import LEXICON_DATA from "../data/hero-voice-lexicon.json";
 
 const PUNCT_RE = /[\s,，、。．.;；:：!！?？"'“”‘’（）()\[\]【】<>《》·\-—_/\\|+*=~`]+/g;
 const FUZZY_INITIALS = new Set(["zh", "ch", "sh"]);
-const INITIAL_CONFUSION = new Set(["n/l", "f/h", "r/l"]);
+const BASE_SINGLE_CHAR_HEROES = ["铠", "曜", "镜", "瑶", "澜", "影", "暃"];
 
-export const SINGLE_CHAR_HEROES = new Set(["铠", "曜", "镜", "瑶", "澜", "影", "暃"]);
-
-const normalizeText = (value) => String(value || "").toLowerCase().replace(PUNCT_RE, "");
-const normalizeSyllable = (value) =>
-  String(value || "")
+function normalizeText(value) {
+  return String(value || "")
     .toLowerCase()
-    .replace(/[0-9]/g, "")
+    .replace(PUNCT_RE, "");
+}
+
+function normalizeSyllable(value) {
+  return String(value || "")
+    .toLowerCase()
     .replace(/ü/g, "v")
-    .replace(/\s+/g, "");
+    .replace(/[^a-z]/g, "");
+}
 
 function toPinyinArray(text) {
   try {
@@ -172,6 +39,23 @@ function toPinyinArray(text) {
     return [];
   }
 }
+
+export const SINGLE_CHAR_HEROES = new Set([
+  ...(Array.isArray(LEXICON_DATA?.singleCharHeroes) ? LEXICON_DATA.singleCharHeroes : []),
+  ...BASE_SINGLE_CHAR_HEROES,
+]);
+
+export const HERO_VOICE_LEXICON_META = {
+  heroCount: Number(LEXICON_DATA?.heroCount) || 0,
+  aliasTermCount: Number(LEXICON_DATA?.aliasTermCount) || 0,
+  sourceDataVersion: LEXICON_DATA?.sourceDataVersion || "",
+};
+
+const STATIC_ENTRIES = new Map(
+  (Array.isArray(LEXICON_DATA?.entries) ? LEXICON_DATA.entries : [])
+    .filter((entry) => entry && entry.name)
+    .map((entry) => [entry.name, entry]),
+);
 
 function levenshtein(a, b, cost = (x, y) => (x === y ? 0 : 1)) {
   if (a.length === 0) return b.length;
@@ -242,26 +126,43 @@ function buildLexicon() {
     const name = String(hero?.name || "");
     if (!name) continue;
     const variants = new Map();
-    const add = (text, kind, weight = 1) => {
+    const add = (text, kind, weight, precomputedPinyin) => {
       const norm = normalizeText(text);
       if (!norm) return;
       const old = variants.get(norm);
       if (old && old.weight >= weight) return;
+      const py = Array.isArray(precomputedPinyin)
+        ? precomputedPinyin.filter(Boolean)
+        : toPinyinArray(text);
+      if (!py.length) return;
       variants.set(norm, {
         text,
         norm,
-        pinyin: toPinyinArray(text),
+        pinyin: py,
         kind,
         weight,
       });
     };
-    add(name, "name", 1);
-    const baseMatch = name.match(/^(.+?)[（(]/);
-    if (baseMatch) add(baseMatch[1], "base", 0.94);
-    for (const alias of ALIASES[name] || []) add(alias, "alias", 0.97);
+
+    const staticEntry = STATIC_ENTRIES.get(name);
+    if (staticEntry && Array.isArray(staticEntry.terms)) {
+      for (const term of staticEntry.terms) {
+        if (!term?.text) continue;
+        add(
+          term.text,
+          term.kind || "alias",
+          Number(term.weight) || 1,
+          Array.isArray(term.pinyin) ? term.pinyin : null,
+        );
+      }
+    }
+
+    // 热更新数据可能带来静态词库尚未覆盖的新英雄：至少保留本名。
+    if (!variants.size) add(name, "name", 1);
+
+    if ([...name].length === 1) SINGLE_CHAR_HEROES.add(name);
     list.push({ name, variants: [...variants.values()] });
   }
-  // 有些外号会以“鲁班”同时命中七号/大师，保留更长的命中由 postFilter 处理。
   return list;
 }
 
@@ -350,7 +251,10 @@ function postFilter(candidates) {
     return !sorted.some((other, otherIndex) => {
       if (otherIndex === index) return false;
       if (!other.exact) return false;
-      if (other.variantNorm.length > candidate.variantNorm.length && other.variantNorm.includes(candidate.variantNorm)) {
+      if (
+        other.variantNorm.length > candidate.variantNorm.length &&
+        other.variantNorm.includes(candidate.variantNorm)
+      ) {
         if (other.score >= candidate.score - 0.08) return true;
       }
       if (
@@ -430,7 +334,16 @@ export function matchVoiceResults(results, phase = "ban", options = {}) {
   };
 }
 
-/** 调试用：直接按名字命中一个英雄的词典项。 */
+/** 调试用：返回当前实际使用的英雄词条数。 */
 export function heroLexiconSize() {
   return getLexicon().length;
+}
+
+/** 调试用：词库元信息（英雄数、别名数、数据版本）。 */
+export function heroLexiconStats() {
+  return {
+    ...HERO_VOICE_LEXICON_META,
+    loadedHeroCount: getLexicon().length,
+    singleCharHeroes: [...SINGLE_CHAR_HEROES],
+  };
 }

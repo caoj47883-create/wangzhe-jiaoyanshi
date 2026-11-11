@@ -1,0 +1,3920 @@
+{
+  "schemaVersion": 1,
+  "sourceDataVersion": "2.0.3",
+  "sourceSnapshot": "2026-11-04",
+  "heroCount": 133,
+  "aliasTermCount": 130,
+  "singleCharHeroes": [
+    "镜",
+    "瑶",
+    "暃",
+    "澜",
+    "铠",
+    "影",
+    "曜",
+    "苍"
+  ],
+  "ambiguous": [
+    {
+      "text": "元流之子",
+      "names": [
+        "元流之子(射手)",
+        "元流之子(坦克)",
+        "元流之子(法师)",
+        "元流之子(辅助)",
+        "元流之子(刺客)"
+      ]
+    }
+  ],
+  "entries": [
+    {
+      "name": "公孙离",
+      "lane": "farm",
+      "lanes": [
+        "farm"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "公孙离",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "gong",
+            "sun",
+            "li"
+          ]
+        },
+        {
+          "text": "阿离",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "a",
+            "li"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "六耳",
+      "lane": "jungle",
+      "lanes": [
+        "jungle"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "六耳",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "liu",
+            "er"
+          ]
+        },
+        {
+          "text": "六耳猕猴",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "liu",
+            "er",
+            "mi",
+            "hou"
+          ]
+        },
+        {
+          "text": "猕猴",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "mi",
+            "hou"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "关羽",
+      "lane": "clash",
+      "lanes": [
+        "clash"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "关羽",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "guan",
+            "yu"
+          ]
+        },
+        {
+          "text": "云长",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "yun",
+            "chang"
+          ]
+        },
+        {
+          "text": "二爷",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "er",
+            "ye"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "夏侯惇",
+      "lane": "clash",
+      "lanes": [
+        "clash",
+        "roam"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "夏侯惇",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "xia",
+            "hou",
+            "dun"
+          ]
+        },
+        {
+          "text": "夏侯",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "xia",
+            "hou"
+          ]
+        },
+        {
+          "text": "夏侯敦",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "xia",
+            "hou",
+            "dun"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "女娲",
+      "lane": "mid",
+      "lanes": [
+        "mid"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "女娲",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "nv",
+            "wa"
+          ]
+        },
+        {
+          "text": "娲皇",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "wa",
+            "huang"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "少司缘",
+      "lane": "roam",
+      "lanes": [
+        "roam"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "少司缘",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "shao",
+            "si",
+            "yuan"
+          ]
+        },
+        {
+          "text": "司缘",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "si",
+            "yuan"
+          ]
+        },
+        {
+          "text": "小缘",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "xiao",
+            "yuan"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "张飞",
+      "lane": "roam",
+      "lanes": [
+        "roam"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "张飞",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "zhang",
+            "fei"
+          ]
+        },
+        {
+          "text": "翼德",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "yi",
+            "de"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "敖隐",
+      "lane": "farm",
+      "lanes": [
+        "farm"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "敖隐",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "ao",
+            "yin"
+          ]
+        },
+        {
+          "text": "敖影",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "ao",
+            "ying"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "海月",
+      "lane": "mid",
+      "lanes": [
+        "mid"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "海月",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "hai",
+            "yue"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "甄姬",
+      "lane": "mid",
+      "lanes": [
+        "mid"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "甄姬",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "zhen",
+            "ji"
+          ]
+        },
+        {
+          "text": "甄宓",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "zhen",
+            "mi"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "百里守约",
+      "lane": "farm",
+      "lanes": [
+        "farm"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "百里守约",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "bai",
+            "li",
+            "shou",
+            "yue"
+          ]
+        },
+        {
+          "text": "守约",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "shou",
+            "yue"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "盾山",
+      "lane": "roam",
+      "lanes": [
+        "roam"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "盾山",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "dun",
+            "shan"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "裴擒虎",
+      "lane": "jungle",
+      "lanes": [
+        "jungle"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "裴擒虎",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "pei",
+            "qin",
+            "hu"
+          ]
+        },
+        {
+          "text": "老虎",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "lao",
+            "hu"
+          ]
+        },
+        {
+          "text": "裴擒",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "pei",
+            "qin"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "赵云",
+      "lane": "jungle",
+      "lanes": [
+        "jungle",
+        "clash"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "赵云",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "zhao",
+            "yun"
+          ]
+        },
+        {
+          "text": "子龙",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "zi",
+            "long"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "镜",
+      "lane": "jungle",
+      "lanes": [
+        "jungle"
+      ],
+      "singleChar": true,
+      "terms": [
+        {
+          "text": "镜",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "jing"
+          ]
+        },
+        {
+          "text": "静",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "jing"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "马超",
+      "lane": "clash",
+      "lanes": [
+        "clash"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "马超",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "ma",
+            "chao"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "云缨",
+      "lane": "jungle",
+      "lanes": [
+        "jungle",
+        "clash"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "云缨",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "yun",
+            "ying"
+          ]
+        },
+        {
+          "text": "云樱",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "yun",
+            "ying"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "伽罗",
+      "lane": "farm",
+      "lanes": [
+        "farm"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "伽罗",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "jia",
+            "luo"
+          ]
+        },
+        {
+          "text": "迦罗",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "jia",
+            "luo"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "元歌",
+      "lane": "clash",
+      "lanes": [
+        "clash",
+        "mid"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "元歌",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "yuan",
+            "ge"
+          ]
+        },
+        {
+          "text": "元哥",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "yuan",
+            "ge"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "吕布",
+      "lane": "clash",
+      "lanes": [
+        "clash"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "吕布",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "lv",
+            "bu"
+          ]
+        },
+        {
+          "text": "奉先",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "feng",
+            "xian"
+          ]
+        },
+        {
+          "text": "吕奉先",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "lv",
+            "feng",
+            "xian"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "哪吒",
+      "lane": "clash",
+      "lanes": [
+        "clash"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "哪吒",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "ne",
+            "zha"
+          ]
+        },
+        {
+          "text": "哪咤",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "na",
+            "zha"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "大乔",
+      "lane": "roam",
+      "lanes": [
+        "roam"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "大乔",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "da",
+            "qiao"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "嫦娥",
+      "lane": "mid",
+      "lanes": [
+        "mid",
+        "clash"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "嫦娥",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "chang",
+            "e"
+          ]
+        },
+        {
+          "text": "常娥",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "chang",
+            "e"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "孙权",
+      "lane": "farm",
+      "lanes": [
+        "farm"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "孙权",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "sun",
+            "quan"
+          ]
+        },
+        {
+          "text": "仲谋",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "zhong",
+            "mou"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "宫本武藏",
+      "lane": "jungle",
+      "lanes": [
+        "jungle",
+        "clash"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "宫本武藏",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "gong",
+            "ben",
+            "wu",
+            "cang"
+          ]
+        },
+        {
+          "text": "宫本",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "gong",
+            "ben"
+          ]
+        },
+        {
+          "text": "武藏",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "wu",
+            "cang"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "沈梦溪",
+      "lane": "mid",
+      "lanes": [
+        "mid"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "沈梦溪",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "shen",
+            "meng",
+            "xi"
+          ]
+        },
+        {
+          "text": "梦溪",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "meng",
+            "xi"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "狄仁杰",
+      "lane": "farm",
+      "lanes": [
+        "farm"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "狄仁杰",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "di",
+            "ren",
+            "jie"
+          ]
+        },
+        {
+          "text": "狄大人",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "di",
+            "da",
+            "ren"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "王维",
+      "lane": "mid",
+      "lanes": [
+        "mid"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "王维",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "wang",
+            "wei"
+          ]
+        },
+        {
+          "text": "王摩诘",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "wang",
+            "mo",
+            "jie"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "瑶",
+      "lane": "roam",
+      "lanes": [
+        "roam"
+      ],
+      "singleChar": true,
+      "terms": [
+        {
+          "text": "瑶",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "yao"
+          ]
+        },
+        {
+          "text": "摇",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "yao"
+          ]
+        },
+        {
+          "text": "姚",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "yao"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "蚩奼",
+      "lane": "farm",
+      "lanes": [
+        "farm",
+        "clash"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "蚩奼",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "chi",
+            "cha"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "钟馗",
+      "lane": "roam",
+      "lanes": [
+        "roam"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "钟馗",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "zhong",
+            "kui"
+          ]
+        },
+        {
+          "text": "钟旭",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "zhong",
+            "xu"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "不知火舞",
+      "lane": "mid",
+      "lanes": [
+        "mid"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "不知火舞",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "bu",
+            "zhi",
+            "huo",
+            "wu"
+          ]
+        },
+        {
+          "text": "火舞",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "huo",
+            "wu"
+          ]
+        },
+        {
+          "text": "不知火",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "bu",
+            "zhi",
+            "huo"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "东皇太一",
+      "lane": "roam",
+      "lanes": [
+        "roam",
+        "clash"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "东皇太一",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "dong",
+            "huang",
+            "tai",
+            "yi"
+          ]
+        },
+        {
+          "text": "东皇",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "dong",
+            "huang"
+          ]
+        },
+        {
+          "text": "太一",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "tai",
+            "yi"
+          ]
+        },
+        {
+          "text": "东皇太乙",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "dong",
+            "huang",
+            "tai",
+            "yi"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "元流之子(射手)",
+      "lane": "farm",
+      "lanes": [
+        "farm"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "元流之子(射手)",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "yuan",
+            "liu",
+            "zhi",
+            "zi",
+            "she",
+            "shou"
+          ]
+        },
+        {
+          "text": "元流之子",
+          "kind": "base",
+          "weight": 0.94,
+          "pinyin": [
+            "yuan",
+            "liu",
+            "zhi",
+            "zi"
+          ]
+        },
+        {
+          "text": "元射",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "yuan",
+            "she"
+          ]
+        },
+        {
+          "text": "元流射手",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "yuan",
+            "liu",
+            "she",
+            "shou"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "刘备",
+      "lane": "jungle",
+      "lanes": [
+        "jungle"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "刘备",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "liu",
+            "bei"
+          ]
+        },
+        {
+          "text": "玄德",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "xuan",
+            "de"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "卢雅那",
+      "lane": "farm",
+      "lanes": [
+        "farm"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "卢雅那",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "lu",
+            "ya",
+            "na"
+          ]
+        },
+        {
+          "text": "雅那",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "ya",
+            "na"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "司空震",
+      "lane": "clash",
+      "lanes": [
+        "clash",
+        "mid"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "司空震",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "si",
+            "kong",
+            "zhen"
+          ]
+        },
+        {
+          "text": "司空",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "si",
+            "kong"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "后羿",
+      "lane": "farm",
+      "lanes": [
+        "farm"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "后羿",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "hou",
+            "yi"
+          ]
+        },
+        {
+          "text": "后裔",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "hou",
+            "yi"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "夏洛特",
+      "lane": "clash",
+      "lanes": [
+        "clash"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "夏洛特",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "xia",
+            "luo",
+            "te"
+          ]
+        },
+        {
+          "text": "夏洛",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "xia",
+            "luo"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "大禹",
+      "lane": "roam",
+      "lanes": [
+        "roam"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "大禹",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "da",
+            "yu"
+          ]
+        },
+        {
+          "text": "禹",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "yu"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "太乙真人",
+      "lane": "roam",
+      "lanes": [
+        "roam"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "太乙真人",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "tai",
+            "yi",
+            "zhen",
+            "ren"
+          ]
+        },
+        {
+          "text": "太乙",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "tai",
+            "yi"
+          ]
+        },
+        {
+          "text": "真人",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "zhen",
+            "ren"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "姬小满",
+      "lane": "clash",
+      "lanes": [
+        "clash",
+        "jungle"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "姬小满",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "ji",
+            "xiao",
+            "man"
+          ]
+        },
+        {
+          "text": "小满",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "xiao",
+            "man"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "孙尚香",
+      "lane": "farm",
+      "lanes": [
+        "farm"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "孙尚香",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "sun",
+            "shang",
+            "xiang"
+          ]
+        },
+        {
+          "text": "香香",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "xiang",
+            "xiang"
+          ]
+        },
+        {
+          "text": "大小姐",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "da",
+            "xiao",
+            "jie"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "小乔",
+      "lane": "mid",
+      "lanes": [
+        "mid"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "小乔",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "xiao",
+            "qiao"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "庄周",
+      "lane": "roam",
+      "lanes": [
+        "roam"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "庄周",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "zhuang",
+            "zhou"
+          ]
+        },
+        {
+          "text": "鱼",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "yu"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "戈娅",
+      "lane": "farm",
+      "lanes": [
+        "farm"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "戈娅",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "ge",
+            "ya"
+          ]
+        },
+        {
+          "text": "戈雅",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "ge",
+            "ya"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "暃",
+      "lane": "jungle",
+      "lanes": [
+        "jungle"
+      ],
+      "singleChar": true,
+      "terms": [
+        {
+          "text": "暃",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "fei"
+          ]
+        },
+        {
+          "text": "飞",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "fei"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "曹操",
+      "lane": "clash",
+      "lanes": [
+        "clash",
+        "jungle"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "曹操",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "cao",
+            "cao"
+          ]
+        },
+        {
+          "text": "孟德",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "meng",
+            "de"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "朵莉亚",
+      "lane": "roam",
+      "lanes": [
+        "roam"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "朵莉亚",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "duo",
+            "li",
+            "ya"
+          ]
+        },
+        {
+          "text": "朵莉",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "duo",
+            "li"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "李信",
+      "lane": "clash",
+      "lanes": [
+        "clash"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "李信",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "li",
+            "xin"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "杨玉环",
+      "lane": "mid",
+      "lanes": [
+        "mid",
+        "roam"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "杨玉环",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "yang",
+            "yu",
+            "huan"
+          ]
+        },
+        {
+          "text": "玉环",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "yu",
+            "huan"
+          ]
+        },
+        {
+          "text": "贵妃",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "gui",
+            "fei"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "武则天",
+      "lane": "mid",
+      "lanes": [
+        "mid"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "武则天",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "wu",
+            "ze",
+            "tian"
+          ]
+        },
+        {
+          "text": "女帝",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "nv",
+            "di"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "澜",
+      "lane": "jungle",
+      "lanes": [
+        "jungle"
+      ],
+      "singleChar": true,
+      "terms": [
+        {
+          "text": "澜",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "lan"
+          ]
+        },
+        {
+          "text": "蓝",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "lan"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "狂铁",
+      "lane": "clash",
+      "lanes": [
+        "clash"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "狂铁",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "kuang",
+            "tie"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "王昭君",
+      "lane": "mid",
+      "lanes": [
+        "mid",
+        "roam"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "王昭君",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "wang",
+            "zhao",
+            "jun"
+          ]
+        },
+        {
+          "text": "昭君",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "zhao",
+            "jun"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "百里玄策",
+      "lane": "jungle",
+      "lanes": [
+        "jungle"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "百里玄策",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "bai",
+            "li",
+            "xuan",
+            "ce"
+          ]
+        },
+        {
+          "text": "玄策",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "xuan",
+            "ce"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "老夫子",
+      "lane": "clash",
+      "lanes": [
+        "clash"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "老夫子",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "lao",
+            "fu",
+            "zi"
+          ]
+        },
+        {
+          "text": "夫子",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "fu",
+            "zi"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "艾琳",
+      "lane": "farm",
+      "lanes": [
+        "farm"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "艾琳",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "ai",
+            "lin"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "蒙恬",
+      "lane": "clash",
+      "lanes": [
+        "clash"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "蒙恬",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "meng",
+            "tian"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "蔡文姬",
+      "lane": "roam",
+      "lanes": [
+        "roam"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "蔡文姬",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "cai",
+            "wen",
+            "ji"
+          ]
+        },
+        {
+          "text": "文姬",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "wen",
+            "ji"
+          ]
+        },
+        {
+          "text": "蔡文",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "cai",
+            "wen"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "虞姬",
+      "lane": "farm",
+      "lanes": [
+        "farm"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "虞姬",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "yu",
+            "ji"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "西施",
+      "lane": "mid",
+      "lanes": [
+        "mid",
+        "roam"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "西施",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "xi",
+            "shi"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "诸葛亮",
+      "lane": "mid",
+      "lanes": [
+        "mid",
+        "jungle"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "诸葛亮",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "zhu",
+            "ge",
+            "liang"
+          ]
+        },
+        {
+          "text": "诸葛",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "zhu",
+            "ge"
+          ]
+        },
+        {
+          "text": "孔明",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "kong",
+            "ming"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "貂蝉",
+      "lane": "mid",
+      "lanes": [
+        "mid",
+        "clash"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "貂蝉",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "diao",
+            "chan"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "铠",
+      "lane": "clash",
+      "lanes": [
+        "clash",
+        "jungle"
+      ],
+      "singleChar": true,
+      "terms": [
+        {
+          "text": "铠",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "kai"
+          ]
+        },
+        {
+          "text": "凯",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "kai"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "露娜",
+      "lane": "jungle",
+      "lanes": [
+        "jungle"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "露娜",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "lu",
+            "na"
+          ]
+        },
+        {
+          "text": "月光",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "yue",
+            "guang"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "韩信",
+      "lane": "jungle",
+      "lanes": [
+        "jungle"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "韩信",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "han",
+            "xin"
+          ]
+        },
+        {
+          "text": "兵仙",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "bing",
+            "xian"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "鬼谷子",
+      "lane": "roam",
+      "lanes": [
+        "roam"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "鬼谷子",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "gui",
+            "gu",
+            "zi"
+          ]
+        },
+        {
+          "text": "鬼谷",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "gui",
+            "gu"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "上官婉儿",
+      "lane": "mid",
+      "lanes": [
+        "mid"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "上官婉儿",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "shang",
+            "guan",
+            "wan",
+            "er"
+          ]
+        },
+        {
+          "text": "婉儿",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "wan",
+            "er"
+          ]
+        },
+        {
+          "text": "上官",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "shang",
+            "guan"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "云中君",
+      "lane": "jungle",
+      "lanes": [
+        "jungle"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "云中君",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "yun",
+            "zhong",
+            "jun"
+          ]
+        },
+        {
+          "text": "云中",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "yun",
+            "zhong"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "亚瑟",
+      "lane": "clash",
+      "lanes": [
+        "clash",
+        "roam"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "亚瑟",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "ya",
+            "se"
+          ]
+        },
+        {
+          "text": "亚瑟王",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "ya",
+            "se",
+            "wang"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "亚连",
+      "lane": "clash",
+      "lanes": [
+        "clash"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "亚连",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "ya",
+            "lian"
+          ]
+        },
+        {
+          "text": "亚莲",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "ya",
+            "lian"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "元流之子(坦克)",
+      "lane": "clash",
+      "lanes": [
+        "clash"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "元流之子(坦克)",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "yuan",
+            "liu",
+            "zhi",
+            "zi",
+            "tan",
+            "ke"
+          ]
+        },
+        {
+          "text": "元流之子",
+          "kind": "base",
+          "weight": 0.94,
+          "pinyin": [
+            "yuan",
+            "liu",
+            "zhi",
+            "zi"
+          ]
+        },
+        {
+          "text": "元坦",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "yuan",
+            "tan"
+          ]
+        },
+        {
+          "text": "元流坦克",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "yuan",
+            "liu",
+            "tan",
+            "ke"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "元流之子(法师)",
+      "lane": "mid",
+      "lanes": [
+        "mid"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "元流之子(法师)",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "yuan",
+            "liu",
+            "zhi",
+            "zi",
+            "fa",
+            "shi"
+          ]
+        },
+        {
+          "text": "元流之子",
+          "kind": "base",
+          "weight": 0.94,
+          "pinyin": [
+            "yuan",
+            "liu",
+            "zhi",
+            "zi"
+          ]
+        },
+        {
+          "text": "元法",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "yuan",
+            "fa"
+          ]
+        },
+        {
+          "text": "元流法师",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "yuan",
+            "liu",
+            "fa",
+            "shi"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "元流之子(辅助)",
+      "lane": "roam",
+      "lanes": [
+        "roam"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "元流之子(辅助)",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "yuan",
+            "liu",
+            "zhi",
+            "zi",
+            "fu",
+            "zhu"
+          ]
+        },
+        {
+          "text": "元流之子",
+          "kind": "base",
+          "weight": 0.94,
+          "pinyin": [
+            "yuan",
+            "liu",
+            "zhi",
+            "zi"
+          ]
+        },
+        {
+          "text": "元辅",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "yuan",
+            "fu"
+          ]
+        },
+        {
+          "text": "元流辅助",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "yuan",
+            "liu",
+            "fu",
+            "zhu"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "兰陵王",
+      "lane": "jungle",
+      "lanes": [
+        "jungle",
+        "roam"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "兰陵王",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "lan",
+            "ling",
+            "wang"
+          ]
+        },
+        {
+          "text": "兰陵",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "lan",
+            "ling"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "典韦",
+      "lane": "jungle",
+      "lanes": [
+        "jungle",
+        "clash"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "典韦",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "dian",
+            "wei"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "刘禅",
+      "lane": "roam",
+      "lanes": [
+        "roam"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "刘禅",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "liu",
+            "chan"
+          ]
+        },
+        {
+          "text": "刘婵",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "liu",
+            "chan"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "刘邦",
+      "lane": "clash",
+      "lanes": [
+        "clash",
+        "roam"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "刘邦",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "liu",
+            "bang"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "司马懿",
+      "lane": "mid",
+      "lanes": [
+        "mid",
+        "jungle"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "司马懿",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "si",
+            "ma",
+            "yi"
+          ]
+        },
+        {
+          "text": "司马",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "si",
+            "ma"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "周瑜",
+      "lane": "mid",
+      "lanes": [
+        "mid"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "周瑜",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "zhou",
+            "yu"
+          ]
+        },
+        {
+          "text": "公瑾",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "gong",
+            "jin"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "墨子",
+      "lane": "mid",
+      "lanes": [
+        "mid",
+        "roam"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "墨子",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "mo",
+            "zi"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "大司命",
+      "lane": "jungle",
+      "lanes": [
+        "jungle",
+        "clash"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "大司命",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "da",
+            "si",
+            "ming"
+          ]
+        },
+        {
+          "text": "司命",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "si",
+            "ming"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "妲己",
+      "lane": "mid",
+      "lanes": [
+        "mid"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "妲己",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "da",
+            "ji"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "姜子牙",
+      "lane": "mid",
+      "lanes": [
+        "mid",
+        "roam"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "姜子牙",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "jiang",
+            "zi",
+            "ya"
+          ]
+        },
+        {
+          "text": "子牙",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "zi",
+            "ya"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "娜可露露",
+      "lane": "jungle",
+      "lanes": [
+        "jungle"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "娜可露露",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "na",
+            "ke",
+            "lu",
+            "lu"
+          ]
+        },
+        {
+          "text": "露露",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "lu",
+            "lu"
+          ]
+        },
+        {
+          "text": "娜可",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "na",
+            "ke"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "嬴政",
+      "lane": "mid",
+      "lanes": [
+        "mid"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "嬴政",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "ying",
+            "zheng"
+          ]
+        },
+        {
+          "text": "秦始皇",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "qin",
+            "shi",
+            "huang"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "孙悟空",
+      "lane": "jungle",
+      "lanes": [
+        "jungle"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "孙悟空",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "sun",
+            "wu",
+            "kong"
+          ]
+        },
+        {
+          "text": "猴子",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "hou",
+            "zi"
+          ]
+        },
+        {
+          "text": "悟空",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "wu",
+            "kong"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "孙策",
+      "lane": "clash",
+      "lanes": [
+        "clash",
+        "jungle"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "孙策",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "sun",
+            "ce"
+          ]
+        },
+        {
+          "text": "伯符",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "bo",
+            "fu"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "孙膑",
+      "lane": "roam",
+      "lanes": [
+        "roam"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "孙膑",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "sun",
+            "bin"
+          ]
+        },
+        {
+          "text": "孙滨",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "sun",
+            "bin"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "安琪拉",
+      "lane": "mid",
+      "lanes": [
+        "mid"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "安琪拉",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "an",
+            "qi",
+            "la"
+          ]
+        },
+        {
+          "text": "安琪",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "an",
+            "qi"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "干将莫邪",
+      "lane": "mid",
+      "lanes": [
+        "mid"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "干将莫邪",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "gan",
+            "jiang",
+            "mo",
+            "ye"
+          ]
+        },
+        {
+          "text": "干将",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "gan",
+            "jiang"
+          ]
+        },
+        {
+          "text": "莫邪",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "mo",
+            "xie"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "廉颇",
+      "lane": "clash",
+      "lanes": [
+        "clash",
+        "roam"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "廉颇",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "lian",
+            "po"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "弈星",
+      "lane": "mid",
+      "lanes": [
+        "mid"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "弈星",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "yi",
+            "xing"
+          ]
+        },
+        {
+          "text": "奕星",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "yi",
+            "xing"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "张良",
+      "lane": "mid",
+      "lanes": [
+        "mid",
+        "roam"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "张良",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "zhang",
+            "liang"
+          ]
+        },
+        {
+          "text": "张亮",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "zhang",
+            "liang"
+          ]
+        },
+        {
+          "text": "张梁",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "zhang",
+            "liang"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "影",
+      "lane": "jungle",
+      "lanes": [
+        "jungle"
+      ],
+      "singleChar": true,
+      "terms": [
+        {
+          "text": "影",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "ying"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "扁鹊",
+      "lane": "mid",
+      "lanes": [
+        "mid"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "扁鹊",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "bian",
+            "que"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "明世隐",
+      "lane": "roam",
+      "lanes": [
+        "roam"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "明世隐",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "ming",
+            "shi",
+            "yin"
+          ]
+        },
+        {
+          "text": "小明",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "xiao",
+            "ming"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "曜",
+      "lane": "jungle",
+      "lanes": [
+        "jungle",
+        "clash"
+      ],
+      "singleChar": true,
+      "terms": [
+        {
+          "text": "曜",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "yao"
+          ]
+        },
+        {
+          "text": "耀",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "yao"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "李元芳",
+      "lane": "farm",
+      "lanes": [
+        "farm"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "李元芳",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "li",
+            "yuan",
+            "fang"
+          ]
+        },
+        {
+          "text": "元芳",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "yuan",
+            "fang"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "李白",
+      "lane": "jungle",
+      "lanes": [
+        "jungle"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "李白",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "li",
+            "bai"
+          ]
+        },
+        {
+          "text": "青莲剑仙",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "qing",
+            "lian",
+            "jian",
+            "xian"
+          ]
+        },
+        {
+          "text": "剑仙",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "jian",
+            "xian"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "桑启",
+      "lane": "roam",
+      "lanes": [
+        "roam"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "桑启",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "sang",
+            "qi"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "梦奇",
+      "lane": "clash",
+      "lanes": [
+        "clash",
+        "jungle"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "梦奇",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "meng",
+            "qi"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "橘右京",
+      "lane": "jungle",
+      "lanes": [
+        "jungle",
+        "clash"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "橘右京",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "ju",
+            "you",
+            "jing"
+          ]
+        },
+        {
+          "text": "橘京",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "ju",
+            "jing"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "海诺",
+      "lane": "clash",
+      "lanes": [
+        "clash",
+        "mid"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "海诺",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "hai",
+            "nuo"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "牛魔",
+      "lane": "roam",
+      "lanes": [
+        "roam"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "牛魔",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "niu",
+            "mo"
+          ]
+        },
+        {
+          "text": "牛",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "niu"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "猪八戒",
+      "lane": "clash",
+      "lanes": [
+        "clash",
+        "jungle"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "猪八戒",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "zhu",
+            "ba",
+            "jie"
+          ]
+        },
+        {
+          "text": "八戒",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "ba",
+            "jie"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "白起",
+      "lane": "clash",
+      "lanes": [
+        "clash",
+        "roam"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "白起",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "bai",
+            "qi"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "盘古",
+      "lane": "jungle",
+      "lanes": [
+        "jungle",
+        "clash"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "盘古",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "pan",
+            "gu"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "空空儿",
+      "lane": "roam",
+      "lanes": [
+        "roam"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "空空儿",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "kong",
+            "kong",
+            "er"
+          ]
+        },
+        {
+          "text": "空空",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "kong",
+            "kong"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "米莱狄",
+      "lane": "mid",
+      "lanes": [
+        "mid"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "米莱狄",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "mi",
+            "lai",
+            "di"
+          ]
+        },
+        {
+          "text": "米莱",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "mi",
+            "lai"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "芈月",
+      "lane": "clash",
+      "lanes": [
+        "clash",
+        "jungle"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "芈月",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "mi",
+            "yue"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "花木兰",
+      "lane": "clash",
+      "lanes": [
+        "clash"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "花木兰",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "hua",
+            "mu",
+            "lan"
+          ]
+        },
+        {
+          "text": "木兰",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "mu",
+            "lan"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "苍",
+      "lane": "farm",
+      "lanes": [
+        "farm"
+      ],
+      "singleChar": true,
+      "terms": [
+        {
+          "text": "苍",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "cang"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "苏烈",
+      "lane": "clash",
+      "lanes": [
+        "clash",
+        "roam"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "苏烈",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "su",
+            "lie"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "莱西奥",
+      "lane": "farm",
+      "lanes": [
+        "farm"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "莱西奥",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "lai",
+            "xi",
+            "ao"
+          ]
+        },
+        {
+          "text": "莱西",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "lai",
+            "xi"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "蒙犽",
+      "lane": "farm",
+      "lanes": [
+        "farm"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "蒙犽",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "meng",
+            "ya"
+          ]
+        },
+        {
+          "text": "蒙牙",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "meng",
+            "ya"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "赵怀真",
+      "lane": "clash",
+      "lanes": [
+        "clash",
+        "jungle",
+        "roam"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "赵怀真",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "zhao",
+            "huai",
+            "zhen"
+          ]
+        },
+        {
+          "text": "怀真",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "huai",
+            "zhen"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "达摩",
+      "lane": "clash",
+      "lanes": [
+        "clash"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "达摩",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "da",
+            "mo"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "金蝉",
+      "lane": "mid",
+      "lanes": [
+        "mid",
+        "roam"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "金蝉",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "jin",
+            "chan"
+          ]
+        },
+        {
+          "text": "金蝉子",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "jin",
+            "chan",
+            "zi"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "钟无艳",
+      "lane": "clash",
+      "lanes": [
+        "clash"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "钟无艳",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "zhong",
+            "wu",
+            "yan"
+          ]
+        },
+        {
+          "text": "无艳",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "wu",
+            "yan"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "阿古朵",
+      "lane": "jungle",
+      "lanes": [
+        "jungle"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "阿古朵",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "a",
+            "gu",
+            "duo"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "阿轲",
+      "lane": "jungle",
+      "lanes": [
+        "jungle"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "阿轲",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "a",
+            "ke"
+          ]
+        },
+        {
+          "text": "阿珂",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "a",
+            "ke"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "雅典娜",
+      "lane": "jungle",
+      "lanes": [
+        "jungle",
+        "clash"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "雅典娜",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "ya",
+            "dian",
+            "na"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "项羽",
+      "lane": "clash",
+      "lanes": [
+        "clash",
+        "roam"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "项羽",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "xiang",
+            "yu"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "马可波罗",
+      "lane": "farm",
+      "lanes": [
+        "farm"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "马可波罗",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "ma",
+            "ke",
+            "bo",
+            "luo"
+          ]
+        },
+        {
+          "text": "马可",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "ma",
+            "ke"
+          ]
+        },
+        {
+          "text": "马克",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "ma",
+            "ke"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "高渐离",
+      "lane": "mid",
+      "lanes": [
+        "mid"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "高渐离",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "gao",
+            "jian",
+            "li"
+          ]
+        },
+        {
+          "text": "渐离",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "jian",
+            "li"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "鲁班七号",
+      "lane": "farm",
+      "lanes": [
+        "farm"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "鲁班七号",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "lu",
+            "ban",
+            "qi",
+            "hao"
+          ]
+        },
+        {
+          "text": "鲁班",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "lu",
+            "ban"
+          ]
+        },
+        {
+          "text": "小鲁班",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "xiao",
+            "lu",
+            "ban"
+          ]
+        },
+        {
+          "text": "鲁班七",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "lu",
+            "ban",
+            "qi"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "鲁班大师",
+      "lane": "roam",
+      "lanes": [
+        "roam"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "鲁班大师",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "lu",
+            "ban",
+            "da",
+            "shi"
+          ]
+        },
+        {
+          "text": "大师",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "da",
+            "shi"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "黄忠",
+      "lane": "farm",
+      "lanes": [
+        "farm"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "黄忠",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "huang",
+            "zhong"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "元流之子(刺客)",
+      "lane": "jungle",
+      "lanes": [
+        "jungle"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "元流之子(刺客)",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "yuan",
+            "liu",
+            "zhi",
+            "zi",
+            "ci",
+            "ke"
+          ]
+        },
+        {
+          "text": "元流之子",
+          "kind": "base",
+          "weight": 0.94,
+          "pinyin": [
+            "yuan",
+            "liu",
+            "zhi",
+            "zi"
+          ]
+        },
+        {
+          "text": "元刺",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "yuan",
+            "ci"
+          ]
+        },
+        {
+          "text": "元流刺客",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "yuan",
+            "liu",
+            "ci",
+            "ke"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "杨戬",
+      "lane": "clash",
+      "lanes": [
+        "clash"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "杨戬",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "yang",
+            "jian"
+          ]
+        },
+        {
+          "text": "二郎神",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "er",
+            "lang",
+            "shen"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "程咬金",
+      "lane": "clash",
+      "lanes": [
+        "clash",
+        "jungle"
+      ],
+      "singleChar": false,
+      "terms": [
+        {
+          "text": "程咬金",
+          "kind": "name",
+          "weight": 1,
+          "pinyin": [
+            "cheng",
+            "yao",
+            "jin"
+          ]
+        },
+        {
+          "text": "咬金",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "yao",
+            "jin"
+          ]
+        }
+      ]
+    }
+  ]
+}

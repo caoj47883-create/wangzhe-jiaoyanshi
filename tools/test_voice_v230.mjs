@@ -237,6 +237,31 @@ report.noMatch = await page.evaluate(() => ({
   panel: !!document.querySelector(".bp-voice-result"),
 }));
 
+// 5b. 词库回归：外号、ASR 错字、单字英雄、元流形态
+report.aliases = {};
+for (const [say, phase, expected] of [
+  ["ban 张亮", "ban", ["张良"]],
+  ["ban 姚", "ban", ["瑶"]],
+  ["ban 鲁班", "ban", ["鲁班七号"]],
+  ["ban 鲁班大师", "ban", ["鲁班大师"]],
+  ["打野镜", "ban", ["镜"]],
+  ["对面 ban 六耳", "ban", ["六耳"]],
+  ["ban 空空", "ban", ["空空儿"]],
+  ["ban 敖影", "ban", ["敖隐"]],
+  ["ban 苍", "ban", ["苍"]],
+  ["选 元射", "pick", ["元流之子(射手)"]],
+]) {
+  await resetBp();
+  await switchPhase(phase);
+  await speak(say);
+  report.aliases[say] = await page.evaluate(() =>
+    [...document.querySelectorAll(".bp-slot.filled .bp-slot-name")].map((el) => el.textContent),
+  );
+  if (JSON.stringify(report.aliases[say]) !== JSON.stringify(expected)) {
+    errors.push(`alias mismatch: ${say} => ${JSON.stringify(report.aliases[say])}, expected ${JSON.stringify(expected)}`);
+  }
+}
+
 // 6. 按住说话时的状态条、音量条
 await resetBp();
 await switchPhase("ban");

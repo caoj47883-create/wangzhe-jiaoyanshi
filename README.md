@@ -4,14 +4,15 @@
 
 ![Platform](https://img.shields.io/badge/Android-6.0%2B-3ddc84?logo=android&logoColor=white)
 ![WebView](https://img.shields.io/badge/WebView-%E2%89%A5%20111-4285F4?logo=googlechrome&logoColor=white)
-![Version](https://img.shields.io/badge/version-2.3.0-d3a659)
+![Version](https://img.shields.io/badge/version-2.3.1-d3a659)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Build APK](https://github.com/caoj47883-create/wangzhe-jiaoyanshi/actions/workflows/build-apk.yml/badge.svg)
 
 [下载 APK](https://github.com/caoj47883-create/wangzhe-jiaoyanshi/releases/latest) ·
 [数据仓库](https://github.com/caoj47883-create/wzjs-data) ·
 [PRD](docs/PRD-王者教研室-V2.1.1.md) ·
-[架构说明](docs/ONLINE_UPDATE_ARCHITECTURE.md)
+[架构说明](docs/ONLINE_UPDATE_ARCHITECTURE.md) ·
+[语音词库](docs/VOICE_LEXICON.md)
 
 ![界面预览](next/shots/v2.3.0-voice-auto.png)
 
@@ -84,6 +85,13 @@
     <td><img src="next/shots/v2.3.0-voice-mixed.png" alt="混合意图分支"></td>
   </tr>
 </table>
+
+### V2.3.1：英雄语音词库工程化
+
+- **词库拆出来**：`heroVoice.js` 里内嵌的别名表拆成人工维护的 `next/src/data/hero-voice-aliases.json`，不再和匹配算法混在一个文件；
+- **生成器**：`next/scripts/build-voice-lexicon.mjs` 读取英雄数据 + 别名表，预生成 `next/src/data/hero-voice-lexicon.json`（拼音、权重、单字英雄、共享词条）和可读表 `docs/VOICE_LEXICON.md`；
+- **当前覆盖**：133 英雄 / 130 条别名、外号、ASR 常见错字 / 8 个单字英雄（镜、瑶、暃、澜、铠、影、曜、苍）；「元流之子」五形态仍作为受控歧义处理；
+- **可校验**：`pnpm voice:lexicon:check` 校验生成物是否过期，CI 构建前自动执行；改别名后运行 `pnpm voice:lexicon` 重新生成即可。
 
 ## 技术架构
 

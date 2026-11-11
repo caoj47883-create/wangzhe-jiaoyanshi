@@ -1,5 +1,5 @@
 // 应用级配置（构建期常量 + localStorage 键名）
-export const APP_VERSION = "2.3.0";
+export const APP_VERSION = "2.3.1";
 
 export const LS_KEYS = {
   dataBase: "wzjs.dataBase", // GitHub Pages 数据源根地址

@@ -1,12 +1,14 @@
 {
   "name": "wangzhe-jiaoyanshi-next",
   "private": true,
-  "version": "2.3.0",
+  "version": "2.3.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "voice:lexicon": "node scripts/build-voice-lexicon.mjs",
+    "voice:lexicon:check": "node scripts/build-voice-lexicon.mjs --check"
   },
   "dependencies": {
     "pinyin-pro": "^3.29.5",
