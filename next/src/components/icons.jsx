@@ -28,6 +28,7 @@ const P = {
   trash: '<path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6.5 7l1 13h9l1-13"/>',
   target: '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1"/>',
   user: '<circle cx="12" cy="8" r="3.6"/><path d="M5 20c.7-3.6 3.4-5.4 7-5.4S18.3 16.4 19 20"/>',
+  mic: '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0"/><path d="M12 18v3M9 21h6"/>',
 };
 
 export function Icon({ name, className = "", filled = false, strokeWidth = 1.7, style }) {

@@ -1,12 +1,17 @@
 package com.wangzhe.jiaoyanshi;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.speech.RecognitionListener;
+import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
 import android.util.Base64;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +44,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -48,6 +54,7 @@ import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -72,7 +79,16 @@ public class MainActivity extends Activity {
     private static final int HTTP_PORT_TRIES = 12;
 
     private WebView webView;
-    private String appVersion = "2.2.0";
+    private String appVersion = "2.3.0";
+
+    // 语音输入（Android 原生 SpeechRecognizer，不依赖 WebView 的 Web Speech API）
+    private static final int REQ_RECORD_AUDIO = 7101;
+    private SpeechRecognizer speechRecognizer;
+    private boolean speechListening = false;
+    private String speechRequestId = null;
+    private String pendingVoiceRequestId = null;
+    private boolean pendingVoiceCancelled = false;
+    private long lastRmsEventAt = 0L;
 
     // 本地 HTTP 服务
     private File siteDir;
@@ -1043,6 +1059,62 @@ public class MainActivity extends Activity {
                 }
             }, "wzjs-ai").start();
         }
+
+        /**
+         * BP 语音输入：开始一次识别。结果通过 window.__voiceEvent(id, type, payload) 回传。
+         * type: ready / start / partial / final / end / rms / error。
+         */
+        @JavascriptInterface
+        public void voiceStart(final String requestId) {
+            final WebView wv = webView;
+            if (requestId == null || requestId.isEmpty() || wv == null || !isLocalUrl(wv.getUrl())) {
+                return;
+            }
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    beginVoice(requestId);
+                }
+            });
+        }
+
+        /** 松手后请求收尾，等待系统给出 final；不会立刻关闭麦克风。 */
+        @JavascriptInterface
+        public void voiceStop(final String requestId) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (!speechListening) {
+                        return;
+                    }
+                    if (requestId != null && speechRequestId != null && !requestId.equals(speechRequestId)) {
+                        return;
+                    }
+                    try {
+                        if (speechRecognizer != null) {
+                            speechRecognizer.stopListening();
+                        }
+                    } catch (Throwable ignored) {
+                    }
+                }
+            });
+        }
+
+        /** 取消（页面关闭、切走、用户点“取消”）。 */
+        @JavascriptInterface
+        public void voiceCancel(final String requestId) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (requestId != null && speechRequestId != null
+                            && !requestId.equals(speechRequestId)
+                            && !requestId.equals(pendingVoiceRequestId)) {
+                        return;
+                    }
+                    cancelVoiceInternal(true);
+                }
+            });
+        }
     }
 
     private void aiReply(final String requestId, final boolean ok, final String payload) {
@@ -1062,6 +1134,305 @@ public class MainActivity extends Activity {
                 }
             }
         });
+    }
+
+    /* ------------------------------------------------------------------ */
+    /*  语音输入（系统 SpeechRecognizer）                                   */
+    /* ------------------------------------------------------------------ */
+
+    private void beginVoice(final String requestId) {
+        if (speechListening) {
+            voiceEvent(requestId, "error", voiceErrorJson("busy", "正在识别中，请稍候"));
+            return;
+        }
+        if (Build.VERSION.SDK_INT >= 23
+                && checkSelfPermission(Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            pendingVoiceRequestId = requestId;
+            pendingVoiceCancelled = false;
+            try {
+                requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO}, REQ_RECORD_AUDIO);
+            } catch (Throwable t) {
+                pendingVoiceRequestId = null;
+                voiceEvent(requestId, "error", voiceErrorJson("permission", "无法申请麦克风权限"));
+            }
+            return;
+        }
+        startVoice(requestId);
+    }
+
+    private void startVoice(final String requestId) {
+        if (!SpeechRecognizer.isRecognitionAvailable(this)) {
+            voiceEvent(requestId, "error", voiceErrorJson("unavailable",
+                    "系统没有可用的语音识别服务，请先用键盘输入"));
+            return;
+        }
+        releaseSpeechRecognizer();
+        try {
+            speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
+            if (speechRecognizer == null) {
+                voiceEvent(requestId, "error", voiceErrorJson("unavailable", "语音识别初始化失败"));
+                return;
+            }
+            speechRecognizer.setRecognitionListener(new VoiceListener());
+
+            Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "zh-CN");
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, "zh-CN");
+            intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
+            intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 5);
+            intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "说英雄名，如：对面 ban 东皇太一、张良");
+            intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
+            // 让系统尽快收尾（服务可能忽略这些提示）
+            intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, 1100L);
+            intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS, 1100L);
+            intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 500L);
+
+            speechRequestId = requestId;
+            speechListening = true;
+            lastRmsEventAt = 0L;
+            speechRecognizer.startListening(intent);
+        } catch (Throwable t) {
+            resetSpeechState();
+            releaseSpeechRecognizer();
+            String msg = t.getMessage();
+            voiceEvent(requestId, "error", voiceErrorJson("start_failed",
+                    "麦克风启动失败" + (msg == null || msg.isEmpty() ? "" : "：" + msg)));
+        }
+    }
+
+    private void cancelVoiceInternal(boolean notify) {
+        String id = speechRequestId;
+        boolean wasListening = speechListening;
+        if (speechRecognizer != null) {
+            try {
+                speechRecognizer.cancel();
+            } catch (Throwable ignored) {
+            }
+        }
+        releaseSpeechRecognizer();
+        resetSpeechState();
+        if (pendingVoiceRequestId != null) {
+            pendingVoiceCancelled = true;
+            pendingVoiceRequestId = null;
+        }
+        if (notify && wasListening && id != null) {
+            voiceEvent(id, "error", voiceErrorJson("cancelled", "已取消语音输入"));
+        }
+    }
+
+    private void resetSpeechState() {
+        speechListening = false;
+        speechRequestId = null;
+        lastRmsEventAt = 0L;
+    }
+
+    private void releaseSpeechRecognizer() {
+        if (speechRecognizer != null) {
+            try {
+                speechRecognizer.destroy();
+            } catch (Throwable ignored) {
+            }
+            speechRecognizer = null;
+        }
+    }
+
+    private void voiceEvent(final String requestId, final String type, final String payload) {
+        if (requestId == null || requestId.isEmpty()) {
+            return;
+        }
+        final WebView wv = webView;
+        if (wv == null) {
+            return;
+        }
+        final String js = "window.__voiceEvent&&window.__voiceEvent("
+                + JSONObject.quote(requestId)
+                + "," + JSONObject.quote(type)
+                + "," + JSONObject.quote(payload == null ? "{}" : payload) + ");";
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (webView != null) {
+                    webView.evaluateJavascript(js, null);
+                }
+            }
+        });
+    }
+
+    private static String voiceResultsJson(Bundle results) {
+        try {
+            JSONArray arr = new JSONArray();
+            ArrayList<String> texts = results == null
+                    ? null : results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+            float[] conf = results == null
+                    ? null : results.getFloatArray(SpeechRecognizer.CONFIDENCE_SCORES);
+            if (texts != null) {
+                for (int i = 0; i < texts.size(); i++) {
+                    String t = texts.get(i);
+                    if (t == null || t.trim().isEmpty()) {
+                        continue;
+                    }
+                    JSONObject item = new JSONObject();
+                    item.put("text", t);
+                    if (conf != null && i < conf.length && conf[i] >= 0f) {
+                        item.put("confidence", (double) conf[i]);
+                    }
+                    arr.put(item);
+                }
+            }
+            JSONObject root = new JSONObject();
+            root.put("results", arr);
+            return root.toString();
+        } catch (Throwable t) {
+            return "{\"results\":[]}";
+        }
+    }
+
+    private static String voiceErrorJson(String code, String message) {
+        try {
+            JSONObject o = new JSONObject();
+            o.put("code", code == null ? "error" : code);
+            o.put("message", message == null ? "语音识别失败" : message);
+            return o.toString();
+        } catch (Throwable t) {
+            return "{\"code\":\"error\",\"message\":\"语音识别失败\"}";
+        }
+    }
+
+    private static String voiceErrorMessage(int error) {
+        switch (error) {
+            case SpeechRecognizer.ERROR_AUDIO:
+                return "录音出错，请检查麦克风";
+            case SpeechRecognizer.ERROR_CLIENT:
+                return "识别客户端出错，请重试";
+            case SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS:
+                return "没有麦克风权限";
+            case SpeechRecognizer.ERROR_NETWORK:
+                return "语音服务网络异常";
+            case SpeechRecognizer.ERROR_NETWORK_TIMEOUT:
+                return "语音服务超时";
+            case SpeechRecognizer.ERROR_NO_MATCH:
+                return "没听清，再说一次";
+            case SpeechRecognizer.ERROR_RECOGNIZER_BUSY:
+                return "识别器忙，请稍后再试";
+            case SpeechRecognizer.ERROR_SERVER:
+                return "语音服务出错";
+            case SpeechRecognizer.ERROR_SERVER_DISCONNECTED:
+                return "语音服务断开";
+            case SpeechRecognizer.ERROR_SPEECH_TIMEOUT:
+                return "没有听到声音";
+            case SpeechRecognizer.ERROR_TOO_MANY_REQUESTS:
+                return "请求太频繁，稍后再试";
+            case SpeechRecognizer.ERROR_LANGUAGE_NOT_SUPPORTED:
+                return "系统不支持中文语音识别";
+            case SpeechRecognizer.ERROR_LANGUAGE_UNAVAILABLE:
+                return "中文语音识别不可用";
+            default:
+                return "语音识别失败（" + error + "）";
+        }
+    }
+
+    private class VoiceListener implements RecognitionListener {
+        @Override
+        public void onReadyForSpeech(Bundle params) {
+            if (speechRequestId != null) {
+                voiceEvent(speechRequestId, "ready", "{}");
+            }
+        }
+
+        @Override
+        public void onBeginningOfSpeech() {
+            if (speechRequestId != null) {
+                voiceEvent(speechRequestId, "start", "{}");
+            }
+        }
+
+        @Override
+        public void onRmsChanged(float rmsdB) {
+            String id = speechRequestId;
+            if (id == null) {
+                return;
+            }
+            long now = System.currentTimeMillis();
+            if (now - lastRmsEventAt < 90L) {
+                return;
+            }
+            lastRmsEventAt = now;
+            int level = (int) Math.max(0, Math.min(10, (rmsdB + 2f) / 12f * 10f));
+            try {
+                JSONObject o = new JSONObject();
+                o.put("rms", level);
+                voiceEvent(id, "rms", o.toString());
+            } catch (Throwable ignored) {
+            }
+        }
+
+        @Override
+        public void onBufferReceived(byte[] buffer) {
+        }
+
+        @Override
+        public void onEndOfSpeech() {
+            if (speechRequestId != null) {
+                voiceEvent(speechRequestId, "end", "{}");
+            }
+        }
+
+        @Override
+        public void onError(int error) {
+            String id = speechRequestId;
+            resetSpeechState();
+            releaseSpeechRecognizer();
+            if (id != null) {
+                voiceEvent(id, "error", voiceErrorJson(
+                        error == SpeechRecognizer.ERROR_NO_MATCH ? "no_match" : "asr_error",
+                        voiceErrorMessage(error)));
+            }
+        }
+
+        @Override
+        public void onResults(Bundle results) {
+            String id = speechRequestId;
+            resetSpeechState();
+            if (id != null) {
+                voiceEvent(id, "final", voiceResultsJson(results));
+            }
+        }
+
+        @Override
+        public void onPartialResults(Bundle partialResults) {
+            String id = speechRequestId;
+            if (id != null) {
+                voiceEvent(id, "partial", voiceResultsJson(partialResults));
+            }
+        }
+
+        @Override
+        public void onEvent(int eventType, Bundle params) {
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode != REQ_RECORD_AUDIO) {
+            return;
+        }
+        String id = pendingVoiceRequestId;
+        boolean cancelled = pendingVoiceCancelled;
+        pendingVoiceRequestId = null;
+        pendingVoiceCancelled = false;
+        if (id == null || cancelled) {
+            return;
+        }
+        boolean granted = grantResults != null && grantResults.length > 0
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED;
+        if (granted) {
+            startVoice(id);
+        } else {
+            voiceEvent(id, "error", voiceErrorJson("permission",
+                    "需要麦克风权限才能语音输入，可在系统设置里开启"));
+        }
     }
 
     private static String readStreamText(InputStream is) throws IOException {
@@ -1212,6 +1583,9 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onPause() {
+        if (speechListening && pendingVoiceRequestId == null) {
+            cancelVoiceInternal(true);
+        }
         if (webView != null) {
             webView.onPause();
         }
@@ -1220,6 +1594,11 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onDestroy() {
+        if (speechListening || speechRecognizer != null) {
+            cancelVoiceInternal(false);
+        }
+        pendingVoiceRequestId = null;
+        pendingVoiceCancelled = true;
         try {
             if (serverSocket != null) {
                 serverSocket.close();

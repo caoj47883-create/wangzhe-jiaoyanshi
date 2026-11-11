@@ -1,7 +1,7 @@
 {
   "name": "wangzhe-jiaoyanshi-next",
   "private": true,
-  "version": "2.2.0",
+  "version": "2.3.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "pinyin-pro": "^3.29.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },

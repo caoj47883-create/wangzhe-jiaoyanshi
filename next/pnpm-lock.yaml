@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      pinyin-pro:
+        specifier: ^3.29.5
+        version: 3.29.5
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -516,6 +519,9 @@ packages:
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
 
+  pinyin-pro@3.29.5:
+    resolution: {integrity: sha512-Fk5YoRmtdHqJWqAuzYVG/NzvzeCbaG+ZEwbY6Nbps3QAIrvQQEtcm49frcyCM8i2b5najnzPDtYqrHRYTTiuwQ==}
+
   postcss@8.5.32:
     resolution: {integrity: sha512-LJlKCCAUFKOuZxipUdYw1NzIITEsPcgyOG9LkvRJvuKj/bRzbuRY0ARXvL0pWGpsZvn8jku+LMep2eU0seHp8g==}
     engines: {node: ^10 || ^12 || >=14}
@@ -983,6 +989,8 @@ snapshots:
   node-releases@2.0.63: {}
 
   picocolors@1.1.1: {}
+
+  pinyin-pro@3.29.5: {}
 
   postcss@8.5.32:
     dependencies:

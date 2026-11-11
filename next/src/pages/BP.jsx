@@ -12,7 +12,9 @@ import HeroSheet from "../components/HeroSheet.jsx";
 import { Icon } from "../components/icons.jsx";
 import { LANES, hasHero, hero, laneLabel, tierFor } from "../lib/data.js";
 import { banRecommendations, lineupInsights, parseHeroNames, pickRecommendations } from "../lib/engine.js";
+import { matchVoiceResults } from "../lib/heroVoice.js";
 import { useApp } from "../lib/store.js";
+import { startVoice, voiceSupported } from "../lib/voice.js";
 
 const MAX = 5;
 
@@ -42,12 +44,25 @@ export default function BP() {
   const [unknown, setUnknown] = useState("");
   const [picker, setPicker] = useState(null);
   const [sheet, setSheet] = useState("");
+  const [voiceState, setVoiceState] = useState("idle");
+  const [voiceHint, setVoiceHint] = useState("");
+  const [voiceResult, setVoiceResult] = useState(null);
+  const [voiceLevel, setVoiceLevel] = useState(0);
+  const voiceRef = useRef(null);
 
   /* 切换阶段回到顶部 */
   useEffect(() => {
     const el = pageRef.current;
     if (el) el.scrollTo({ top: 0, behavior: "smooth" });
   }, [phase]);
+
+  /* 离开页面时释放麦克风 */
+  useEffect(() => {
+    return () => {
+      voiceRef.current?.cancel?.();
+      voiceRef.current = null;
+    };
+  }, []);
 
   const recBans = useMemo(() => banRecommendations(bans, 12), [bans]);
   const combos = useMemo(() => recBans.filter((r) => r.fromBans.length >= 2), [recBans]);
@@ -107,21 +122,145 @@ export default function BP() {
       return;
     }
     const parsed = parseHeroNames(raw, MAX);
-    const fresh = parsed.found.filter((n) => !bans.includes(n) && !picks.includes(n));
-    const room = MAX - bans.length;
+    const target = phase === "ban" ? bans : picks;
+    const other = phase === "ban" ? picks : bans;
+    const fresh = parsed.found.filter((n) => !target.includes(n) && !other.includes(n));
+    const room = MAX - target.length;
     setUnknown(parsed.rest ? parsed.rest.slice(0, 18) : "");
     if (!fresh.length) {
       showToast(parsed.found.length ? "识别到的英雄已经在列表里了" : "没识别到英雄名，试试连打「马超吕布」");
       return;
     }
     if (room <= 0) {
-      showToast("Ban 位已满 5 个，先移除一个再填");
+      showToast((phase === "ban" ? "Ban 位" : "敌方已选") + "已满 5 个，先移除一个再填");
       return;
     }
     const add = fresh.slice(0, room);
-    setBans((list) => [...list, ...add]);
+    if (phase === "ban") setBans((list) => [...list, ...add]);
+    else setPicks((list) => [...list, ...add]);
     setText("");
-    showToast(fresh.length > room ? `Ban 位已满，只填入 ${add.length} 个` : `已记录 ${add.length} 个 Ban`);
+    showToast(fresh.length > room ? `${phase === "ban" ? "Ban 位" : "敌方已选"}已满，只填入 ${add.length} 个` : `已记录 ${add.length} 个${phase === "ban" ? " Ban" : "敌方已选"}`);
+  };
+
+  const fillNames = (names, action = phase, laneHint = "") => {
+    const finalAction = action === "pick" ? "pick" : "ban";
+    const target = finalAction === "ban" ? bans : picks;
+    const other = finalAction === "ban" ? picks : bans;
+    const unique = [...new Set(names)].filter((name) => typeof name === "string" && hasHero(name));
+    const fresh = unique.filter((name) => !target.includes(name) && !other.includes(name));
+    if (!fresh.length) {
+      showToast(`识别到的英雄已经在${finalAction === "ban" ? " Ban 位" : "敌方已选"}里了`);
+      return;
+    }
+    const room = MAX - target.length;
+    if (room <= 0) {
+      showToast(`${finalAction === "ban" ? "Ban 位" : "敌方已选"}已满 5 个，先移除一个再填`);
+      return;
+    }
+    const add = fresh.slice(0, room);
+    if (finalAction !== phase) setPhase(finalAction);
+    if (laneHint) setLane(laneHint);
+    if (finalAction === "ban") setBans([...target, ...add]);
+    else setPicks([...target, ...add]);
+    setText("");
+    setUnknown("");
+    setVoiceResult(null);
+    setVoiceState("idle");
+    showToast(`已填入 ${add.length} 个${finalAction === "ban" ? " Ban" : "敌方已选"}${finalAction !== phase ? `，已切到${finalAction === "ban" ? "禁用" : "选将"}阶段` : ""}`);
+  };
+
+  const handleVoiceFinal = (results) => {
+    const result = matchVoiceResults(results, phase);
+    setVoiceHint("");
+    if (!result.candidates.length) {
+      setVoiceState("idle");
+      if (result.raw) {
+        setText(result.raw);
+        showToast("没听清英雄名，原话已填进输入框，可手动改");
+      } else {
+        showToast("没听清，再说一次");
+      }
+      return;
+    }
+    const strong = result.candidates.filter((c) => c.score >= 0.85);
+    const weak = result.candidates.filter((c) => c.score < 0.85);
+    const mixed = result.action === "mixed";
+    if (!mixed && strong.length > 0 && strong.length <= 3 && weak.length === 0) {
+      fillNames(strong.map((c) => c.name), result.action, result.lane);
+      return;
+    }
+    const fillAction = mixed ? phase : result.action === "pick" ? "pick" : "ban";
+    setVoiceResult({
+      ...result,
+      action: fillAction,
+      mixed,
+      selected: result.candidates.slice(0, Math.min(3, result.candidates.length)).map((c) => c.name),
+    });
+    setVoiceState("idle");
+  };
+
+  const beginVoice = () => {
+    if (voiceRef.current) return;
+    if (!voiceSupported()) {
+      showToast("当前环境不支持语音输入，请用键盘输入");
+      return;
+    }
+    setVoiceResult(null);
+    setVoiceHint("");
+    setVoiceLevel(0);
+    setVoiceState("requesting");
+    const session = startVoice({
+      onReady: () => setVoiceState("listening"),
+      onStart: () => setVoiceState("listening"),
+      onPartial: (results) => {
+        const raw = results?.[0]?.text || "";
+        if (raw) setVoiceHint(raw);
+        setVoiceState("listening");
+      },
+      onFinal: (results) => {
+        voiceRef.current = null;
+        setVoiceState("processing");
+        handleVoiceFinal(results);
+      },
+      onError: (err) => {
+        voiceRef.current = null;
+        setVoiceState("idle");
+        setVoiceHint("");
+        if (err?.code !== "cancelled") showToast(err?.message || "语音识别失败");
+      },
+      onRms: (level) => setVoiceLevel(Number(level) || 0),
+    });
+    voiceRef.current = session;
+    if (!session) setVoiceState("idle");
+  };
+
+  const stopVoice = () => {
+    if (!voiceRef.current) return;
+    voiceRef.current.stop();
+    setVoiceState("processing");
+  };
+
+  const cancelVoice = () => {
+    voiceRef.current?.cancel?.();
+    voiceRef.current = null;
+    setVoiceState("idle");
+    setVoiceHint("");
+    setVoiceResult(null);
+  };
+
+  const toggleVoiceCandidate = (name) => {
+    setVoiceResult((result) => {
+      if (!result) return result;
+      const selected = result.selected.includes(name)
+        ? result.selected.filter((n) => n !== name)
+        : [...result.selected, name];
+      return { ...result, selected };
+    });
+  };
+
+  const applyVoiceResult = () => {
+    if (!voiceResult) return;
+    fillNames(voiceResult.selected, voiceResult.action, voiceResult.lane);
   };
 
   const reset = () => {
@@ -152,6 +291,160 @@ export default function BP() {
   };
 
   const banPickerOpen = picker === "ban";
+
+  const batchBlock = (
+    <>
+      <form
+        className="bp-batch"
+        onSubmit={(e) => {
+          e.preventDefault();
+          doIdentify();
+        }}
+      >
+        <span className="bp-input">
+          <Icon name="search" className="ic" />
+          <input
+            value={text}
+            maxLength={64}
+            onChange={(e) => {
+              setText(e.target.value);
+              if (unknown) setUnknown("");
+            }}
+            placeholder="连打英雄名，如：马超吕布"
+            aria-label="批量输入英雄名"
+          />
+          {text ? (
+            <button type="button" className="bp-clear" aria-label="清空输入" onClick={() => setText("")}>
+              <Icon name="x" />
+            </button>
+          ) : null}
+        </span>
+        <button
+          type="button"
+          className={`bp-mic ${voiceState === "listening" ? "on" : ""}`}
+          aria-label="按住说话"
+          title="按住说话"
+          onPointerDown={(e) => {
+            e.preventDefault();
+            try {
+              e.currentTarget.setPointerCapture?.(e.pointerId);
+            } catch {
+              /* ignore */
+            }
+            beginVoice();
+          }}
+          onPointerUp={(e) => {
+            e.preventDefault();
+            stopVoice();
+          }}
+          onPointerCancel={cancelVoice}
+          onContextMenu={(e) => e.preventDefault()}
+        >
+          <Icon name="mic" />
+        </button>
+        <button type="submit" className="btn btn-dark btn-sm bp-fill">
+          <Icon name="spark" />
+          识别填入
+        </button>
+      </form>
+      {unknown ? (
+        <p className="tiny faint bp-unknown">
+          超出 5 个的部分未填入：{unknown}（一次最多记录 5 个{phase === "ban" ? " Ban" : "敌方已选"}）
+        </p>
+      ) : null}
+      <p className="tiny faint bp-voice-help">按住麦克风说：「对面 ban 东皇太一」或「选马可波罗」</p>
+    </>
+  );
+
+  const voiceStatus =
+    voiceState !== "idle" ? (
+      <div className={`bp-voice ${voiceState}`} role="status" aria-live="polite">
+        <span className="bp-voice-dot" />
+        <div className="bp-voice-copy">
+          <b>
+            {voiceState === "requesting"
+              ? "等待麦克风权限…"
+              : voiceState === "processing"
+                ? "正在解析…"
+                : "正在听… 松手结束"}
+          </b>
+          <span>{voiceHint || (voiceState === "requesting" ? "请在系统弹窗允许麦克风" : "说：对面 ban 东皇太一")}</span>
+        </div>
+        <span className="bp-voice-bars" aria-hidden="true">
+          {[0, 1, 2, 3, 4].map((i) => (
+            <i key={i} style={{ opacity: voiceLevel ? 0.35 + Math.min(0.65, voiceLevel / 10) : 0.5 }} />
+          ))}
+        </span>
+      </div>
+    ) : null;
+
+  const voicePanel = voiceResult?.candidates?.length ? (
+    <div className="card bp-voice-result">
+      <div className="bp-voice-result-head">
+        <span className="tiny faint">听到「{voiceResult.raw || "…"}」</span>
+        <button type="button" className="bp-clear" aria-label="收起语音结果" onClick={() => setVoiceResult(null)}>
+          <Icon name="x" />
+        </button>
+      </div>
+      <div className="bp-voice-chips">
+        {voiceResult.candidates.map((candidate) => {
+          const on = voiceResult.selected.includes(candidate.name);
+          return (
+            <button
+              type="button"
+              key={candidate.name}
+              className={`bp-voice-chip ${on ? "on" : ""}`}
+              onClick={() => toggleVoiceCandidate(candidate.name)}
+            >
+              <span>{candidate.name}</span>
+              <em>{Math.round(candidate.score * 100)}%</em>
+            </button>
+          );
+        })}
+      </div>
+      <div className="bp-voice-result-actions">
+        {voiceResult.mixed ? (
+          <>
+            <button
+              type="button"
+              className="btn btn-ghost btn-sm"
+              disabled={!voiceResult.selected.length}
+              onClick={() => fillNames(voiceResult.selected, "ban", voiceResult.lane)}
+            >
+              填入 Ban 位
+            </button>
+            <button
+              type="button"
+              className="btn btn-primary btn-sm"
+              disabled={!voiceResult.selected.length}
+              onClick={() => fillNames(voiceResult.selected, "pick", voiceResult.lane)}
+            >
+              填入敌方已选
+            </button>
+          </>
+        ) : (
+          <button
+            type="button"
+            className="btn btn-primary btn-sm"
+            disabled={!voiceResult.selected.length}
+            onClick={applyVoiceResult}
+          >
+            填入 {voiceResult.action === "pick" ? "敌方已选" : "Ban 位"}
+          </button>
+        )}
+        <button
+          type="button"
+          className="btn btn-ghost btn-sm"
+          onClick={() => {
+            setVoiceResult(null);
+            beginVoice();
+          }}
+        >
+          重说
+        </button>
+      </div>
+    </div>
+  ) : null;
 
   return (
     <div className="page bp-page" ref={pageRef}>
@@ -212,42 +505,15 @@ export default function BP() {
           <span className="pill blue">推测 {recBans.length} 条</span>
         </div>
 
+        {voiceStatus}
+        {voicePanel}
+
         {phase === "ban" ? (
           <>
             <section className="section">
               <SectionHead title="敌方 Ban 位" sub="点空槽添加 · 点头像移除" />
               <SlotGrid names={bans} tone="ban" onAdd={() => openPicker("ban")} onRemove={removeBan} />
-              <form
-                className="bp-batch"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  doIdentify();
-                }}
-              >
-                <span className="bp-input">
-                  <Icon name="search" className="ic" />
-                  <input
-                    value={text}
-                    maxLength={64}
-                    onChange={(e) => {
-                      setText(e.target.value);
-                      if (unknown) setUnknown("");
-                    }}
-                    placeholder="连打英雄名，如：马超吕布张良"
-                    aria-label="批量输入英雄名"
-                  />
-                  {text ? (
-                    <button type="button" className="bp-clear" aria-label="清空输入" onClick={() => setText("")}>
-                      <Icon name="x" />
-                    </button>
-                  ) : null}
-                </span>
-                <button type="submit" className="btn btn-dark btn-sm bp-fill">
-                  <Icon name="spark" />
-                  识别填入
-                </button>
-              </form>
-              {unknown ? <p className="tiny faint bp-unknown">超出 5 个的部分未填入：{unknown}（一次最多记录 5 个 Ban）</p> : null}
+              {batchBlock}
             </section>
 
             <section className="section">
@@ -383,6 +649,7 @@ export default function BP() {
                   ))}
                 </div>
               ) : null}
+              {batchBlock}
             </section>
 
             {insights.length ? (
@@ -702,4 +969,36 @@ const CSS = `
 .bp-page .bp-cta{height:48px;border-radius:15px;font-size:.82rem;letter-spacing:.02em;}
 .bp-page .bp-cta svg{width:16px;height:16px;}
 .bp-page .bp-actions-note{margin-top:8px;text-align:center;font-size:.58rem;color:var(--faint);line-height:1.5;}
+.bp-page .bp-voice-help{margin-top:7px;line-height:1.5;}
+.bp-page .bp-mic{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);display:grid;place-items:center;flex-shrink:0;transition:transform .12s ease,background .18s ease,color .18s ease,box-shadow .18s ease;}
+.bp-page .bp-mic svg{width:17px;height:17px;}
+.bp-page .bp-mic:active{transform:scale(.94);}
+.bp-page .bp-mic.on{color:#fff;background:linear-gradient(135deg,#df5d5d,#b72f3e);border-color:transparent;box-shadow:0 0 0 4px color-mix(in srgb,var(--red) 15%,transparent);animation:bp-mic-breathe 1.1s ease-in-out infinite;}
+.bp-page .bp-voice{display:flex;align-items:center;gap:10px;margin-top:10px;padding:10px 12px;border-radius:13px;border:1px solid var(--line);background:var(--surface);box-shadow:var(--shadow-sm);}
+.bp-page .bp-voice-dot{width:8px;height:8px;border-radius:50%;background:var(--red);flex-shrink:0;animation:bp-voice-pulse 1s ease-in-out infinite;}
+.bp-page .bp-voice.requesting .bp-voice-dot{background:var(--gold);}
+.bp-page .bp-voice.processing .bp-voice-dot{background:var(--blue);}
+.bp-page .bp-voice-copy{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;}
+.bp-page .bp-voice-copy b{font-size:.72rem;color:var(--ink);}
+.bp-page .bp-voice-copy span{font-size:.62rem;line-height:1.45;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.bp-page .bp-voice-bars{display:flex;align-items:center;gap:2px;width:32px;height:20px;flex-shrink:0;}
+.bp-page .bp-voice-bars i{display:block;flex:1;border-radius:2px;background:var(--red);animation:bp-voice-bar .8s ease-in-out infinite;}
+.bp-page .bp-voice.requesting .bp-voice-bars i,.bp-page .bp-voice.processing .bp-voice-bars i{background:var(--gold);}
+.bp-page .bp-voice-bars i:nth-child(1){height:6px;animation-delay:-.2s;}
+.bp-page .bp-voice-bars i:nth-child(2){height:13px;animation-delay:-.45s;}
+.bp-page .bp-voice-bars i:nth-child(3){height:19px;animation-delay:-.1s;}
+.bp-page .bp-voice-bars i:nth-child(4){height:11px;animation-delay:-.35s;}
+.bp-page .bp-voice-bars i:nth-child(5){height:7px;animation-delay:-.55s;}
+.bp-page .bp-voice-result{margin-top:10px;padding:12px;border-radius:14px;}
+.bp-page .bp-voice-result-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px;}
+.bp-page .bp-voice-result-head span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.bp-page .bp-voice-chips{display:flex;gap:6px;flex-wrap:wrap;}
+.bp-page .bp-voice-chip{display:inline-flex;align-items:center;gap:5px;height:30px;padding:0 9px;border-radius:9px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink-2);font-size:.66rem;font-weight:700;transition:border-color .15s ease,background .15s ease;}
+.bp-page .bp-voice-chip em{font-style:normal;font-family:var(--mono);font-size:.5rem;color:var(--faint);font-weight:400;}
+.bp-page .bp-voice-chip.on{border-color:var(--gold-line);background:var(--gold-soft);color:var(--gold-2);}
+.bp-page .bp-voice-chip.on em{color:var(--gold);}
+.bp-page .bp-voice-result-actions{display:flex;align-items:center;justify-content:flex-end;gap:7px;margin-top:10px;flex-wrap:wrap;}
+@keyframes bp-voice-pulse{0%,100%{transform:scale(.85);opacity:.65;}50%{transform:scale(1.2);opacity:1;}}
+@keyframes bp-voice-bar{0%,100%{transform:scaleY(.45);}50%{transform:scaleY(1);}}
+@keyframes bp-mic-breathe{0%,100%{box-shadow:0 0 0 4px color-mix(in srgb,var(--red) 15%,transparent);}50%{box-shadow:0 0 0 8px color-mix(in srgb,var(--red) 7%,transparent);}}
 `;

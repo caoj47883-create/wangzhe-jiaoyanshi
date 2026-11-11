@@ -1,10 +1,10 @@
 # 王者教研室 · 王者荣耀 BP / 出装数据助手
 
-> 给开黑用的「离线优先」王者荣耀数据工具：**BP 推测 · 分路反制 · 针对性出装 · 五黑阵容 · 名师课堂 · 数据热更新 · AI 问答**。
+> 给开黑用的「离线优先」王者荣耀数据工具：**BP 推测 · BP 语音输入 · 分路反制 · 针对性出装 · 五黑阵容 · 名师课堂 · 数据热更新 · AI 问答**。
 
 ![Platform](https://img.shields.io/badge/Android-6.0%2B-3ddc84?logo=android&logoColor=white)
 ![WebView](https://img.shields.io/badge/WebView-%E2%89%A5%20111-4285F4?logo=googlechrome&logoColor=white)
-![Version](https://img.shields.io/badge/version-2.2.0-d3a659)
+![Version](https://img.shields.io/badge/version-2.3.0-d3a659)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Build APK](https://github.com/caoj47883-create/wangzhe-jiaoyanshi/actions/workflows/build-apk.yml/badge.svg)
 
@@ -13,7 +13,7 @@
 [PRD](docs/PRD-王者教研室-V2.1.1.md) ·
 [架构说明](docs/ONLINE_UPDATE_ARCHITECTURE.md)
 
-![界面预览](next/shots/v2.2.0-home-dark.png)
+![界面预览](next/shots/v2.3.0-voice-auto.png)
 
 ---
 
@@ -24,6 +24,7 @@
 - **不需要登录**，断网也能用；
 - 内置 133 位英雄、900+ 条克制关系、30 套五黑阵容、51 位 KPL 选手/主播；
 - **BP 助手**：输入敌方 Ban 位 → 推测对面想玩谁 → 按分路给反制推荐 → 一键带入出装；
+- **BP 语音输入**：按住麦克风说「对面 ban 东皇太一」「选马可波罗」，本地英雄词典 + 拼音模糊匹配自动填槽；
 - **数据热更新**：赛季中英雄/装备调整后，不重装 APK，App 自动拉取新数据；
 - **AI 问答**：结合本地数据的 RAG 上下文，调用你自己的 OpenAI 兼容接口；
 - 暗夜战术风 UI，可切暖纸浅色主题 + 字号缩放。
@@ -38,6 +39,7 @@
 | 英雄强度 | 5 分路 T0~T3 梯度、搜索、分路徽章、英雄详情弹层 |
 | 英雄详情 | 克制链（能打谁/被谁克）、收藏、看出装、分享图 |
 | BP 助手 | 连打录入 Ban 位、综合推测、分路反制推荐、一键带入出装 |
+| BP 语音输入 | 按住说话，系统 SpeechRecognizer + 133 英雄词典拼音模糊匹配，自动填 Ban/Pick、候选确认、混合意图分支 |
 | 针对出装 | 敌阵 5 位置 → 基础六件 / 针对性装备 / 铭文 / 实战提示 / 分享图 |
 | 五黑阵容 | 30 套体系，筛选/搜索/思路/弱点/Ban 位/分享/去 BP 练习 |
 | 名师课堂 | 51 位 KPL 选手与主播，平台筛选、搜索、外链主页 |
@@ -61,6 +63,25 @@
   <tr>
     <td><img src="next/shots/v2.2.0-bp.png" alt="BP 助手与悬浮底栏"></td>
     <td><img src="next/shots/v2.2.0-settings-light.png" alt="设置页玻璃列表"></td>
+  </tr>
+</table>
+
+### V2.3.0：BP 语音输入（MVP）
+
+- **按住说话**：BP 页麦克风按钮，松手后系统 `SpeechRecognizer` 返回 N-best 结果；无原生桥时退化为 Web Speech API（仅开发预览）；
+- **英雄词典约束**：133 英雄 + 别名/外号 + 全拼/首字母，音节级拼音相似度 + 编辑距离 + 上下文先验打分，专门处理 zh/z、ch/c、sh/s、n/l、ing/in 等 ASR 混淆；
+- **自动填槽**：高置信且无歧义时直接填入 Ban/Pick 并提示数量；五形态「元流之子」、单字英雄等歧义场景弹出候选 chips；
+- **混合意图**：一句话里同时出现「ban 盾山，然后选马可波罗」时，面板提供「填入 Ban 位 / 填入敌方已选」两个动作；
+- **权限与兜底**：运行时申请 `RECORD_AUDIO`；系统无语音服务、无网络、未授权时明确提示，键盘输入始终可用。
+
+<table>
+  <tr>
+    <td><img src="next/shots/v2.3.0-voice-listening.png" alt="按住说话与音量状态"></td>
+    <td><img src="next/shots/v2.3.0-voice-auto.png" alt="语音自动填入 Ban"></td>
+  </tr>
+  <tr>
+    <td><img src="next/shots/v2.3.0-voice-candidates.png" alt="歧义候选面板"></td>
+    <td><img src="next/shots/v2.3.0-voice-mixed.png" alt="混合意图分支"></td>
   </tr>
 </table>
 
@@ -95,6 +116,7 @@ flowchart TB
 - **前端**：React 18 + Vite 5，无 UI 框架；自建设计系统（暗夜/纸感双主题）。
 - **数据**：构建时内置快照；启动后异步检查 GitHub Pages 更新，SHA-256 校验通过后写入本地并重载。
 - **AI**：前端组装本地数据 RAG 上下文，交给 Java 原生层直连外部接口（绕开 WebView CORS）。
+- **语音**：`AppBridge.voiceStart/voiceStop/voiceCancel` → 原生 `SpeechRecognizer`（zh-CN、partial、N-best）→ `window.__voiceEvent` 回传；前端 `voice.js` 管理会话，`heroVoice.js` 做英雄词典约束解码。
 - **分享**：Canvas 生成 1080×1440 PNG → 自定义 `ShareProvider`（`content://`）→ 系统分享面板。
 
 ## 仓库结构
@@ -238,6 +260,7 @@ GitHub Pages（数据仓库）         App（启动/手动检查）
 - 独立 QA 报告：[`docs/qa/qa-v2.1.0.md`](docs/qa/qa-v2.1.0.md)、[`docs/qa/qa-independent-v2.md`](docs/qa/qa-independent-v2.md)；
 - APK 静态检查：签名 v1/v2/v3、zipalign、assets 与构建产物逐字节一致；
 - 浏览器等价环境 E2E：BP/出装/分享/主题/字号/数据更新/哈希篡改拒绝/恢复内置；
+- V2.3.0 语音 UI 自测：mock `AppBridge` 模拟 ready/partial/final/rms，覆盖自动填 Ban、歧义候选、混合意图、无匹配回填、键盘精确识别回归，0 console/page error。
 - 当前已知验证边界：无真机自动化测试，Java 原生层与真实 GitHub Pages 部署建议自行冒烟。
 
 ## 已知限制
@@ -246,12 +269,13 @@ GitHub Pages（数据仓库）         App（启动/手动检查）
 - 个人侧载分发，不上架应用商店；
 - 数据来自公开资料整理，可能滞后或存在偏差，以官方公告/游戏内为准；
 - AI 问答需要自备 API Key，会产生你自己的 API 费用；
-- 分享图约 2 MB，部分 IM 可能压缩画质。
+- 分享图约 2 MB，部分 IM 可能压缩画质；
+- 语音输入依赖设备系统语音识别服务：无 Google 服务的机型（部分华为/海外 ROM）可能不可用，App 会提示改用键盘；语音输入只在 App 前台有效，切后台/锁屏会自动取消。
 
 ## 安全与隐私
 
 - 无账号、无埋点、不上传任何用户数据；
-- App 仅申请 `INTERNET` 权限；数据请求走 HTTPS + SHA-256；
+- App 仅申请 `INTERNET` 与 `RECORD_AUDIO` 权限；录音仅在用户按住麦克风时进行，语音识别由系统服务完成；数据请求走 HTTPS + SHA-256；
 - AI Key 只保存本机 WebView 存储，原生层直连接口，不经过第三方；
 - 分享使用只读 `ShareProvider`（`content://`，禁用路径穿越）。
 
@@ -259,6 +283,7 @@ GitHub Pages（数据仓库）         App（启动/手动检查）
 
 - [x] V2.1.1：马可波罗「暗影游猎」图标、数据热更新、AI 问答
 - [x] V2.2.0：iOS 液态玻璃卡片、悬浮底栏、随动高光与滚动收起
+- [x] V2.3.0：BP 语音输入 MVP（系统 ASR + 英雄词典模糊匹配 + 候选/混合意图）
 - [ ] V2.2：数据更新安全加固、BP→出装联动、阵容收藏、英雄对比、更新日志详情页
 - [ ] GitHub Actions 全自动构建 + Release（本仓库已内置 workflow）
 
