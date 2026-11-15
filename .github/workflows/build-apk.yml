@@ -72,6 +72,12 @@ jobs:
             echo "::warning::ANDROID_KEYSTORE_BASE64 未配置，将构建未签名 APK"
           fi
 
+      - name: Cache sherpa-onnx ASR assets
+        uses: actions/cache@v4
+        with:
+          path: .asr-cache
+          key: asr-${{ runner.os }}-2.0.1-zh-int8-2025-06-30-v1
+
       - name: Build APK
         env:
           ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}

@@ -49,6 +49,8 @@ export default function BP() {
   const [voiceResult, setVoiceResult] = useState(null);
   const [voiceLevel, setVoiceLevel] = useState(0);
   const voiceRef = useRef(null);
+  const voicePressRef = useRef(null);
+  const voicePressTimerRef = useRef(null);
 
   /* 切换阶段回到顶部 */
   useEffect(() => {
@@ -59,6 +61,8 @@ export default function BP() {
   /* 离开页面时释放麦克风 */
   useEffect(() => {
     return () => {
+      clearTimeout(voicePressTimerRef.current);
+      voicePressRef.current = null;
       voiceRef.current?.cancel?.();
       voiceRef.current = null;
     };
@@ -194,7 +198,8 @@ export default function BP() {
       ...result,
       action: fillAction,
       mixed,
-      selected: result.candidates.slice(0, Math.min(3, result.candidates.length)).map((c) => c.name),
+      // 候选默认全选（最多 5 个）；填槽时 fillNames 仍会按 MAX/重复/冲突过滤
+      selected: result.candidates.slice(0, MAX).map((c) => c.name),
     });
     setVoiceState("idle");
   };
@@ -292,6 +297,81 @@ export default function BP() {
 
   const banPickerOpen = picker === "ban";
 
+  const voiceBusy = voiceState === "requesting" || voiceState === "listening" || voiceState === "processing";
+  const voiceBar = (
+    <button
+      type="button"
+      className={`bp-voice-bar ${voiceState}`}
+      aria-label={voiceState === "listening" ? "正在听，松手结束" : "按住说话"}
+      aria-pressed={voiceState === "listening"}
+      onPointerDown={(e) => {
+        e.preventDefault();
+        if (voiceState === "processing") return;
+        try {
+          e.currentTarget.setPointerCapture?.(e.pointerId);
+        } catch {
+          /* ignore */
+        }
+        /* 先给即时按压反馈，再启动原生录音，避免桥接耗时造成“按下去没反应”。 */
+        e.currentTarget.classList.add("is-pressed");
+        const token = { released: false };
+        voicePressRef.current = token;
+        clearTimeout(voicePressTimerRef.current);
+        voicePressTimerRef.current = setTimeout(() => {
+          if (!voicePressRef.current || voicePressRef.current !== token || token.released) return;
+          beginVoice();
+        }, 30);
+      }}
+      onPointerUp={(e) => {
+        e.preventDefault();
+        if (voicePressRef.current) voicePressRef.current.released = true;
+        clearTimeout(voicePressTimerRef.current);
+        e.currentTarget.classList.remove("is-pressed");
+        if (voiceRef.current) stopVoice();
+      }}
+      onPointerCancel={(e) => {
+        e.currentTarget.classList.remove("is-pressed");
+        if (voicePressRef.current) voicePressRef.current.released = true;
+        clearTimeout(voicePressTimerRef.current);
+        cancelVoice();
+      }}
+      onContextMenu={(e) => e.preventDefault()}
+    >
+      <span className="bp-voice-bar-ico">
+        <Icon name="mic" />
+      </span>
+      <span className="bp-voice-bar-copy">
+        <b>
+          {voiceState === "requesting"
+            ? "正在启动语音…"
+            : voiceState === "processing"
+              ? "正在解析…"
+              : voiceState === "listening"
+                ? "正在听… 松手结束"
+                : "按住说话"}
+        </b>
+        <span>
+          {voiceState === "listening"
+            ? voiceHint || "说：对面 ban 东皇太一"
+            : voiceState === "processing"
+              ? "马上解析并填入 Ban / 选将位"
+              : voiceState === "requesting"
+                ? "首次使用请在系统弹窗允许麦克风"
+                : "松手立刻解析，不用等系统收尾"}
+        </span>
+      </span>
+      {voiceBusy ? (
+        <span className="bp-voice-bars" aria-hidden="true">
+          {[0, 1, 2, 3, 4].map((i) => (
+            <i key={i} style={{ opacity: voiceLevel ? 0.35 + Math.min(0.65, voiceLevel / 10) : 0.5 }} />
+          ))}
+        </span>
+      ) : (
+        <span className="bp-voice-bar-key">按住</span>
+      )}
+    </button>
+  );
+
   const batchBlock = (
     <>
       <form
@@ -319,64 +399,20 @@ export default function BP() {
             </button>
           ) : null}
         </span>
-        <button
-          type="button"
-          className={`bp-mic ${voiceState === "listening" ? "on" : ""}`}
-          aria-label="按住说话"
-          title="按住说话"
-          onPointerDown={(e) => {
-            e.preventDefault();
-            try {
-              e.currentTarget.setPointerCapture?.(e.pointerId);
-            } catch {
-              /* ignore */
-            }
-            beginVoice();
-          }}
-          onPointerUp={(e) => {
-            e.preventDefault();
-            stopVoice();
-          }}
-          onPointerCancel={cancelVoice}
-          onContextMenu={(e) => e.preventDefault()}
-        >
-          <Icon name="mic" />
-        </button>
         <button type="submit" className="btn btn-dark btn-sm bp-fill">
           <Icon name="spark" />
           识别填入
         </button>
       </form>
+      {voiceBar}
       {unknown ? (
         <p className="tiny faint bp-unknown">
           超出 5 个的部分未填入：{unknown}（一次最多记录 5 个{phase === "ban" ? " Ban" : "敌方已选"}）
         </p>
       ) : null}
-      <p className="tiny faint bp-voice-help">按住麦克风说：「对面 ban 东皇太一」或「选马可波罗」</p>
+      <p className="tiny faint bp-voice-help">按住语音条说：「对面 ban 东皇太一」或「选马可波罗」</p>
     </>
   );
-
-  const voiceStatus =
-    voiceState !== "idle" ? (
-      <div className={`bp-voice ${voiceState}`} role="status" aria-live="polite">
-        <span className="bp-voice-dot" />
-        <div className="bp-voice-copy">
-          <b>
-            {voiceState === "requesting"
-              ? "等待麦克风权限…"
-              : voiceState === "processing"
-                ? "正在解析…"
-                : "正在听… 松手结束"}
-          </b>
-          <span>{voiceHint || (voiceState === "requesting" ? "请在系统弹窗允许麦克风" : "说：对面 ban 东皇太一")}</span>
-        </div>
-        <span className="bp-voice-bars" aria-hidden="true">
-          {[0, 1, 2, 3, 4].map((i) => (
-            <i key={i} style={{ opacity: voiceLevel ? 0.35 + Math.min(0.65, voiceLevel / 10) : 0.5 }} />
-          ))}
-        </span>
-      </div>
-    ) : null;
 
   const voicePanel = voiceResult?.candidates?.length ? (
     <div className="card bp-voice-result">
@@ -505,7 +541,6 @@ export default function BP() {
           <span className="pill blue">推测 {recBans.length} 条</span>
         </div>
 
-        {voiceStatus}
         {voicePanel}
 
         {phase === "ban" ? (
@@ -970,6 +1005,26 @@ const CSS = `
 .bp-page .bp-cta svg{width:16px;height:16px;}
 .bp-page .bp-actions-note{margin-top:8px;text-align:center;font-size:.58rem;color:var(--faint);line-height:1.5;}
 .bp-page .bp-voice-help{margin-top:7px;line-height:1.5;}
+.bp-page .bp-voice-system-row{display:flex;align-items:center;gap:8px;margin-top:7px;flex-wrap:wrap;}
+.bp-page .bp-voice-system{padding:4px 9px;border-radius:7px;border:1px solid var(--line);background:var(--surface);color:var(--gold-2);font-size:.6rem;font-weight:600;cursor:pointer;}
+.bp-page .bp-voice-bar{position:relative;display:flex;align-items:center;gap:10px;width:100%;margin-top:10px;padding:9px 11px;border-radius:14px;border:1px solid var(--line);background:var(--surface);box-shadow:var(--shadow-sm);text-align:left;cursor:pointer;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;transition:transform .1s ease,border-color .15s ease,background .15s ease,box-shadow .15s ease;}
+.bp-page .bp-voice-bar.is-pressed::after{content:"";position:absolute;inset:-3px;border-radius:17px;border:1px solid var(--gold-line);pointer-events:none;animation:bp-voice-ring .45s ease-out both;}
+.bp-page .bp-voice-bar:active{transform:scale(.985);}
+.bp-page .bp-voice-bar.is-pressed{transform:scale(.96);border-color:var(--gold-line);background:color-mix(in srgb,var(--gold) 10%,var(--surface));box-shadow:0 0 0 4px color-mix(in srgb,var(--gold) 14%,transparent),0 8px 22px rgba(0,0,0,.16);}
+.bp-page .bp-voice-bar.is-pressed .bp-voice-bar-ico{background:linear-gradient(135deg,var(--gold),var(--gold-3));color:#171106;transform:scale(1.08);animation:bp-mic-press .55s ease-in-out infinite alternate;}
+.bp-page .bp-voice-bar.is-pressed .bp-voice-bar-copy b{color:var(--gold-2);}
+.bp-page .bp-voice-bar.is-pressed .bp-voice-bar-key{border-color:var(--gold-line);color:var(--gold-2);}
+.bp-page .bp-voice-bar-ico{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;flex-shrink:0;background:var(--gold-soft);color:var(--gold-2);transition:background .18s ease,color .18s ease;}
+.bp-page .bp-voice-bar-ico svg{width:17px;height:17px;}
+.bp-page .bp-voice-bar-copy{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;}
+.bp-page .bp-voice-bar-copy b{font-size:.72rem;color:var(--ink);line-height:1.25;}
+.bp-page .bp-voice-bar-copy span{font-size:.61rem;line-height:1.35;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.bp-page .bp-voice-bar-key{flex-shrink:0;padding:2px 6px;border:1px solid var(--line);border-radius:6px;font-size:.53rem;color:var(--faint);}
+.bp-page .bp-voice-bar.listening{border-color:color-mix(in srgb,var(--red) 34%,var(--line));background:color-mix(in srgb,var(--red) 5%,var(--surface));}
+.bp-page .bp-voice-bar.listening .bp-voice-bar-ico{background:linear-gradient(135deg,#df5d5d,#b72f3e);color:#fff;animation:bp-mic-breathe 1.1s ease-in-out infinite;}
+.bp-page .bp-voice-bar.requesting .bp-voice-bar-ico,.bp-page .bp-voice-bar.processing .bp-voice-bar-ico{background:var(--gold-soft);color:var(--gold-2);}
+.bp-page .bp-voice-bar.requesting .bp-voice-bars i,.bp-page .bp-voice-bar.processing .bp-voice-bars i{background:var(--gold);}
+.bp-page .bp-voice-bar.listening .bp-voice-bars i{background:var(--red);}
 .bp-page .bp-mic{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);display:grid;place-items:center;flex-shrink:0;transition:transform .12s ease,background .18s ease,color .18s ease,box-shadow .18s ease;}
 .bp-page .bp-mic svg{width:17px;height:17px;}
 .bp-page .bp-mic:active{transform:scale(.94);}
@@ -1001,4 +1056,6 @@ const CSS = `
 @keyframes bp-voice-pulse{0%,100%{transform:scale(.85);opacity:.65;}50%{transform:scale(1.2);opacity:1;}}
 @keyframes bp-voice-bar{0%,100%{transform:scaleY(.45);}50%{transform:scaleY(1);}}
 @keyframes bp-mic-breathe{0%,100%{box-shadow:0 0 0 4px color-mix(in srgb,var(--red) 15%,transparent);}50%{box-shadow:0 0 0 8px color-mix(in srgb,var(--red) 7%,transparent);}}
+@keyframes bp-mic-press{from{transform:scale(1.02);}to{transform:scale(1.12);}}
+@keyframes bp-voice-ring{0%{opacity:.9;transform:scale(.98);}100%{opacity:0;transform:scale(1.06);}}
 `;

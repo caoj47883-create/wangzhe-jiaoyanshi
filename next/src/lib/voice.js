@@ -1,5 +1,5 @@
 /**
- * 语音桥：优先走 Android 原生 AppBridge（系统 SpeechRecognizer），
+ * 语音桥：优先走 Android 原生 AppBridge（离线 sherpa-onnx ASR；旧包回退系统 SpeechRecognizer），
  * 浏览器/开发环境退化为 Web Speech API，便于桌面预览。
  *
  * 原生回调协议：
@@ -40,9 +40,10 @@ function dispatch(entry, type, data) {
     entry.ready = true;
     h.onReady?.();
     if (entry.released) {
-      // 用户在权限弹窗期间已经松手：拿到麦克风后立即收尾
+      // 用户在模型加载/权限弹窗期间已经松手：就绪后立即收尾
       try {
-        getNative()?.voiceStop?.(entry.id);
+        if (entry.mode === "asr") getNative()?.asrStop?.(entry.id);
+        else getNative()?.voiceStop?.(entry.id);
       } catch {
         /* ignore */
       }
@@ -90,7 +91,8 @@ function install() {
 
 export function voiceSupported() {
   if (typeof window === "undefined") return false;
-  if (getNative()?.voiceStart) return true;
+  const native = getNative();
+  if (native?.asrStart || native?.voiceStart) return true;
   return !!(window.SpeechRecognition || window.webkitSpeechRecognition);
 }
 
@@ -135,10 +137,18 @@ export function startVoice(handlers = {}) {
       /* ignore */
     }
     fail("timeout", "语音识别超时，请再试一次");
-  }, 25000);
+  }, 60000);
 
   const native = getNative();
-  if (native?.voiceStart) {
+  if (native?.asrStart) {
+    entry.mode = "asr";
+    try {
+      native.asrStart(id);
+    } catch (e) {
+      fail("start_failed", "离线语音启动失败：" + (e?.message || e));
+      return null;
+    }
+  } else if (native?.voiceStart) {
     entry.mode = "native";
     try {
       native.voiceStart(id);
@@ -156,7 +166,13 @@ export function startVoice(handlers = {}) {
     stop() {
       if (entry.finished || entry.released) return;
       entry.released = true;
-      if (entry.mode === "native") {
+      if (entry.mode === "asr") {
+        try {
+          getNative()?.asrStop?.(id);
+        } catch {
+          /* ignore */
+        }
+      } else if (entry.mode === "native") {
         try {
           getNative()?.voiceStop?.(id);
         } catch {
@@ -175,7 +191,13 @@ export function startVoice(handlers = {}) {
       entry.finished = true;
       entry.cancelled = true;
       cleanup(entry);
-      if (entry.mode === "native") {
+      if (entry.mode === "asr") {
+        try {
+          getNative()?.asrCancel?.(id);
+        } catch {
+          /* ignore */
+        }
+      } else if (entry.mode === "native") {
         try {
           getNative()?.voiceCancel?.(id);
         } catch {
@@ -188,6 +210,60 @@ export function startVoice(handlers = {}) {
           /* ignore */
         }
       }
+    },
+  };
+}
+
+export function systemVoiceSupported() {
+  return !!getNative()?.voiceSystemInput;
+}
+
+/**
+ * 兜底：调起系统语音输入界面（Activity），适合内嵌 SpeechRecognizer 不返回结果的机型。
+ * @param {{onFinal?:Function,onError?:Function}} handlers
+ */
+export function startSystemVoice(handlers = {}) {
+  install();
+  const native = getNative();
+  if (!native?.voiceSystemInput) {
+    handlers.onError?.({ code: "unsupported", message: "当前环境不支持系统语音输入" });
+    return null;
+  }
+  const id = `s${Date.now().toString(36)}${Math.random().toString(36).slice(2, 7)}`;
+  const entry = {
+    id,
+    handlers,
+    released: false,
+    finished: false,
+    cancelled: false,
+    mode: "system",
+    ready: true,
+    started: true,
+    lastResults: [],
+    timer: null,
+  };
+  entries.set(id, entry);
+  entry.timer = setTimeout(() => {
+    if (entry.finished) return;
+    entry.finished = true;
+    cleanup(entry);
+    handlers.onError?.({ code: "timeout", message: "系统语音输入超时，请再试一次" });
+  }, 60000);
+  try {
+    native.voiceSystemInput(id);
+  } catch (e) {
+    entry.finished = true;
+    cleanup(entry);
+    handlers.onError?.({ code: "start_failed", message: "系统语音输入启动失败：" + (e?.message || e) });
+    return null;
+  }
+  return {
+    id,
+    stop() {},
+    cancel() {
+      if (entry.finished) return;
+      entry.finished = true;
+      cleanup(entry);
     },
   };
 }

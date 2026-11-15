@@ -5,7 +5,7 @@
 
 - 数据版本：2.0.3（快照 2026-11-04）
 - 英雄数：133
-- 别名/ASR 变体：250 条
+- 别名/ASR 变体：263 条
 - 单字英雄（只接受精确命中）：镜、瑶、暃、澜、铠、影、曜、苍
 - 共享词条：`元流之子`（5 个形态）
 
@@ -18,7 +18,7 @@
 | 女娲 | mid |  | 娲皇、女娲娘娘 | nv wa |
 | 少司缘 | roam |  | 司缘、小缘、缘神 | shao si yuan |
 | 张飞 | roam |  | 翼德、三爷、张三爷 | zhang fei |
-| 敖隐 | farm |  | 敖影 | ao yin |
+| 敖隐 | farm |  | 敖影、龙人 | ao yin |
 | 海月 | mid |  | — | hai yue |
 | 甄姬 | mid |  | 甄宓、洛神 | zhen ji |
 | 百里守约 | farm |  | 守约、百里、狙击手 | bai li shou yue |
@@ -31,12 +31,12 @@
 | 伽罗 | farm |  | 迦罗 | jia luo |
 | 元歌 | clash |  | 元哥、傀儡师 | yuan ge |
 | 吕布 | clash |  | 奉先、吕奉先、布哥、战神 | lv bu |
-| 哪吒 | clash |  | 哪咤、三太子 | ne zha |
+| 哪吒 | clash |  | 哪咤、三太子、拿抓 | ne zha |
 | 大乔 | roam |  | 乔姐、大桥 | da qiao |
 | 嫦娥 | mid |  | 常娥 | chang e |
 | 孙权 | farm |  | 仲谋 | sun quan |
 | 宫本武藏 | jungle |  | 宫本、武藏 | gong ben wu cang |
-| 沈梦溪 | mid |  | 梦溪、炸弹猫、猫猫 | shen meng xi |
+| 沈梦溪 | mid |  | 梦溪、炸弹猫、猫猫、猫咪 | shen meng xi |
 | 狄仁杰 | farm |  | 狄大人、杰哥 | di ren jie |
 | 王维 | mid |  | 王摩诘、摩诘 | wang wei |
 | 瑶 | roam | 是 | 摇、姚、瑶妹、鹿女 | yao |
@@ -53,13 +53,13 @@
 | 大禹 | roam |  | 禹、禹哥 | da yu |
 | 太乙真人 | roam |  | 太乙、真人 | tai yi zhen ren |
 | 姬小满 | clash |  | 小满 | ji xiao man |
-| 孙尚香 | farm |  | 香香、大小姐、孙大小姐 | sun shang xiang |
+| 孙尚香 | farm |  | 香香、大小姐、孙大小姐、蒜香 | sun shang xiang |
 | 小乔 | mid |  | 乔妹 | xiao qiao |
 | 庄周 | roam |  | 鱼、鲲 | zhuang zhou |
 | 戈娅 | farm |  | 戈雅、娅娅 | ge ya |
 | 暃 | jungle | 是 | 飞 | fei |
 | 曹操 | clash |  | 孟德、曹老板 | cao cao |
-| 朵莉亚 | roam |  | 朵莉、朵妹 | duo li ya |
+| 朵莉亚 | roam |  | 朵莉、朵妹、人鱼 | duo li ya |
 | 李信 | clash |  | 光信、暗信 | li xin |
 | 杨玉环 | mid |  | 玉环、贵妃、杨贵妃 | yang yu huan |
 | 武则天 | mid |  | 女帝、武皇 | wu ze tian |
@@ -70,12 +70,12 @@
 | 老夫子 | clash |  | 夫子、老头 | lao fu zi |
 | 艾琳 | farm |  | — | ai lin |
 | 蒙恬 | clash |  | 蒙大将军 | meng tian |
-| 蔡文姬 | roam |  | 文姬、蔡文、奶妈 | cai wen ji |
+| 蔡文姬 | roam |  | 文姬、蔡文、奶妈、蔡蔡 | cai wen ji |
 | 虞姬 | farm |  | 虞美人 | yu ji |
 | 西施 | mid |  | — | xi shi |
 | 诸葛亮 | mid |  | 诸葛、孔明、村夫、诸葛村夫 | zhu ge liang |
 | 貂蝉 | mid |  | 蝉姐 | diao chan |
-| 铠 | clash | 是 | 凯、铠爹、铠皇 | kai |
+| 铠 | clash | 是 | 凯、铠爹、铠皇、凯皇 | kai |
 | 露娜 | jungle |  | 月光、紫霞 | lu na |
 | 韩信 | jungle |  | 兵仙、韩跳跳、跳跳 | han xin |
 | 鬼谷子 | roam |  | 鬼谷 | gui gu zi |
@@ -97,7 +97,7 @@
 | 妲己 | mid |  | 狐狸、狐妖 | da ji |
 | 姜子牙 | mid |  | 子牙、姜太公 | jiang zi ya |
 | 娜可露露 | jungle |  | 露露、娜可 | na ke lu lu |
-| 嬴政 | mid |  | 秦始皇、政哥 | ying zheng |
+| 嬴政 | mid |  | 秦始皇、政哥、始皇 | ying zheng |
 | 孙悟空 | jungle |  | 猴子、悟空、猴哥、齐天大圣 | sun wu kong |
 | 孙策 | clash |  | 伯符 | sun ce |
 | 孙膑 | roam |  | 孙滨、膑哥 | sun bin |
@@ -117,16 +117,16 @@
 | 橘右京 | jungle |  | 橘京、橘子 | ju you jing |
 | 海诺 | clash |  | 诺哥 | hai nuo |
 | 牛魔 | roam |  | 牛、老牛 | niu mo |
-| 猪八戒 | clash |  | 八戒、二师兄 | zhu ba jie |
+| 猪八戒 | clash |  | 八戒、二师兄、猪 | zhu ba jie |
 | 白起 | clash |  | 起哥 | bai qi |
 | 盘古 | jungle |  | 盘古大神 | pan gu |
 | 空空儿 | roam |  | 空空 | kong kong er |
 | 米莱狄 | mid |  | 米莱 | mi lai di |
 | 芈月 | clash |  | — | mi yue |
 | 花木兰 | clash |  | 木兰、木兰姐 | hua mu lan |
-| 苍 | farm | 是 | — | cang |
+| 苍 | farm | 是 | 狼狗 | cang |
 | 苏烈 | clash |  | 烈哥 | su lie |
-| 莱西奥 | farm |  | 莱西 | lai xi ao |
+| 莱西奥 | farm |  | 莱西、老小 | lai xi ao |
 | 蒙犽 | farm |  | 蒙牙、犽哥 | meng ya |
 | 赵怀真 | clash |  | 怀真 | zhao huai zhen |
 | 达摩 | clash |  | 和尚 | da mo |
@@ -138,8 +138,8 @@
 | 项羽 | clash |  | 霸王 | xiang yu |
 | 马可波罗 | farm |  | 马可、马克 | ma ke bo luo |
 | 高渐离 | mid |  | 渐离、吉他手 | gao jian li |
-| 鲁班七号 | farm |  | 鲁班、小鲁班、鲁班七、小短腿 | lu ban qi hao |
-| 鲁班大师 | roam |  | 大师 | lu ban da shi |
+| 鲁班七号 | farm |  | 鲁班、小鲁班、鲁班七、小短腿、卤蛋 | lu ban qi hao |
+| 鲁班大师 | roam |  | 大师、鲁大 | lu ban da shi |
 | 黄忠 | farm |  | 炮王 | huang zhong |
 | 元流之子(刺客) | jungle |  | 元刺、元流刺客 | yuan liu zhi zi ci ke |
 | 杨戬 | clash |  | 二郎神、二郎 | yang jian |

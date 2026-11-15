@@ -14,8 +14,27 @@ import { HEROES } from "./data.js";
 import LEXICON_DATA from "../data/hero-voice-lexicon.json";
 
 const PUNCT_RE = /[\s,，、。．.;；:：!！?？"'“”‘’（）()\[\]【】<>《》·\-—_/\\|+*=~`]+/g;
-const FUZZY_INITIALS = new Set(["zh", "ch", "sh"]);
 const BASE_SINGLE_CHAR_HEROES = ["铠", "曜", "镜", "瑶", "澜", "影", "暃"];
+// 声母按长到短排列，保证 zh/ch/sh 不会被 z/c/s 提前截断。
+const PINYIN_INITIALS = [
+  "zh", "ch", "sh",
+  "b", "p", "m", "f", "d", "t", "n", "l", "g", "k", "h",
+  "j", "q", "x", "r", "z", "c", "s", "y", "w",
+];
+// 各地方言/口音里最常见的声母合流。
+const INITIAL_GROUPS = [
+  ["zh", "z"],
+  ["ch", "c"],
+  ["sh", "s"],
+  ["n", "l"],
+  ["f", "h"],
+  ["r", "l"],
+  ["r", "y"],
+];
+const MEDIAL_U_PAIRS = new Set([
+  "ua/a", "uo/o", "uai/ai", "uan/an", "uang/ang",
+  "ui/ei", "un/en", "ue/ie", "uan/ian",
+]);
 
 function normalizeText(value) {
   return String(value || "")
@@ -75,19 +94,56 @@ function levenshtein(a, b, cost = (x, y) => (x === y ? 0 : 1)) {
   return prev[b.length];
 }
 
+function splitSyllable(value) {
+  const syllable = normalizeSyllable(value);
+  for (const initial of PINYIN_INITIALS) {
+    if (syllable.startsWith(initial)) {
+      return { initial, final: syllable.slice(initial.length) };
+    }
+  }
+  return { initial: "", final: syllable };
+}
+
+function sameGroup(a, b) {
+  if (!a || !b) return false;
+  return INITIAL_GROUPS.some((group) => group.includes(a) && group.includes(b));
+}
+
+function initialCost(a, b) {
+  if (a === b) return 0;
+  return sameGroup(a, b) ? 0.08 : 1;
+}
+
+/** 后鼻音 -ng 与 -n 在方言里经常互换；返回去掉鼻音尾的骨架。 */
+function nasalBase(final) {
+  if (final.endsWith("ng")) return final.slice(0, -2);
+  if (final.endsWith("n")) return final.slice(0, -1);
+  return final;
+}
+
+function finalCost(a, b) {
+  if (a === b) return 0;
+  if (!a || !b) return 1;
+  if (nasalBase(a) === nasalBase(b)) return 0.08;
+  if (MEDIAL_U_PAIRS.has(`${a}/${b}`) || MEDIAL_U_PAIRS.has(`${b}/${a}`)) {
+    return 0.16;
+  }
+  return 1;
+}
+
 function syllableCost(a, b) {
   if (a === b) return 0;
-  const x = a.replace(/ü/g, "v");
-  const y = b.replace(/ü/g, "v");
-  if (x === y) return 0;
-  if (FUZZY_INITIALS.has(x) && y === x[0]) return 0.35;
-  if (FUZZY_INITIALS.has(y) && x === y[0]) return 0.35;
-  if ((x === "n" && y === "l") || (x === "l" && y === "n")) return 0.4;
-  if ((x === "f" && y === "h") || (x === "h" && y === "f")) return 0.4;
-  if (x.length > 1 && y.length > 1) {
-    if (x[0] === y[0]) return x.slice(1) === y.slice(1) ? 0.25 : 0.55;
-    if (x.slice(1) === y.slice(1)) return 0.45;
-  }
+  const left = splitSyllable(a);
+  const right = splitSyllable(b);
+  if (left.initial === right.initial && left.final === right.final) return 0;
+  const ic = initialCost(left.initial, right.initial);
+  const fc = finalCost(left.final, right.final);
+  if (ic === 0 && fc === 0) return 0;
+  if (ic > 0 && ic < 1 && fc === 0) return ic;            // 只有声母口音
+  if (fc > 0 && fc < 1 && ic === 0) return fc;            // 只有韵母/鼻音口音
+  if (ic > 0 && ic < 1 && fc > 0 && fc < 1) return 0.25;  // 平翘舌 + 前后鼻音叠加
+  if (ic > 0 && ic < 1) return Math.min(0.6, 0.24 + fc * 0.22);
+  if (fc > 0 && fc < 1) return Math.min(0.6, 0.2 + ic * 0.22);
   return 1;
 }
 
@@ -247,9 +303,23 @@ function containsSequence(haystack, needle) {
 
 function postFilter(candidates) {
   const sorted = candidates.sort((a, b) => b.score - a.score);
+  const top = sorted[0];
   const filtered = sorted.filter((candidate, index) => {
+    if (index > 0 && top?.exact && !candidate.exact && top.score - candidate.score >= 0.15) {
+      return false;
+    }
     return !sorted.some((other, otherIndex) => {
       if (otherIndex === index) return false;
+      // 单字英雄的短别名（如“蓝”->澜）不要压过同句里更长的英雄名（兰陵王）。
+      if (
+        candidate.variantNorm.length === 1 &&
+        other.variantNorm.length >= 2 &&
+        other.variantPinyin.length > 1 &&
+        other.variantPinyin[0] === candidate.variantPinyin[0] &&
+        other.score >= candidate.score - 0.2
+      ) {
+        return true;
+      }
       if (!other.exact) return false;
       if (
         other.variantNorm.length > candidate.variantNorm.length &&

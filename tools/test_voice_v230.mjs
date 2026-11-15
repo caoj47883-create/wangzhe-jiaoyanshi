@@ -108,8 +108,8 @@ async function typeAndSubmit(value) {
 }
 
 async function holdStart(text) {
-  const id = await page.evaluate(() => {
-    const mic = document.querySelector(".bp-mic");
+  await page.evaluate(() => {
+    const mic = document.querySelector(".bp-voice-bar");
     if (!mic) throw new Error("mic button not found");
     mic.dispatchEvent(
       new PointerEvent("pointerdown", {
@@ -120,8 +120,14 @@ async function holdStart(text) {
         pointerType: "touch",
       }),
     );
-    return window.__voiceLastId || null;
   });
+  // 按下瞬间就应出现按压态，不等原生桥返回。
+  const pressed = await page.evaluate(() => document.querySelector(".bp-voice-bar")?.classList.contains("is-pressed") || false);
+  if (!pressed) throw new Error("voice bar pressed state not applied");
+  await page.screenshot({ path: "next/shots/v2.4.7-voice-pressed.png" });
+  // 现在按下后有 30ms 的即时按压反馈，再启动原生桥；等待一帧以上再取 id。
+  await sleep(120);
+  const id = await page.evaluate(() => window.__voiceLastId || null);
   if (!id) throw new Error("voiceStart was not called");
   await page.evaluate((requestId) => window.__voiceEvent(requestId, "ready", "{}"), id);
   await page.evaluate(
@@ -136,7 +142,7 @@ async function holdStart(text) {
 
 async function finishHold(id, text) {
   await page.evaluate(() => {
-    document.querySelector(".bp-mic")?.dispatchEvent(
+    document.querySelector(".bp-voice-bar")?.dispatchEvent(
       new PointerEvent("pointerup", { bubbles: true, cancelable: true, pointerId: 12, pointerType: "touch" }),
     );
   });
@@ -173,7 +179,7 @@ const report = {};
 await clickTab(2);
 await page.waitForSelector(".bp-page", { timeout: 5000 });
 report.before = await page.evaluate(() => ({
-  mic: !!document.querySelector(".bp-mic"),
+  mic: !!document.querySelector(".bp-voice-bar"),
   help: document.querySelector(".bp-voice-help")?.textContent || "",
 }));
 
@@ -208,8 +214,10 @@ await shot("v2.3.0-voice-candidates-light.png");
 await page.evaluate(() => document.documentElement.setAttribute("data-theme", "dark"));
 await sleep(120);
 
-// 3. 候选面板点击后填入
-await page.evaluate(() => document.querySelector(".bp-voice-chip")?.click());
+// 3. 候选面板默认全选，直接填入应填满 5 个
+report.candidateDefaultSelected = await page.evaluate(
+  () => document.querySelectorAll(".bp-voice-chip.on").length,
+);
 await page.evaluate(() => {
   const button = [...document.querySelectorAll(".bp-voice-result-actions button")].find((el) =>
     el.textContent.includes("填入"),
@@ -262,6 +270,11 @@ for (const [say, phase, expected] of [
   ["ban 卢雅那", "ban", ["卢雅那"]],
   ["选 那那", "pick", ["卢雅那"]],
   ["选 元射", "pick", ["元流之子(射手)"]],
+  ["ban 顿山", "ban", ["盾山"]],
+  ["ban 脏良", "ban", ["张良"]],
+  ["ban 蓝陵王", "ban", ["兰陵王"]],
+  ["ban 流备", "ban", ["刘备"]],
+  ["ban 菜文鸡", "ban", ["蔡文姬"]],
 ]) {
   await resetBp();
   await switchPhase(phase);
@@ -270,7 +283,8 @@ for (const [say, phase, expected] of [
     [...document.querySelectorAll(".bp-slot.filled .bp-slot-name")].map((el) => el.textContent),
   );
   if (JSON.stringify(report.aliases[say]) !== JSON.stringify(expected)) {
-    errors.push(`alias mismatch: ${say} => ${JSON.stringify(report.aliases[say])}, expected ${JSON.stringify(expected)}`);
+    const panel = await panelInfo();
+    errors.push(`alias mismatch: ${say} => ${JSON.stringify(report.aliases[say])}, expected ${JSON.stringify(expected)}, panel=${JSON.stringify(panel)}`);
   }
 }
 
@@ -279,7 +293,7 @@ await resetBp();
 await switchPhase("ban");
 const holdId = await holdStart("对面 ban 东皇太一");
 report.listening = await page.evaluate(() => {
-  const status = document.querySelector(".bp-voice");
+  const status = document.querySelector(".bp-voice-bar.listening");
   return {
     visible: !!status,
     text: status?.textContent || "",
@@ -289,7 +303,7 @@ report.listening = await page.evaluate(() => {
 await shot("v2.3.0-voice-listening.png");
 await finishHold(holdId, "对面 ban 东皇太一");
 report.listeningAfter = await page.evaluate(() => ({
-  status: !!document.querySelector(".bp-voice"),
+  status: !!document.querySelector(".bp-voice-bar.listening"),
   bans: [...document.querySelectorAll(".bp-slot.filled .bp-slot-name")].map((el) => el.textContent),
 }));
 

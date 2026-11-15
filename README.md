@@ -1,10 +1,10 @@
 # 王者教研室 · 王者荣耀 BP / 出装数据助手
 
-> 给开黑用的「离线优先」王者荣耀数据工具：**BP 推测 · BP 语音输入 · 分路反制 · 针对性出装 · 五黑阵容 · 名师课堂 · 数据热更新 · AI 问答**。
+> 给开黑用的「离线优先」王者荣耀数据工具：**BP 推测 · 离线语音输入 · 分路反制 · 针对性出装 · 五黑阵容 · 名师课堂 · 数据热更新 · AI 问答**。
 
 ![Platform](https://img.shields.io/badge/Android-6.0%2B-3ddc84?logo=android&logoColor=white)
 ![WebView](https://img.shields.io/badge/WebView-%E2%89%A5%20111-4285F4?logo=googlechrome&logoColor=white)
-![Version](https://img.shields.io/badge/version-2.3.2-d3a659)
+![Version](https://img.shields.io/badge/version-2.4.9-d3a659)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Build APK](https://github.com/caoj47883-create/wangzhe-jiaoyanshi/actions/workflows/build-apk.yml/badge.svg)
 
@@ -14,7 +14,7 @@
 [架构说明](docs/ONLINE_UPDATE_ARCHITECTURE.md) ·
 [语音词库](docs/VOICE_LEXICON.md)
 
-![界面预览](next/shots/v2.3.0-voice-auto.png)
+![界面预览](next/shots/v2.4.9-voice-candidates.png)
 
 ---
 
@@ -25,7 +25,7 @@
 - **不需要登录**，断网也能用；
 - 内置 133 位英雄、900+ 条克制关系、30 套五黑阵容、51 位 KPL 选手/主播；
 - **BP 助手**：输入敌方 Ban 位 → 推测对面想玩谁 → 按分路给反制推荐 → 一键带入出装；
-- **BP 语音输入**：按住麦克风说「对面 ban 东皇太一」「选马可波罗」，本地英雄词典 + 拼音模糊匹配自动填槽；
+- **BP 离线语音输入**：按住语音条说「对面 ban 东皇太一」「选马可波罗」，端侧 sherpa-onnx 中文模型 + 本地英雄词典自动填槽，不依赖系统语音服务/网络；
 - **数据热更新**：赛季中英雄/装备调整后，不重装 APK，App 自动拉取新数据；
 - **AI 问答**：结合本地数据的 RAG 上下文，调用你自己的 OpenAI 兼容接口；
 - 暗夜战术风 UI，可切暖纸浅色主题 + 字号缩放。
@@ -40,7 +40,7 @@
 | 英雄强度 | 5 分路 T0~T3 梯度、搜索、分路徽章、英雄详情弹层 |
 | 英雄详情 | 克制链（能打谁/被谁克）、收藏、看出装、分享图 |
 | BP 助手 | 连打录入 Ban 位、综合推测、分路反制推荐、一键带入出装 |
-| BP 语音输入 | 按住说话，系统 SpeechRecognizer + 133 英雄词典拼音模糊匹配，自动填 Ban/Pick、候选确认、混合意图分支 |
+| BP 语音输入 | 按住说话，端侧 sherpa-onnx 中文 ASR + 133 英雄词典拼音/方言音模糊匹配；自动填 Ban/Pick、候选默认全选、混合意图分支 |
 | 针对出装 | 敌阵 5 位置 → 基础六件 / 针对性装备 / 铭文 / 实战提示 / 分享图 |
 | 五黑阵容 | 30 套体系，筛选/搜索/思路/弱点/Ban 位/分享/去 BP 练习 |
 | 名师课堂 | 51 位 KPL 选手与主播，平台筛选、搜索、外链主页 |
@@ -67,7 +67,7 @@
   </tr>
 </table>
 
-### V2.3.0：BP 语音输入（MVP）
+### V2.3.0：BP 语音输入（MVP，已被 V2.4 端侧 ASR 取代）
 
 - **按住说话**：BP 页麦克风按钮，松手后系统 `SpeechRecognizer` 返回 N-best 结果；无原生桥时退化为 Web Speech API（仅开发预览）；
 - **英雄词典约束**：133 英雄 + 别名/外号 + 全拼/首字母，音节级拼音相似度 + 编辑距离 + 上下文先验打分，专门处理 zh/z、ch/c、sh/s、n/l、ing/in 等 ASR 混淆；
@@ -100,6 +100,21 @@
 - **词库规模**：133 英雄 / 250 条别名 / 388 个可匹配词条（V2.3.1 为 268 个）；
 - **回归**：新增「老大 / 牢大 / 电狗 → 司空震」「米老鼠 → 李元芳」「那那 / 卢亚那 → 卢雅那」等用例，全部通过。
 
+### V2.4.0–V2.4.9：离线端侧语音识别
+
+- **端侧 ASR**：内置 sherpa-onnx **2.0.1** + `sherpa-onnx-streaming-zipformer-zh-int8-2025-06-30` 中文流式模型（encoder 161MB + decoder/joiner + tokens，模型 Apache-2.0）；录音、特征提取、解码全在手机本地完成，**不依赖系统 SpeechRecognizer、不依赖网络**；
+- **英雄热词**：从 133 英雄 / 263 别名 / 401 词条生成 180 条 `asr-hotwords.txt`，构建时随模型打包；`modified_beam_search` 热词偏置，专治英雄名、外号、ASR 同音字；
+- **方言/口音匹配**：拼音后处理支持前后鼻音、平翘舌、n/l、f/h 等常见混淆，覆盖湖南、四川、广府、广西、东北、中原、淮海、陕西口音造成的读音偏差；
+- **交互修复**：松手立即用 partial 收尾，补 350ms 尾音；按下语音条即时金色按压/光圈；候选面板默认全选（最多 5 个），点掉不需要的候选再填入；
+- **构建体积**：APK 约 154MB（含 arm64-v8a + armeabi-v7a 的 JNI 和约 168MB 模型资源）；建议直接下载 Release 安装。
+
+<table>
+  <tr>
+    <td><img src="next/shots/v2.4.9-voice-candidates.png" alt="候选默认全选"></td>
+    <td><img src="next/shots/v2.4.9-voice-pressed.png" alt="按下即时反馈"></td>
+  </tr>
+</table>
+
 ## 技术架构
 
 ```mermaid
@@ -131,7 +146,7 @@ flowchart TB
 - **前端**：React 18 + Vite 5，无 UI 框架；自建设计系统（暗夜/纸感双主题）。
 - **数据**：构建时内置快照；启动后异步检查 GitHub Pages 更新，SHA-256 校验通过后写入本地并重载。
 - **AI**：前端组装本地数据 RAG 上下文，交给 Java 原生层直连外部接口（绕开 WebView CORS）。
-- **语音**：`AppBridge.voiceStart/voiceStop/voiceCancel` → 原生 `SpeechRecognizer`（zh-CN、partial、N-best）→ `window.__voiceEvent` 回传；前端 `voice.js` 管理会话，`heroVoice.js` 做英雄词典约束解码。
+- **语音**：`AppBridge.asrStart/asrStop/asrCancel` → 原生 `AudioRecord`（16k mono PCM）→ sherpa-onnx `OnlineRecognizer` 流式解码 → `window.__voiceEvent` 回传 partial/final；前端 `voice.js` 管理会话，`heroVoice.js` 用生成词库做英雄名约束与口音容错。首次使用会把模型从 `res/raw` 复制到私有目录并加载，加载期间录音会先缓存，避免丢首词。
 - **分享**：Canvas 生成 1080×1440 PNG → 自定义 `ShareProvider`（`content://`）→ 系统分享面板。
 
 ## 仓库结构
@@ -161,6 +176,7 @@ flowchart TB
 - Node.js 20+ / pnpm 9+
 - JDK 17
 - Android SDK：**build-tools 34.0.0** + **platform android-34**
+- `curl`、`unzip`、`tar`、Python 3（构建时会下载并解包 sherpa-onnx 运行时/模型）
 - 可选：Python 3.11+（数据管线）、Playwright（公告正文渲染）
 
 ### 1. 构建 Web 前端
@@ -178,9 +194,9 @@ pnpm build          # 产物：next/dist
 仓库已内置 [`.github/workflows/build-apk.yml`](.github/workflows/build-apk.yml)：
 
 - **手动触发**：Actions → `Build APK` → Run workflow（产物在 Artifacts）；
-- **打 tag 自动发布**：`git tag v2.1.2 && git push origin v2.1.2` → 自动构建并创建 Release。
+- **打 tag 自动发布**：`git tag v2.4.9 && git push origin v2.4.9` → 自动构建并创建 Release。
 
-签名通过仓库 Secrets 注入（见下方「签名配置」）；未配置时会构建未签名 APK。
+签名通过仓库 Secrets 注入（见下方「签名配置」）；未配置时会构建未签名 APK。CI 会自动下载 sherpa-onnx 运行时与中文模型（缓存于 `.asr-cache`），构建产物约 154MB。
 
 #### 方式 B：本地 Linux / macOS
 
@@ -192,7 +208,8 @@ export ANDROID_KEYSTORE_PASSWORD=your-store-password
 export ANDROID_KEY_PASSWORD=your-key-password
 
 bash tools/build_android.sh
-# 产物：dist/wangzhe-jiaoyanshi-<version>.apk
+# 首次会下载 sherpa-onnx 2.0.1 与中文模型到 .asr-cache/
+# 产物：dist/wangzhe-jiaoyanshi-<version>.apk（约 154MB）
 ```
 
 #### 方式 C：Windows（PowerShell）
@@ -275,7 +292,8 @@ GitHub Pages（数据仓库）         App（启动/手动检查）
 - 独立 QA 报告：[`docs/qa/qa-v2.1.0.md`](docs/qa/qa-v2.1.0.md)、[`docs/qa/qa-independent-v2.md`](docs/qa/qa-independent-v2.md)；
 - APK 静态检查：签名 v1/v2/v3、zipalign、assets 与构建产物逐字节一致；
 - 浏览器等价环境 E2E：BP/出装/分享/主题/字号/数据更新/哈希篡改拒绝/恢复内置；
-- V2.3.0 语音 UI 自测：mock `AppBridge` 模拟 ready/partial/final/rms，覆盖自动填 Ban、歧义候选、混合意图、无匹配回填、键盘精确识别回归，0 console/page error。
+- V2.4.9 语音 UI 自测：mock `AppBridge` 模拟 ASR ready/partial/final/rms，覆盖自动填 Ban、歧义候选默认全选、混合意图、无匹配回填、键盘精确识别、口音/外号词库回归，0 console/page error；
+- V2.4.8 真机验证：sherpa-onnx 2.0.1 + 2025-06-30 中文模型可正常出字；2.4.9 修复候选默认只选前 3 个的问题。
 - 当前已知验证边界：无真机自动化测试，Java 原生层与真实 GitHub Pages 部署建议自行冒烟。
 
 ## 已知限制
@@ -285,12 +303,13 @@ GitHub Pages（数据仓库）         App（启动/手动检查）
 - 数据来自公开资料整理，可能滞后或存在偏差，以官方公告/游戏内为准；
 - AI 问答需要自备 API Key，会产生你自己的 API 费用；
 - 分享图约 2 MB，部分 IM 可能压缩画质；
-- 语音输入依赖设备系统语音识别服务：无 Google 服务的机型（部分华为/海外 ROM）可能不可用，App 会提示改用键盘；语音输入只在 App 前台有效，切后台/锁屏会自动取消。
+- 离线语音输入依赖内置模型：APK 约 154MB，首次打开会复制/加载约 168MB 模型（约数秒），加载期间可以正常按住说话，录音会先缓存；语音输入只在 App 前台有效，切后台/锁屏会自动取消；
+- 当前模型针对中文普通话 + 英雄名/外号热词优化，极端口音/噪声环境仍可能识别偏差，键盘输入始终可用。
 
 ## 安全与隐私
 
 - 无账号、无埋点、不上传任何用户数据；
-- App 仅申请 `INTERNET` 与 `RECORD_AUDIO` 权限；录音仅在用户按住麦克风时进行，语音识别由系统服务完成；数据请求走 HTTPS + SHA-256；
+- App 仅申请 `INTERNET` 与 `RECORD_AUDIO` 权限；录音仅在用户按住语音条时进行，PCM 在手机本地由 sherpa-onnx 解码，音频不上传；数据请求走 HTTPS + SHA-256；
 - AI Key 只保存本机 WebView 存储，原生层直连接口，不经过第三方；
 - 分享使用只读 `ShareProvider`（`content://`，禁用路径穿越）。
 
@@ -301,11 +320,13 @@ GitHub Pages（数据仓库）         App（启动/手动检查）
 - [x] V2.3.0：BP 语音输入 MVP（系统 ASR + 英雄词典模糊匹配 + 候选/混合意图）
 - [x] V2.3.1：英雄语音词库工程化（生成器 + CI 过期校验）
 - [x] V2.3.2：社区外号扩充（司空震 / 李元芳 / 卢雅那等 120 条）
-- [ ] V2.2：数据更新安全加固、BP→出装联动、阵容收藏、英雄对比、更新日志详情页
+- [x] V2.4.0–V2.4.9：sherpa-onnx 离线中文 ASR、英雄热词、方言/口音匹配、录音时序与候选交互修复
+- [ ] V2.5：模型/热词继续调优、BP→出装联动、阵容收藏、英雄对比、更新日志详情页
 - [ ] GitHub Actions 全自动构建 + Release（本仓库已内置 workflow）
 
 ## 许可与声明
 
 - 源代码：[MIT](LICENSE)
 - 游戏素材：版权归腾讯《王者荣耀》所有，仅个人学习使用，**请勿商用/二次分发**；详见 [NOTICE.md](NOTICE.md)
+- 语音识别：sherpa-onnx（Apache-2.0）与 Zipformer 中文模型（Apache-2.0），仅用于本项目离线识别，构建时按需下载、不随源码仓库分发模型文件
 - 本项目与腾讯官方无关；数据来自公开页面，仅供学习参考
