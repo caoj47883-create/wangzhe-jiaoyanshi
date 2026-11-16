@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "sourceDataVersion": "2.0.3",
-  "sourceSnapshot": "2026-11-04",
+  "sourceDataVersion": "2026.11.16.1",
+  "sourceSnapshot": "2026-11-16",
   "heroCount": 133,
   "aliasTermCount": 263,
   "singleCharHeroes": [
@@ -664,7 +664,8 @@
       "name": "马超",
       "lane": "clash",
       "lanes": [
-        "clash"
+        "clash",
+        "jungle"
       ],
       "singleChar": false,
       "terms": [
@@ -882,7 +883,8 @@
       "name": "大乔",
       "lane": "roam",
       "lanes": [
-        "roam"
+        "roam",
+        "mid"
       ],
       "singleChar": false,
       "terms": [
@@ -3805,7 +3807,8 @@
       "name": "影",
       "lane": "jungle",
       "lanes": [
-        "jungle"
+        "jungle",
+        "clash"
       ],
       "singleChar": true,
       "terms": [
