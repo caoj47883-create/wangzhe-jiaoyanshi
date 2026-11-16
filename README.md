@@ -256,9 +256,9 @@ python pipeline/publish_release.py \
 
 ### 4. 开启 App 的数据热更新
 
-1. 按上一步把发布包推送到自己的 GitHub Pages 数据仓库；
+1. 可以按上一步把发布包推送到恁自己的 GitHub Pages 数据仓库；
 2. App → 更多 → 设置 → **数据与更新** → 填入数据源地址，例如：
-   `https://<你的用户名>.github.io/wzjs-data/wzjs/v1/`
+   `https://<恁的用户名>.github.io/wzjs-data/wzjs/v1/`
 3. 保存 → 检查更新。之后启动自动检查（6 小时节流），断网自动回退内置快照。
 
 ### 5. 配置 AI 问答（可选）
@@ -266,8 +266,8 @@ python pipeline/publish_release.py \
 App → 更多 → 设置 → **AI 问答**：
 
 - 接口地址：`https://api.deepseek.com/v1/chat/completions`（或任意 OpenAI 兼容接口）
-- 模型：`deepseek-chat` / `kimi-k2` 等
-- API Key：你自己的 Key（**只存本机，不上传**）
+- 模型：基本都行
+- API Key：恁自己的 Key（**只存本机，不上传**）
 
 配置完成后在「更多 → AI 问答」使用；回答会结合本应用的数据版本与本地数据。
 
