@@ -119,42 +119,34 @@ export default function Settings() {
             <h2 className="h2">外观</h2>
             <span className="sub">同时适配暗夜 / 纸感两套主题</span>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 9 }}>
+          <div className="theme-choice">
             <button
-              className="card card-pad"
+              className={`theme-card ${theme === "dark" ? "on" : ""}`}
               onClick={() => setTheme("dark")}
-              style={{ textAlign: "left", borderColor: theme === "dark" ? "var(--gold-line)" : "var(--line)", boxShadow: theme === "dark" ? "var(--glow-gold)" : "var(--shadow-sm)" }}
+              aria-pressed={theme === "dark"}
             >
-              <div style={{ height: 54, borderRadius: 10, background: "linear-gradient(150deg,#141a24,#080a0e)", border: "1px solid #232d3b", display: "grid", placeItems: "center", marginBottom: 9 }}>
-                <span style={{ fontFamily: "var(--serif)", fontWeight: 900, color: "#e7c98b", fontSize: 16 }}>暗夜</span>
-              </div>
-              <div className="row" style={{ padding: 0, gap: 6 }}>
-                <span className="small" style={{ fontWeight: 700 }}>暗夜战术</span>
-                {theme === "dark" ? (
-                  <span style={{ marginLeft: "auto", color: "var(--gold)" }}>
-                    <Icon name="check" style={{ width: 15, height: 15 }} />
-                  </span>
-                ) : null}
-              </div>
-              <div className="tiny faint">OKX 风格 · 电竞数据感</div>
+              <span className="theme-preview preview-dark">
+                <span className="tp-head" /><span className="tp-line" /><span className="tp-line short" /><span className="tp-block" />
+              </span>
+              <span className="theme-copy">
+                <span className="theme-name">暗夜</span>
+                <span className="theme-sub">低光环境 · 深色界面</span>
+              </span>
+              {theme === "dark" ? <span className="theme-check"><Icon name="check" /></span> : null}
             </button>
             <button
-              className="card card-pad"
+              className={`theme-card ${theme === "light" ? "on" : ""}`}
               onClick={() => setTheme("light")}
-              style={{ textAlign: "left", borderColor: theme === "light" ? "var(--gold-line)" : "var(--line)" }}
+              aria-pressed={theme === "light"}
             >
-              <div style={{ height: 54, borderRadius: 10, background: "linear-gradient(150deg,#fbf7ef,#e9e0cf)", border: "1px solid #e6ddcd", display: "grid", placeItems: "center", marginBottom: 9 }}>
-                <span style={{ fontFamily: "var(--serif)", fontWeight: 900, color: "#8a6226", fontSize: 16 }}>纸感</span>
-              </div>
-              <div className="row" style={{ padding: 0, gap: 6 }}>
-                <span className="small" style={{ fontWeight: 700 }}>暖纸浅色</span>
-                {theme === "light" ? (
-                  <span style={{ marginLeft: "auto", color: "var(--gold)" }}>
-                    <Icon name="check" style={{ width: 15, height: 15 }} />
-                  </span>
-                ) : null}
-              </div>
-              <div className="tiny faint">Airbnb 风格 · 阅读友好</div>
+              <span className="theme-preview preview-light">
+                <span className="tp-head" /><span className="tp-line" /><span className="tp-line short" /><span className="tp-block" />
+              </span>
+              <span className="theme-copy">
+                <span className="theme-name">纸感</span>
+                <span className="theme-sub">日间阅读 · 浅色界面</span>
+              </span>
+              {theme === "light" ? <span className="theme-check"><Icon name="check" /></span> : null}
             </button>
           </div>
         </section>
@@ -393,8 +385,8 @@ export default function Settings() {
             </p>
           </div>
         </section>
-        <p className="footer tiny faint" style={{ textAlign: "center", marginTop: 24, fontFamily: "var(--mono)" }}>
-          KING'S STUDY · V{APP_VERSION} · DATA {currentDataVersion()}
+        <p className="footer-note">
+          王者教研室 V{APP_VERSION} · 数据 {currentDataVersion()}
         </p>
       </div>
     </div>

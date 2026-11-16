@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { artUrl, avatarUrl, DATA, hero, laneLabel } from "../lib/data.js";
+import { artUrl, avatarUrl, DATA, SEASON, hero, laneLabel } from "../lib/data.js";
 import { useApp } from "../lib/store.js";
-import { APP_VERSION } from "../lib/config.js";
 import { Icon } from "./icons.jsx";
 
 /* ---------------------------------------------------------------- 头像 */
@@ -111,20 +110,16 @@ export function SectionHead({ title, sub, moreLabel = "全部", onMore, iconName
 export function BrandHeader({ onSearch }) {
   const { theme, setTheme } = useApp();
   return (
-    <header className="topbar">
-      <div className="brand-mark">王</div>
-      <div className="brand-text">
-        <p className="eyebrow">COUNTER-PICK LAB</p>
-        <h1 className="brand-title">
-          王者教研室
-          <span className="ver-pill">V{APP_VERSION}</span>
-        </h1>
+    <header className="home-head">
+      <div className="home-brand">
+        <h1 className="home-title">王者教研室</h1>
+        <p className="home-sub">{SEASON} 赛季 · 本地数据</p>
       </div>
-      <div className="topbar-actions">
+      <div className="home-actions">
         <button className="icon-btn" aria-label="搜索" onClick={onSearch}>
           <Icon name="search" />
         </button>
-        <button className="icon-btn gold" aria-label="切换主题" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
+        <button className="icon-btn" aria-label="切换主题" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
           <Icon name={theme === "dark" ? "sun" : "moon"} />
         </button>
       </div>
@@ -161,36 +156,11 @@ const TABS = [
 
 export function TabBar() {
   const { tab, goTab } = useApp();
-  const [hidden, setHidden] = useState(false);
   const idx = TABS.findIndex((t) => t.id === tab);
   const tabIndex = idx < 0 ? 0 : idx;
 
-  // iOS 式交互：下滑隐藏、上滑/回顶出现；切 Tab 时立即复位
-  useEffect(() => {
-    let lastY = 0;
-    let ticking = false;
-    const onScroll = (e) => {
-      const el = e.target;
-      if (!el || !el.classList || !el.classList.contains("page")) return;
-      const y = el.scrollTop;
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        ticking = false;
-        if (y < 24) { setHidden(false); lastY = y; return; }
-        const dy = y - lastY;
-        if (dy > 10) setHidden(true);
-        else if (dy < -10) setHidden(false);
-        lastY = y;
-      });
-    };
-    document.addEventListener("scroll", onScroll, true);
-    return () => document.removeEventListener("scroll", onScroll, true);
-  }, []);
-  useEffect(() => { setHidden(false); }, [tab]);
-
   return (
-    <nav className={`tabbar ${hidden ? "hidden" : ""}`} style={{ "--tab-index": tabIndex }} aria-label="主导航">
+    <nav className="tabbar" style={{ "--tab-index": tabIndex }} aria-label="主导航">
       <span className="tab-indicator" aria-hidden="true" />
       {TABS.map((t) => (
         <button

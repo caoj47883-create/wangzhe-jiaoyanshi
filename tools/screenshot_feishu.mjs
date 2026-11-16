@@ -1,0 +1,69 @@
+// Feishu-style UI screenshot smoke test.
+import fs from "node:fs";
+import http from "node:http";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import puppeteer from "puppeteer-core";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const ROOT = path.resolve(__dirname, "..");
+const DIST = path.join(ROOT, "next", "dist");
+const SHOTS = path.join(ROOT, "next", "shots");
+const CHROME = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
+const PORT = 8813;
+
+const MIME = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8", ".json": "application/json; charset=utf-8", ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".webp": "image/webp", ".woff2": "font/woff2", ".svg": "image/svg+xml", ".ico": "image/x-icon" };
+const server = http.createServer((req, res) => {
+  const urlPath = decodeURIComponent((req.url || "/").split("?")[0]);
+  let file = path.join(DIST, urlPath === "/" ? "index.html" : urlPath);
+  if (!file.startsWith(DIST)) return res.writeHead(403).end();
+  if (!fs.existsSync(file) || fs.statSync(file).isDirectory()) file = path.join(DIST, "index.html");
+  const ext = path.extname(file).toLowerCase();
+  res.writeHead(200, { "Content-Type": MIME[ext] || "application/octet-stream", "Cache-Control": "no-store" });
+  fs.createReadStream(file).pipe(res);
+});
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+await new Promise((r) => server.listen(PORT, "127.0.0.1", r));
+
+const browser = await puppeteer.launch({ executablePath: CHROME, headless: "new", args: ["--no-sandbox", "--disable-dev-shm-usage", "--force-device-scale-factor=2", "--hide-scrollbars"] });
+const page = await browser.newPage();
+const errors = [];
+page.on("pageerror", (e) => errors.push("pageerror: " + e.message));
+page.on("console", (m) => { if (m.type() === "error") errors.push("console: " + m.text()); });
+await page.setViewport({ width: 390, height: 844, deviceScaleFactor: 2, isMobile: true, hasTouch: true });
+await page.goto(`http://127.0.0.1:${PORT}/`, { waitUntil: "networkidle0", timeout: 30000 });
+await sleep(700);
+
+const shot = async (name) => { await page.screenshot({ path: path.join(SHOTS, name) }); console.log("shot:", name); };
+const tab = async (i) => { await page.evaluate((n) => document.querySelectorAll(".tab")[n].click(), i); await sleep(350); };
+const metrics = await page.evaluate(() => ({
+  bodyW: document.body.scrollWidth,
+  viewW: window.innerWidth,
+  tabbar: (() => { const r = document.querySelector(".tabbar").getBoundingClientRect(); return { x: r.x, y: r.y, w: r.width, h: r.height }; })(),
+  topbar: (() => { const r = document.querySelector(".home-head").getBoundingClientRect(); return { x: r.x, y: r.y, w: r.width, h: r.height }; })(),
+}));
+console.log("metrics:", JSON.stringify(metrics));
+
+await shot("feishu-home-dark.png");
+await tab(1); await shot("feishu-hero-dark.png");
+await tab(2); await shot("feishu-bp-dark.png");
+await tab(3); await shot("feishu-items-dark.png");
+await tab(4); await shot("feishu-more-dark.png");
+
+await page.evaluate(() => {
+  const KEY = "wzjs.v2.state";
+  const old = JSON.parse(localStorage.getItem(KEY) || "{}");
+  localStorage.setItem(KEY, JSON.stringify({ ...old, theme: "light" }));
+});
+await page.reload({ waitUntil: "networkidle0" });
+await sleep(500);
+await shot("feishu-home-light.png");
+await tab(1); await shot("feishu-hero-light.png");
+await tab(2); await shot("feishu-bp-light.png");
+await tab(3); await shot("feishu-items-light.png");
+await tab(4); await shot("feishu-more-light.png");
+
+console.log("errors:", JSON.stringify(errors));
+await browser.close();
+server.close();
+if (errors.length) process.exitCode = 1;

@@ -8,7 +8,7 @@ import {
 } from "../components/common.jsx";
 import HeroPicker from "../components/HeroPicker.jsx";
 import { Icon } from "../components/icons.jsx";
-import { HEROES, LANES, hasHero, hero, laneLabel, tierFor } from "../lib/data.js";
+import { HEROES, LANES, SEASON, hasHero, hero, laneLabel, tierFor } from "../lib/data.js";
 import { itemPlan, matchupWarnings } from "../lib/engine.js";
 import { shareImage } from "../lib/share.js";
 import { useApp } from "../lib/store.js";
@@ -126,7 +126,7 @@ export default function Items({ params }) {
     <div className="page it-page">
       <style>{CSS}</style>
       <PageHead
-        eyebrow="ITEM COUNTER · S12"
+        eyebrow={`ITEM COUNTER · ${SEASON}`}
         title="针对出装"
         sub={myHero ? `${myHero} · ${laneLabel(lane)} · ${enemies.length} 名敌人` : "敌方阵容 · 基础出装 · 铭文与提示"}
         actions={
@@ -227,13 +227,24 @@ export default function Items({ params }) {
               </button>
             </div>
           ) : (
-            <button type="button" className="it-me-empty" onClick={() => setPicker("me")}>
-              <span className="ico">
-                <Icon name="user" />
-              </span>
-              <b>选择我的英雄</b>
-              <span className="sub">选了英雄才能生成针对性出装；也可以从英雄详情页「看出装」直接进入。</span>
-            </button>
+            <>
+              <button type="button" className="it-me-empty" onClick={() => setPicker("me")}>
+                <span className="ico">
+                  <Icon name="user" />
+                </span>
+                <b>选择我的英雄</b>
+                <span className="sub">选了英雄才能生成针对性出装；也可以从英雄详情页「看出装」直接进入。</span>
+              </button>
+              <div className="it-hot">
+                <span className="it-hot-label">热门英雄</span>
+                {hot.slice(0, 4).map((h) => (
+                  <button key={h.name} type="button" className="it-hot-btn" onClick={() => setMyHero(h.name)}>
+                    <Avatar name={h.name} size={28} />
+                    {h.name}
+                  </button>
+                ))}
+              </div>
+            </>
           )}
         </section>
 
@@ -376,31 +387,7 @@ export default function Items({ params }) {
               </div>
             </section>
           </>
-        ) : (
-          <section className="section">
-            <div className="card it-preview">
-              <span className="it-preview-ico">
-                <Icon name="shield" />
-              </span>
-              <b>选好英雄，直接生成出装</b>
-              <p>基础六件、针对性装备、铭文与实战提示都会按敌方阵容自动计算，还能一键生成分享图。</p>
-              <div className="it-quick">
-                {hot.map((h) => (
-                  <button
-                    key={h.name}
-                    type="button"
-                    className="it-quick-btn"
-                    onClick={() => setMyHero(h.name)}
-                  >
-                    <Avatar name={h.name} size={40} />
-                    <span>{h.name}</span>
-                  </button>
-                ))}
-              </div>
-              {!enemies.length ? <p className="it-preview-tip">也可以先录入敌方阵容，再回来选英雄。</p> : null}
-            </div>
-          </section>
-        )}
+        ) : null}
 
         <div className="it-actions">
           <button
@@ -490,7 +477,7 @@ const CSS = `
 .it-page .it-banner-cta{width:100%;justify-content:center;}
 
 .it-page .it-slots{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;}
-.it-page .it-slot{display:flex;flex-direction:column;align-items:center;gap:7px;padding:10px 2px 9px;border-radius:14px;border:1px dashed var(--line);background:color-mix(in srgb,var(--surface) 42%,transparent);min-width:0;transition:transform .12s ease;}
+.it-page .it-slot{display:flex;flex-direction:column;align-items:center;gap:7px;padding:10px 2px 9px;border-radius:8px;border:1px dashed var(--line);background:var(--surface);min-width:0;transition:transform .12s ease;}
 .it-page .it-slot:active{transform:scale(.96);}
 .it-page .it-slot.filled{border-style:solid;background:var(--surface);box-shadow:var(--shadow-sm);}
 .it-page .it-slot-ava{position:relative;width:56px;height:56px;border-radius:50%;padding:2px;border:1.5px solid var(--line);background:var(--surface-2);display:block;}
@@ -516,11 +503,11 @@ const CSS = `
 .it-page .it-me-swap{display:flex;align-items:center;gap:2px;color:var(--muted);font-size:.62rem;flex-shrink:0;}
 .it-page .it-me-swap svg{width:13px;height:13px;}
 
-.it-page .it-me-empty{display:flex;flex-direction:column;align-items:center;gap:4px;width:100%;padding:20px 16px;border-radius:var(--radius-lg);border:1px dashed var(--gold-line);background:var(--gold-soft);text-align:center;}
-.it-page .it-me-empty .ico{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--surface);color:var(--gold);border:1px solid var(--gold-line);margin-bottom:5px;}
+.it-page .it-me-empty{display:flex;flex-direction:column;align-items:center;gap:4px;width:100%;padding:18px 16px;border-radius:8px;border:1px dashed var(--line);background:var(--surface-2);text-align:center;}
+.it-page .it-me-empty .ico{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--surface);color:var(--muted);border:1px solid var(--line);margin-bottom:5px;}
 .it-page .it-me-empty .ico svg{width:18px;height:18px;}
-.it-page .it-me-empty b{font-family:var(--serif);font-size:1rem;letter-spacing:.02em;}
-.it-page .it-me-empty .sub{max-width:285px;margin-top:2px;font-size:.63rem;line-height:1.6;color:var(--muted);}
+.it-page .it-me-empty b{font-family:var(--sans);font-size:.84rem;font-weight:600;letter-spacing:0;}
+.it-page .it-me-empty .sub{max-width:285px;margin-top:2px;font-size:.72rem;line-height:1.6;color:var(--muted);}
 
 .it-page .it-preview{display:flex;flex-direction:column;align-items:center;gap:5px;padding:20px 16px;text-align:center;}
 .it-page .it-preview-ico{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:var(--gold-soft);color:var(--gold);border:1px solid var(--gold-line);margin-bottom:4px;}

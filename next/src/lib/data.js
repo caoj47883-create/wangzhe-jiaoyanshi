@@ -7,7 +7,28 @@ const runtime =
     ? window.__RUNTIME_DATA__
     : null;
 
-export const DATA = runtime && runtime.heroes.length ? runtime : bundled;
+// 内置数据升级到新赛季后，旧的热更新缓存不能继续覆盖新版内置快照。
+// 远端 manifest 使用日期版本号（如 2026.11.06.103），这里按同一规则比较。
+const compareVersion = (a, b) => {
+  const pa = String(a || "0").split(/[.\-+]/).filter(Boolean);
+  const pb = String(b || "0").split(/[.\-+]/).filter(Boolean);
+  for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
+    const xa = pa[i] || "0";
+    const xb = pb[i] || "0";
+    const na = /^\d+$/.test(xa);
+    const nb = /^\d+$/.test(xb);
+    if (na && nb) {
+      const d = parseInt(xa, 10) - parseInt(xb, 10);
+      if (d !== 0) return d > 0 ? 1 : -1;
+    } else if (xa !== xb) {
+      return xa > xb ? 1 : -1;
+    }
+  }
+  return 0;
+};
+
+const runtimeIsNewer = runtime && compareVersion(runtime.version || runtime.dataVersion, bundled.version) > 0;
+export const DATA = runtime && runtime.heroes.length && runtimeIsNewer ? runtime : bundled;
 export const IS_RUNTIME_DATA = !!runtime;
 export const LANES = DATA.lanes; // [{lane,label}]
 export const LANE_META = DATA.laneMeta;
@@ -21,6 +42,7 @@ export const BUILDS = DATA.builds;
 export const ITEM_RULES = DATA.itemRules;
 export const COUNTERS = DATA.counters;
 export const STATS = DATA.stats;
+export const SEASON = DATA.season || "S45";
 
 const byName = new Map(HEROES.map((h) => [h.name, h]));
 const nameSet = new Set(HEROES.map((h) => h.name));

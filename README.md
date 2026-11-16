@@ -4,7 +4,7 @@
 
 ![Platform](https://img.shields.io/badge/Android-6.0%2B-3ddc84?logo=android&logoColor=white)
 ![WebView](https://img.shields.io/badge/WebView-%E2%89%A5%20111-4285F4?logo=googlechrome&logoColor=white)
-![Version](https://img.shields.io/badge/version-2.4.9-d3a659)
+![Version](https://img.shields.io/badge/version-2.6.1-3370ff)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Build APK](https://github.com/caoj47883-create/wangzhe-jiaoyanshi/actions/workflows/build-apk.yml/badge.svg)
 
@@ -14,7 +14,7 @@
 [架构说明](docs/ONLINE_UPDATE_ARCHITECTURE.md) ·
 [语音词库](docs/VOICE_LEXICON.md)
 
-![界面预览](next/shots/v2.4.9-voice-candidates.png)
+![界面预览](next/shots/feishu-home-dark.png)
 
 ---
 
@@ -28,7 +28,7 @@
 - **BP 离线语音输入**：按住语音条说「对面 ban 东皇太一」「选马可波罗」，端侧 sherpa-onnx 中文模型 + 本地英雄词典自动填槽，不依赖系统语音服务/网络；
 - **数据热更新**：赛季中英雄/装备调整后，不重装 APK，App 自动拉取新数据；
 - **AI 问答**：结合本地数据的 RAG 上下文，调用你自己的 OpenAI 兼容接口；
-- 暗夜战术风 UI，可切暖纸浅色主题 + 字号缩放。
+- 飞书式克制工作台，暗夜/纸感双主题 + 字号缩放。
 
 > 仅用于个人学习/研究。英雄原画、名称等素材版权归腾讯《王者荣耀》所有，详见 [NOTICE.md](NOTICE.md)。
 
@@ -36,7 +36,7 @@
 
 | 模块 | 说明 |
 | --- | --- |
-| 首页 | 版本焦点 T0 英雄、四大工具入口、数据总览、本周阵容、名师课堂、最近查看 |
+| 首页 | 当前赛季焦点英雄、搜索、常用入口（BP 优先）、本周阵容、名师课堂、最近查看 |
 | 英雄强度 | 5 分路 T0~T3 梯度、搜索、分路徽章、英雄详情弹层 |
 | 英雄详情 | 克制链（能打谁/被谁克）、收藏、看出装、分享图 |
 | BP 助手 | 连打录入 Ban 位、综合推测、分路反制推荐、一键带入出装 |
@@ -49,6 +49,28 @@
 | 设置 | 暗夜/纸感主题、字号、数据与更新、AI 配置、数据清理 |
 | 数据热更新 | GitHub Pages manifest + SHA-256 校验 + 回滚 |
 | AI 问答 | 本地数据 RAG + 外部 OpenAI 兼容接口（Key 仅存本机） |
+
+### V2.5.0–V2.6.1：把界面推倒重来（飞书工作台）
+
+之前那套暗金游戏风我自己看久了有点腻，这次干脆掀了重做。按飞书工作台的路子来：浅色底、白卡片、蓝色主色，先把信息层级捋顺，再谈好看。
+
+- **首页**：顶部只留「王者教研室」和当前赛季，往下是搜索、版本焦点、常用入口、本周阵容、名师课堂；BP 助手放到常用入口第一项，现场点开就能用。
+- **英雄页**：T0 继续大图横滑，T0.5 以下改成两列卡片，头像、分路、标签、梯度一眼扫完，不用再一个一个点。
+- **出装 / BP**：按钮、空态、分段控件都换成中性工作台样式；按住说话的语音条、候选 chips、混合意图都保留。
+- **设置**：暗夜 / 纸感改成两张预览卡，不再写「OKX 风格 / Airbnb 风格」。
+- **导航**：子页面隐藏底部 tab，标题和返回单独占一行，不再和主界面抢空间。
+- **数据**：内置数据升到 **S45**，公孙离发育路回 T3，打野 T0 是镜 / 裴擒虎 / 马超；旧热更新缓存会被内置版本号挡住。
+
+<table>
+  <tr>
+    <td><img src="next/shots/feishu-home-dark.png" alt="飞书工作台首页暗色"></td>
+    <td><img src="next/shots/feishu-home-light.png" alt="飞书工作台首页浅色"></td>
+  </tr>
+  <tr>
+    <td><img src="next/shots/feishu-hero-dark.png" alt="英雄强度页"></td>
+    <td><img src="next/shots/feishu-items-light.png" alt="针对出装页"></td>
+  </tr>
+</table>
 
 ### V2.2.0：iOS 液态玻璃 × 悬浮底栏
 
@@ -143,7 +165,7 @@ flowchart TB
 ```
 
 - **Android 壳**：纯 Java，无 AndroidX；`res/raw/site.zip` 首次解压到私有目录，本机 HTTP 服务提供离线站点，避免 `file://` 下的 CORS/ES module 问题。
-- **前端**：React 18 + Vite 5，无 UI 框架；自建设计系统（暗夜/纸感双主题）。
+- **前端**：React 18 + Vite 5，无 UI 框架；飞书式设计系统（见 [`DESIGN.md`](DESIGN.md)），暗夜/纸感双主题。
 - **数据**：构建时内置快照；启动后异步检查 GitHub Pages 更新，SHA-256 校验通过后写入本地并重载。
 - **AI**：前端组装本地数据 RAG 上下文，交给 Java 原生层直连外部接口（绕开 WebView CORS）。
 - **语音**：`AppBridge.asrStart/asrStop/asrCancel` → 原生 `AudioRecord`（16k mono PCM）→ sherpa-onnx `OnlineRecognizer` 流式解码 → `window.__voiceEvent` 回传 partial/final；前端 `voice.js` 管理会话，`heroVoice.js` 用生成词库做英雄名约束与口音容错。首次使用会把模型从 `res/raw` 复制到私有目录并加载，加载期间录音会先缓存，避免丢首词。
@@ -164,6 +186,8 @@ flowchart TB
 ├── pipeline/                 # 数据采集 / 公告渲染 / LLM 抽取 / 发布
 ├── tools/                    # 构建脚本（Linux/CI）、页面 helper、PRD 生成、mock 服务器
 ├── docs/                     # PRD、架构文档、QA 记录
+├── DESIGN.md                 # 飞书式设计系统（token / 排版 / 组件）
+├── PRODUCT.md                # 产品定位、用户与约束
 ├── gen_icon.py               # 桌面图标生成（马可波罗·暗影游猎）
 ├── patch_helpers.py          # 将 WebView page-helpers 注入 Java 常量
 └── .github/workflows/        # GitHub Actions：自动构建 APK
@@ -194,7 +218,7 @@ pnpm build          # 产物：next/dist
 仓库已内置 [`.github/workflows/build-apk.yml`](.github/workflows/build-apk.yml)：
 
 - **手动触发**：Actions → `Build APK` → Run workflow（产物在 Artifacts）；
-- **打 tag 自动发布**：`git tag v2.4.9 && git push origin v2.4.9` → 自动构建并创建 Release。
+- **打 tag 自动发布**：`git tag v2.6.1 && git push origin v2.6.1` → 自动构建并创建 Release。
 
 签名通过仓库 Secrets 注入（见下方「签名配置」）；未配置时会构建未签名 APK。CI 会自动下载 sherpa-onnx 运行时与中文模型（缓存于 `.asr-cache`），构建产物约 193MB（本地 Windows 构建约 162MB）。
 
@@ -321,8 +345,9 @@ GitHub Pages（数据仓库）         App（启动/手动检查）
 - [x] V2.3.1：英雄语音词库工程化（生成器 + CI 过期校验）
 - [x] V2.3.2：社区外号扩充（司空震 / 李元芳 / 卢雅那等 120 条）
 - [x] V2.4.0–V2.4.9：sherpa-onnx 离线中文 ASR、英雄热词、方言/口音匹配、录音时序与候选交互修复
-- [ ] V2.5：模型/热词继续调优、BP→出装联动、阵容收藏、英雄对比、更新日志详情页
-- [ ] GitHub Actions 全自动构建 + Release（本仓库已内置 workflow）
+- [x] V2.5.0：S45 数据刷新、首页/英雄/更多页信息精简
+- [x] V2.6.0–V2.6.1：飞书式工作台 UI/UX 全量重写、常用入口与 BP 前置
+- [ ] V2.7：模型/热词继续调优、BP→出装联动、阵容收藏、英雄对比、更新日志详情页
 
 ## 许可与声明
 

@@ -87,7 +87,7 @@ public class MainActivity extends Activity {
     private File siteDir;
     private SpeechRecognizer speechRecognizer;
     private WebView webView;
-    private String appVersion = "2.4.9";
+    private String appVersion = "2.6.1";
     private String systemVoiceRequestId = null;
     private boolean speechListening = false;
     private String speechRequestId = null;

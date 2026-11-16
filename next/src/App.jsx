@@ -52,6 +52,7 @@ export default function App() {
 
   const route = stack[stack.length - 1];
   const tab = TAB_OF[route.name] || "home";
+  const isTabPage = ["home", "strength", "bp", "items", "more"].includes(route.name);
 
   useEffect(() => {
     saveState(state);
@@ -129,7 +130,7 @@ export default function App() {
     document.documentElement.setAttribute("data-theme", state.theme);
     document.documentElement.style.setProperty("--fs-scale", String(state.fontScale || 1));
     const meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute("content", state.theme === "dark" ? "#080a0e" : "#f4efe5");
+    if (meta) meta.setAttribute("content", state.theme === "dark" ? "#17181a" : "#f5f6f7");
   }, [state.theme, state.fontScale]);
 
   const showToast = useCallback((msg) => {
@@ -227,10 +228,10 @@ export default function App() {
   return (
     <AppContext.Provider value={value}>
       <div className="app-shell">
-        <div className="screen">
+        <div className={`screen ${isTabPage ? "tab-screen" : "sub-screen"}`}>
           <Page key={route.name} params={route.params || {}} />
         </div>
-        <TabBar />
+        {isTabPage ? <TabBar /> : null}
         <div id="overlay-root" />
         {toast ? <div className="toast">{toast}</div> : null}
       </div>

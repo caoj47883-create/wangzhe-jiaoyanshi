@@ -1,9 +1,8 @@
 import { PageHead } from "../components/common.jsx";
 import { Icon } from "../components/icons.jsx";
 import { useApp } from "../lib/store.js";
-import { COACHES, COMPS, DATA, HEROES, STATS } from "../lib/data.js";
+import { COACHES, COMPS, SEASON, STATS } from "../lib/data.js";
 import { APP_VERSION } from "../lib/config.js";
-import { currentDataVersion } from "../lib/update.js";
 
 export default function More() {
   const { navigate, recents, favorites } = useApp();
@@ -28,7 +27,7 @@ export default function More() {
 
   return (
     <div className="page">
-      <PageHead eyebrow="MORE" title="更多" sub="内容库 · 我的 · 设置" />
+      <PageHead eyebrow="MORE" title="更多" />
       <div className="page-inner" style={{ paddingTop: 4 }}>
         <div className="card card-dark card-pad" style={{ marginTop: 8 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -36,7 +35,7 @@ export default function More() {
             <div>
               <div className="h3">王者教研室</div>
               <div className="tiny faint" style={{ marginTop: 2 }}>
-                V{APP_VERSION} · 数据 {currentDataVersion()}
+                V{APP_VERSION} · {SEASON} 数据
               </div>
             </div>
             <div style={{ marginLeft: "auto", textAlign: "right" }}>
@@ -55,7 +54,7 @@ export default function More() {
           <div className="list">
             {item("spark", ["var(--gold-soft)", "var(--gold)"], "AI 问答", "结合本版本数据回答 · 需配置外部接口", () => navigate("ai"))}
             {item("users", ["var(--gold-soft)", "var(--gold)"], "五黑阵容", `${COMPS.length} 套体系 · 思路 / 弱点 / Ban 位`, () => navigate("comps"))}
-            {item("book", ["var(--blue-soft)", "var(--blue)"], "名师课堂", `${COACHES.length} 位 KPL 选手与高人气主播`, () => navigate("coaches"))}
+            {item("book", ["var(--blue-soft)", "var(--blue)"], "名师课堂", `${COACHES.length} 位技术主播`, () => navigate("coaches"))}
             {item("search", ["var(--surface-2)", "var(--muted)"], "全局搜索", "英雄 / 阵容 / 名师，一次搜全站", () => navigate("search"))}
           </div>
         </section>
@@ -78,8 +77,6 @@ export default function More() {
 
         <p className="footer tiny faint" style={{ textAlign: "center", marginTop: 26, lineHeight: 1.9, fontFamily: "var(--mono)" }}>
           数据来自公开资料整理 · 仅供学习参考
-          <br />
-          {HEROES.length} HEROES · {STATS.comps} COMPS · {STATS.coaches} COACHES
         </p>
       </div>
     </div>

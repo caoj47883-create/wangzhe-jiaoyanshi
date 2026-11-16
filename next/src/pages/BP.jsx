@@ -10,7 +10,7 @@ import {
 import HeroPicker from "../components/HeroPicker.jsx";
 import HeroSheet from "../components/HeroSheet.jsx";
 import { Icon } from "../components/icons.jsx";
-import { LANES, hasHero, hero, laneLabel, tierFor } from "../lib/data.js";
+import { LANES, SEASON, hasHero, hero, laneLabel, tierFor } from "../lib/data.js";
 import { banRecommendations, lineupInsights, parseHeroNames, pickRecommendations } from "../lib/engine.js";
 import { matchVoiceResults } from "../lib/heroVoice.js";
 import { useApp } from "../lib/store.js";
@@ -486,7 +486,7 @@ export default function BP() {
     <div className="page bp-page" ref={pageRef}>
       <style>{CSS}</style>
       <PageHead
-        eyebrow="LIVE DRAFT · S12"
+        eyebrow={`LIVE DRAFT · ${SEASON}`}
         title="BP 助手"
         sub={phase === "ban" ? "记录敌方 Ban 位，推测他们想拿谁" : "录入敌方已选，按分路找反制英雄"}
         actions={

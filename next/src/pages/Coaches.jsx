@@ -236,7 +236,7 @@ export default function Coaches({ params }) {
       <PageHead
         eyebrow="COACHES"
         title="名师课堂"
-        sub={`KPL 选手 · 高人气主播 · ${COACHES.length} 位`}
+        sub={`技术主播 · ${COACHES.length} 位`}
         onBack={back}
         actions={
           <button

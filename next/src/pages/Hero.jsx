@@ -3,7 +3,7 @@ import { PageHead, TierBadge } from "../components/common.jsx";
 import { Icon } from "../components/icons.jsx";
 import HeroArtCard from "../components/HeroArtCard.jsx";
 import HeroSheet from "../components/HeroSheet.jsx";
-import { HEROES, LANES, TIERS, hero, laneLabel, rankOf, tierFor } from "../lib/data.js";
+import { LANES, SEASON, TIERS, hero, rankOf, tierFor } from "../lib/data.js";
 import { useApp } from "../lib/store.js";
 
 const TIER_FILTERS = ["all", "T0", "T0.5", "T1", "T2", "T3"];
@@ -35,9 +35,8 @@ export default function HeroPage({ params }) {
   return (
     <div className="page">
       <PageHead
-        eyebrow="TIER LIST · S12"
+        eyebrow={`TIER LIST · ${SEASON}`}
         title="英雄强度"
-        sub={`${laneLabel(lane)}梯度 · ${HEROES.length} 英雄 · 点英雄看克制链`}
         actions={
           <>
             <button className="icon-btn" aria-label="搜索" onClick={() => navigate("search")}>
@@ -73,7 +72,7 @@ export default function HeroPage({ params }) {
               <TierBadge tier="T0" />
               <span className="small muted">非 Ban 必选 · 版本答案</span>
               <span className="more" style={{ marginLeft: "auto", padding: "2px 8px" }}>
-                {t0.heroes.length} PICKS
+                {t0.heroes.length} 位
               </span>
             </div>
             <div className="rail">
@@ -96,16 +95,20 @@ export default function HeroPage({ params }) {
                   {t.heroes.length}
                 </span>
               </div>
-              <div className="hero-grid">
+              <div className="hero-tile-grid">
                 {t.heroes.map((n) => {
                   const h = hero(n);
                   const tier = tierFor(h, lane);
                   return (
-                    <button className={`hg ${tier === "T0" ? "t0" : ""}`} key={n} onClick={() => openHero(n)}>
+                    <button className="hero-tile" key={n} onClick={() => openHero(n)}>
                       <span className="ava">
                         <AvatarEl name={n} />
                       </span>
-                      <span className="nm">{n}</span>
+                      <span className="copy">
+                        <span className="nm">{n}</span>
+                        <span className="tags">{h.tags.slice(0, 2).join(" · ")}</span>
+                      </span>
+                      <TierBadge tier={tier} />
                     </button>
                   );
                 })}
@@ -114,7 +117,7 @@ export default function HeroPage({ params }) {
           ) : null
         )}
 
-        <p className="footer tiny faint" style={{ textAlign: "center", marginTop: 26, letterSpacing: "0.2em", fontFamily: "var(--mono)" }}>
+        <p className="footer-note">
           梯度为人工整理 · 当前赛季环境 · 仅供参考
         </p>
       </div>

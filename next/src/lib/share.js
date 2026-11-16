@@ -1,4 +1,4 @@
-import { hero } from "./data.js";
+import { SEASON, hero } from "./data.js";
 
 /* ------------------------------------------------------------------ canvas 分享图生成 */
 const CACHE = new Map();
@@ -79,7 +79,7 @@ export async function renderShareImage(data) {
   ctx.fillText("COUNTER-PICK LAB · 王者教研室", 72, 96);
   ctx.fillStyle = "rgba(243,239,230,0.42)";
   ctx.font = "400 22px 'Space Mono', monospace";
-  ctx.fillText(`S12 · ${data.kind === "comp" ? "FIVE-MAN COMP" : data.kind === "build" ? "ITEM BUILD" : "HERO"}`, 72, 136);
+  ctx.fillText(`${SEASON} · ${data.kind === "comp" ? "FIVE-MAN COMP" : data.kind === "build" ? "ITEM BUILD" : "HERO"}`, 72, 136);
 
   // 主标题
   ctx.fillStyle = "#f3efe6";

@@ -124,7 +124,7 @@ export default function Search({ params }) {
                 </span>
                 <span className="grow">
                   <span className="title">名师课堂</span>
-                  <span className="sub">51 位 KPL 选手与主播</span>
+                  <span className="sub">51 位技术主播</span>
                 </span>
                 <span className="chev">
                   <Icon name="chevronRight" />
