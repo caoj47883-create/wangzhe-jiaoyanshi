@@ -4,6 +4,7 @@ import App from "./App.jsx";
 import "./styles/fonts.css";
 import "./styles/app.css";
 import "./styles/feishu.css";
+import "./styles/formula.css";
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>

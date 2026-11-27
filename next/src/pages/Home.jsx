@@ -23,6 +23,7 @@ export default function Home() {
 
   const tools = [
     { tab: "bp", icon: "swords", title: "BP 助手", sub: "记录敌方 Ban/Pick，实时反制", badge: "实时", primary: true },
+    { page: "formula", icon: "route", title: "公式化打法", sub: "五个分路、线权与路线图" },
     { tab: "strength", icon: "crown", title: "英雄强度", sub: "按分路看当前版本梯度" },
     { tab: "items", icon: "shield", title: "针对出装", sub: "敌方阵容、装备与铭文" },
     { page: "comps", icon: "users", title: "五黑阵容", sub: "30 套体系，含 Ban 位" },

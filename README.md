@@ -4,7 +4,7 @@
 
 ![Platform](https://img.shields.io/badge/Android-6.0%2B-3ddc84?logo=android&logoColor=white)
 ![WebView](https://img.shields.io/badge/WebView-%E2%89%A5%20111-4285F4?logo=googlechrome&logoColor=white)
-![Version](https://img.shields.io/badge/version-2.6.1-3370ff)
+![Version](https://img.shields.io/badge/version-2.7.3-3370ff)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Build APK](https://github.com/caoj47883-create/wangzhe-jiaoyanshi/actions/workflows/build-apk.yml/badge.svg)
 
@@ -23,7 +23,7 @@
 一个私人使用的 Android App（个人项目，非官方、非商业）：
 
 - **不需要登录**，断网也能用；
-- 内置 133 位英雄、900+ 条克制关系、30 套五黑阵容、51 位 KPL 选手/主播；
+- 内置 134 位英雄、900+ 条克制关系、30 套五黑阵容、51 位 KPL 选手/主播；
 - **BP 助手**：输入敌方 Ban 位 → 推测对面想玩谁 → 按分路给反制推荐 → 一键带入出装；
 - **BP 离线语音输入**：按住语音条说「对面 ban 东皇太一」「选马可波罗」，端侧 sherpa-onnx 中文模型 + 本地英雄词典自动填槽，不依赖系统语音服务/网络；
 - **数据热更新**：赛季中英雄/装备调整后，不重装 APK，App 自动拉取新数据；
@@ -40,7 +40,8 @@
 | 英雄强度 | 5 分路 T0~T3 梯度、搜索、分路徽章、英雄详情弹层 |
 | 英雄详情 | 克制链（能打谁/被谁克）、收藏、看出装、分享图 |
 | BP 助手 | 连打录入 Ban 位、综合推测、分路反制推荐、一键带入出装 |
-| BP 语音输入 | 按住说话，端侧 sherpa-onnx 中文 ASR + 133 英雄词典拼音/方言音模糊匹配；自动填 Ban/Pick、候选默认全选、混合意图分支 |
+| BP 语音输入 | 按住说话，端侧 sherpa-onnx 中文 ASR + 134 英雄词典拼音/方言音模糊匹配；自动填 Ban/Pick、候选默认全选、混合意图分支 |
+| 公式化打法 | 按对抗路 / 打野 / 中路 / 发育路 / 游走拆公式；王者峡谷原图叠加分路路线、1 分钟中路线权窗口、资源与龙团节奏 |
 | 针对出装 | 敌阵 5 位置 → 基础六件 / 针对性装备 / 铭文 / 实战提示 / 分享图 |
 | 五黑阵容 | 30 套体系，筛选/搜索/思路/弱点/Ban 位/分享/去 BP 练习 |
 | 名师课堂 | 51 位 KPL 选手与主播，平台筛选、搜索、外链主页 |
@@ -69,6 +70,22 @@
   <tr>
     <td><img src="next/shots/feishu-hero-dark.png" alt="英雄强度页"></td>
     <td><img src="next/shots/feishu-items-light.png" alt="针对出装页"></td>
+  </tr>
+</table>
+
+### V2.7.0–V2.7.3：公式化打法 + S45 数据补强
+
+这版加了个「公式化打法」页：不按时间硬背，按你走哪条路拆。
+
+- **按分路**：对抗路、打野、中路、发育路、游走各一张王者峡谷原图，图上叠自己的路线、资源和节奏点。
+- **打野 1 分钟**：刷完第一波先看中路有没有线权，再决定帮中清线、反蹲还是转边；后面接 2:00 Buff、4:00 龙。
+- **资源更新**：中路不再提河道之灵，改成 4 分钟前 4 个兵；对抗路是空间之灵开传送阵；发育路是 30 秒红隼、125 金币全队分。
+- **S45 数据**：夏侯惇升对抗路 **T0.5**；新增打野 **刀锋宝贝**（T1）；数据版本 `2026.11.27.200`。
+
+<table>
+  <tr>
+    <td><img src="next/shots/formula-lane-jungle-dark.png" alt="打野公式与路线"></td>
+    <td><img src="next/shots/formula-lane-clash-dark.png" alt="对抗路公式与路线"></td>
   </tr>
 </table>
 
@@ -218,7 +235,7 @@ pnpm build          # 产物：next/dist
 仓库已内置 [`.github/workflows/build-apk.yml`](.github/workflows/build-apk.yml)：
 
 - **手动触发**：Actions → `Build APK` → Run workflow（产物在 Artifacts）；
-- **打 tag 自动发布**：`git tag v2.6.1 && git push origin v2.6.1` → 自动构建并创建 Release。
+- **打 tag 自动发布**：`git tag v2.7.3 && git push origin v2.7.3` → 自动构建并创建 Release。
 
 签名通过仓库 Secrets 注入（见下方「签名配置」）；未配置时会构建未签名 APK。CI 会自动下载 sherpa-onnx 运行时与中文模型（缓存于 `.asr-cache`），构建产物约 193MB（本地 Windows 构建约 162MB）。
 
@@ -347,7 +364,8 @@ GitHub Pages（数据仓库）         App（启动/手动检查）
 - [x] V2.4.0–V2.4.9：sherpa-onnx 离线中文 ASR、英雄热词、方言/口音匹配、录音时序与候选交互修复
 - [x] V2.5.0：S45 数据刷新、首页/英雄/更多页信息精简
 - [x] V2.6.0–V2.6.1：飞书式工作台 UI/UX 全量重写、常用入口与 BP 前置
-- [ ] V2.7：模型/热词继续调优、BP→出装联动、阵容收藏、英雄对比、更新日志详情页
+- [x] V2.7.0–V2.7.3：按分路公式化打法页、王者峡谷原图路线、夏侯惇 T0.5、刀锋宝贝、S45 数据 2026.11.27
+- [ ] V2.8：模型/热词继续调优、BP→出装联动、阵容收藏、英雄对比、更新日志详情页
 
 ## 许可与声明
 

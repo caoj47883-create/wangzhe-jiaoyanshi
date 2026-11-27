@@ -1,0 +1,619 @@
+/* 公式化打法：飞书工作台里的分路战术板 */
+.formula-page {
+  --fm-map-border: var(--line);
+  --fm-map-image-filter: saturate(.94) contrast(1.03) brightness(.94);
+  --fm-route: #5b9aff;
+  --fm-route-ghost: rgba(255, 255, 255, .42);
+}
+
+[data-theme="dark"] .formula-page {
+  --fm-map-image-filter: saturate(.9) contrast(1.05) brightness(.82) !important;
+  --fm-route-ghost: rgba(214, 228, 245, .38);
+}
+
+.formula-page .page-inner {
+  padding-top: 8px;
+}
+
+.formula-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* hero */
+.fm-hero {
+  padding: 15px 16px 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background:
+    linear-gradient(135deg, rgba(51, 112, 255, .10), transparent 64%),
+    var(--surface);
+}
+
+.fm-kicker {
+  margin: 0;
+  color: var(--blue);
+  font-size: .62rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+}
+
+.fm-hero h2 {
+  margin: 7px 0 5px;
+  color: var(--ink);
+  font-size: 1.02rem;
+  line-height: 1.4;
+  font-weight: 650;
+  letter-spacing: -.01em;
+}
+
+.fm-hero p {
+  margin: 0;
+  color: var(--muted);
+  font-size: .76rem;
+  line-height: 1.75;
+}
+
+.fm-chain {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 12px;
+}
+
+.fm-chain span {
+  padding: 4px 9px;
+  border-radius: 6px;
+  background: var(--blue-soft);
+  color: var(--blue);
+  font-size: .7rem;
+  font-weight: 600;
+}
+
+.fm-chain i {
+  color: var(--faint);
+  font-style: normal;
+  font-size: .7rem;
+}
+
+/* 分路 tabs */
+.fm-lane-tabs {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 1px 1px 3px;
+  scrollbar-width: none;
+}
+
+.fm-lane-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.fm-lane-tab {
+  min-width: 62px;
+  flex: 1 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 5px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--muted);
+  font: inherit;
+  font-size: .72rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background .16s ease, color .16s ease, border-color .16s ease;
+}
+
+.fm-lane-tab svg {
+  width: 15px;
+  height: 15px;
+  flex: 0 0 15px;
+}
+
+.fm-lane-tab.on {
+  border-color: var(--blue);
+  background: var(--blue-soft);
+  color: var(--blue);
+}
+
+.fm-lane-tab:active {
+  transform: scale(.98);
+}
+
+/* 地图 */
+.fm-board {
+  overflow: hidden;
+  border: 1px solid var(--fm-map-border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.fm-board-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 13px 14px 9px;
+}
+
+.fm-board-kicker {
+  margin: 0;
+  color: var(--blue);
+  font-size: .62rem;
+  font-weight: 600;
+  letter-spacing: .03em;
+}
+
+.fm-board-head h3 {
+  margin: 3px 0 0;
+  color: var(--ink);
+  font-size: .94rem;
+  line-height: 1.4;
+  font-weight: 650;
+}
+
+.fm-legend {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+  flex-shrink: 0;
+  color: var(--muted);
+  font-size: .61rem;
+}
+
+.fm-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.fm-legend i {
+  display: inline-block;
+  width: 14px;
+  height: 3px;
+  border-radius: 2px;
+}
+
+.fm-legend .dot-blue {
+  background: var(--fm-route);
+}
+
+.fm-legend .dot-line {
+  background: transparent;
+  border-top: 2px dashed var(--fm-route-ghost);
+  height: 0;
+}
+
+.fm-map-canvas {
+  position: relative;
+  aspect-ratio: 9 / 5;
+  overflow: hidden;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: #0b1410;
+  isolation: isolate;
+}
+
+.fm-map-canvas > img {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: var(--fm-map-image-filter);
+  transform: scale(1.025);
+  user-select: none;
+}
+
+.fm-map-canvas::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(5, 12, 18, .28), rgba(5, 12, 18, .12) 34%, transparent 54%),
+    linear-gradient(0deg, rgba(5, 12, 18, .32), rgba(5, 12, 18, .12) 42%, transparent 62%);
+}
+
+.fm-map-svg {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.fm-old-label-cover rect {
+  fill: rgba(22, 42, 30, .72);
+  stroke: none;
+}
+
+.fm-route-ghosts path {
+  fill: none;
+  stroke: var(--fm-route-ghost);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-dasharray: 3 7;
+  opacity: .62;
+}
+
+.fm-route-glow {
+  fill: none;
+  stroke: var(--fm-route);
+  stroke-width: 14;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: .16;
+}
+
+.fm-route-line {
+  fill: none;
+  stroke: var(--fm-route);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, .45));
+}
+
+.fm-route-alt {
+  stroke-width: 3;
+  stroke-dasharray: 2 8;
+  opacity: .9;
+}
+
+#fm-arrow path {
+  fill: var(--fm-route);
+  stroke: rgba(3, 10, 18, .45);
+  stroke-width: 1;
+}
+
+.fm-node circle {
+  fill: #3370ff;
+  stroke: rgba(255, 255, 255, .92);
+  stroke-width: 2;
+}
+
+.fm-node text {
+  fill: #fff;
+  font-family: var(--sans);
+  font-size: 19px;
+  font-weight: 700;
+  text-anchor: middle;
+  paint-order: stroke;
+  stroke: rgba(4, 11, 18, .72);
+  stroke-width: 5px;
+  stroke-linejoin: round;
+}
+
+.fm-node-base circle {
+  fill: #4c88ff;
+}
+
+.fm-node-tower circle {
+  fill: #7d8b9c;
+}
+
+.fm-node-buff circle {
+  fill: #4c88ff;
+}
+
+.fm-node-resource circle {
+  fill: #27a577;
+}
+
+.fm-node-objective circle {
+  fill: #f0a33a;
+}
+
+.fm-node-portal circle {
+  fill: #9a7bff;
+}
+
+.fm-board-foot {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 9px 14px 11px;
+}
+
+.fm-board-foot p {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: .68rem;
+  line-height: 1.55;
+}
+
+.fm-board-foot span {
+  flex-shrink: 0;
+  color: var(--faint);
+  font-size: .61rem;
+  line-height: 1.55;
+}
+
+/* 分路卡 */
+.fm-lane-card {
+  padding: 14px 16px 15px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.fm-lane-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.fm-lane-kicker {
+  margin: 0;
+  color: var(--blue);
+  font-size: .62rem;
+  font-weight: 600;
+  letter-spacing: .03em;
+}
+
+.fm-lane-card h2 {
+  margin: 5px 0 0;
+  color: var(--ink);
+  font-size: 1rem;
+  line-height: 1.4;
+  font-weight: 650;
+}
+
+.fm-lane-role {
+  flex-shrink: 0;
+  margin-top: 2px;
+  padding: 3px 7px;
+  border-radius: 5px;
+  background: var(--surface-2);
+  color: var(--muted);
+  font-size: .62rem;
+}
+
+.fm-lane-summary {
+  margin: 9px 0 10px;
+  color: var(--muted);
+  font-size: .76rem;
+  line-height: 1.72;
+}
+
+.fm-lane-formula {
+  padding: 9px 11px;
+  border-radius: 7px;
+  background: var(--blue-soft);
+  color: var(--blue);
+  font-size: .75rem;
+  font-weight: 650;
+  line-height: 1.55;
+}
+
+.fm-points {
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.fm-points li {
+  position: relative;
+  padding-left: 13px;
+  color: var(--ink-2);
+  font-size: .75rem;
+  line-height: 1.7;
+}
+
+.fm-points li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .65em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--blue);
+}
+
+.fm-lane-extra {
+  margin: 10px 0 0;
+  padding-top: 9px;
+  border-top: 1px solid var(--line);
+  color: var(--faint);
+  font-size: .68rem;
+  line-height: 1.65;
+}
+
+/* 通用公式 */
+.fm-section {
+  padding-top: 2px;
+}
+
+.fm-section .section-head {
+  margin-bottom: 8px;
+}
+
+.fm-formula-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.fm-formula-card {
+  min-width: 0;
+  padding: 11px 12px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+}
+
+.fm-formula-card > span {
+  display: inline-flex;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: var(--blue-soft);
+  color: var(--blue);
+  font-size: .6rem;
+  font-weight: 650;
+}
+
+.fm-formula-card h3 {
+  margin: 7px 0 6px;
+  color: var(--ink);
+  font-size: .78rem;
+  line-height: 1.4;
+  font-weight: 650;
+}
+
+.fm-formula-card p {
+  margin: 0 0 3px;
+  color: var(--muted);
+  font-size: .68rem;
+  line-height: 1.6;
+}
+
+.fm-formula-card p:last-child {
+  margin-bottom: 0;
+}
+
+/* 合集 */
+.fm-collection {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+}
+
+.fm-collection-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.fm-collection-row:last-child {
+  border-bottom: 0;
+}
+
+.fm-collection-row:active {
+  background: var(--surface-2);
+}
+
+.fm-collection-index {
+  flex-shrink: 0;
+  color: var(--faint);
+  font-size: .66rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.fm-collection-main {
+  min-width: 0;
+  flex: 1;
+}
+
+.fm-collection-main strong {
+  display: block;
+  overflow: hidden;
+  color: var(--ink);
+  font-size: .78rem;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.fm-collection-main p {
+  margin: 2px 0 0;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: .66rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.fm-collection-tag {
+  flex-shrink: 0;
+  padding: 2px 5px;
+  border-radius: 4px;
+  background: var(--surface-2);
+  color: var(--muted);
+  font-size: .6rem;
+}
+
+.fm-collection-tag.is-now {
+  background: var(--blue-soft);
+  color: var(--blue);
+}
+
+.fm-collection-row > svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  color: var(--faint);
+}
+
+/* 来源 */
+.fm-source {
+  margin: 2px 0 0;
+  padding: 2px 2px 0;
+  color: var(--faint);
+  font-size: .65rem;
+  line-height: 1.7;
+}
+
+.fm-source-btn {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 42px;
+  margin-top: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink-2);
+  font: inherit;
+  font-size: .78rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.fm-source-btn svg {
+  width: 15px;
+  height: 15px;
+}
+
+.fm-source-btn:active {
+  background: var(--surface-2);
+}
+
+@media (max-width: 350px) {
+  .fm-formula-grid { grid-template-columns: 1fr; }
+  .fm-lane-tab { min-width: 58px; font-size: .68rem; }
+  .fm-lane-tab svg { width: 13px; height: 13px; flex-basis: 13px; }
+  .fm-board-head h3 { font-size: .88rem; }
+  .fm-node text { font-size: 20px; }
+}

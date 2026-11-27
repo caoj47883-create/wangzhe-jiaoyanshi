@@ -52,6 +52,7 @@ export default function More() {
             <h2 className="h2">内容库</h2>
           </div>
           <div className="list">
+            {item("route", ["var(--blue-soft)", "var(--blue)"], "公式化打法", "五个分路 · 原图路线", () => navigate("formula"))}
             {item("spark", ["var(--gold-soft)", "var(--gold)"], "AI 问答", "结合本版本数据回答 · 需配置外部接口", () => navigate("ai"))}
             {item("users", ["var(--gold-soft)", "var(--gold)"], "五黑阵容", `${COMPS.length} 套体系 · 思路 / 弱点 / Ban 位`, () => navigate("comps"))}
             {item("book", ["var(--blue-soft)", "var(--blue)"], "名师课堂", `${COACHES.length} 位技术主播`, () => navigate("coaches"))}

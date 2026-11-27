@@ -24,6 +24,7 @@ const P = {
   check: '<path d="M4.5 12.5l5 5L20 7"/>',
   arrowUpRight: '<path d="M7 17 17 7"/><path d="M8 7h9v9"/>',
   book: '<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5V5.5Z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20"/>',
+  route: '<circle cx="6" cy="18" r="2.3"/><circle cx="18" cy="6" r="2.3"/><path d="M8.2 17.2c4.7-1.4 4-7.2 7.6-9.2"/>',
   refresh: '<path d="M20 11a8 8 0 1 0-.8 4.5"/><path d="M20 5v6h-6"/>',
   trash: '<path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6.5 7l1 13h9l1-13"/>',
   target: '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1"/>',

@@ -14,6 +14,7 @@ import Settings from "./pages/Settings.jsx";
 import Favorites from "./pages/Favorites.jsx";
 import Search from "./pages/Search.jsx";
 import AiChat from "./pages/AiChat.jsx";
+import Formula from "./pages/Formula.jsx";
 
 const PAGES = {
   home: Home,
@@ -27,6 +28,7 @@ const PAGES = {
   favorites: Favorites,
   search: Search,
   ai: AiChat,
+  formula: Formula,
 };
 
 const TAB_OF = {
@@ -41,6 +43,7 @@ const TAB_OF = {
   favorites: "more",
   search: "home",
   ai: "more",
+  formula: "home",
 };
 
 export default function App() {
