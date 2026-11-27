@@ -7,14 +7,19 @@ import { shareImage } from "../lib/share.js";
 import { useApp } from "../lib/store.js";
 
 /* 流派筛选与原站 zm 保持一致：style 包含关键词即归入；「其他」= 不属于任何关键词 */
-const STYLE_FILTERS = ["全部", "养猪流", "速推流", "四保一", "强开", "单带", "消耗", "控制", "其他"];
+const STYLE_FILTERS = ["全部", "双排", "三排", "娱乐", "养猪流", "速推流", "四保一", "强开", "单带", "消耗", "控制", "其他"];
 const STYLE_KEYS = ["养猪流", "速推流", "四保一", "强开", "单带", "消耗", "控制"];
+const MODE_KEYS = ["双排", "三排", "娱乐"];
+const MODE_LABELS = { duo: "双排", trio: "三排", fun: "娱乐" };
 /* 分路明细 / 分享文案采用 BP 视角顺序：对抗路 → 打野 → 中路 → 发育路 → 游走 */
 const LANE_ORDER = ["clash", "jungle", "mid", "farm", "roam"];
 
+const modeLabel = (c) => MODE_LABELS[c.mode] || "五黑";
+
 function filterComps(list, key) {
   if (key === "全部") return list;
-  if (key === "其他") return list.filter((c) => !STYLE_KEYS.some((k) => c.style.includes(k)));
+  if (MODE_KEYS.includes(key)) return list.filter((c) => c.mode === { 双排: "duo", 三排: "trio", 娱乐: "fun" }[key]);
+  if (key === "其他") return list.filter((c) => !c.mode && !STYLE_KEYS.some((k) => c.style.includes(k)));
   return list.filter((c) => c.style.includes(key));
 }
 
@@ -44,7 +49,7 @@ const CSS = `
   border-radius: 50%; background: var(--surface-2); color: var(--muted);
 }
 .wc-clear svg { width: 11px; height: 11px; }
-.wc-filters { margin-top: 7px; }
+.wc-filters { margin-top: 7px; flex-wrap: wrap; overflow: visible; row-gap: 7px; }
 .wc-result {
   display: flex; align-items: center; gap: 6px;
   margin: 8px 0 10px; font-family: var(--mono); font-size: .6rem;
@@ -95,6 +100,8 @@ const CSS = `
 }
 .wc-chip-row { display: flex; align-items: center; gap: 3px; flex-wrap: wrap; }
 .wc-chip-row .pill { padding: 2px 6px; font-size: .52rem; }
+.wc-chip-row .wc-mode { background: var(--blue-soft); color: var(--blue); border-color: transparent; }
+.wc-chip-row .wc-mode.is-fun { background: var(--red-soft); color: var(--red); }
 .wc-tail {
   flex-shrink: 0; display: flex; flex-direction: column;
   align-items: center; gap: 1px; align-self: center;
@@ -105,6 +112,15 @@ const CSS = `
 .wc-card.open .wc-chev { transform: rotate(90deg); }
 .wc-body { border-top: 1px solid var(--line-2); padding: 0 13px 13px; animation: wc-rise .22s ease; }
 @keyframes wc-rise { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+.wc-core {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 7px;
+  margin-top: 10px; padding: 8px 10px;
+  border: 1px solid var(--line-2); border-radius: var(--radius-md);
+  background: var(--blue-soft);
+}
+.wc-core b { font-size: .7rem; color: var(--blue); font-weight: 700; }
+.wc-core span { font-size: .64rem; color: var(--muted); line-height: 1.5; }
+.wc-core .wc-core-name { color: var(--ink-2); font-weight: 700; }
 .wc-lanes {
   margin-top: 10px; padding: 2px 10px;
   border: 1px solid var(--line-2); border-radius: var(--radius-md);
@@ -261,9 +277,9 @@ export default function Comps({ params }) {
     <div className="page">
       <style>{CSS}</style>
       <PageHead
-        eyebrow="FIVE-MAN COMPS"
-        title="五黑阵容"
-        sub={`${COMPS.length} 套体系 · 点开看思路与 Ban 位`}
+        eyebrow="COMP LIBRARY"
+        title="阵容库"
+        sub={`${COMPS.length} 套 · 五黑 / 双排 / 三排 / 娱乐`}
         onBack={back}
         actions={
           <button
@@ -278,7 +294,7 @@ export default function Comps({ params }) {
 
       <div className="page-inner" style={{ paddingTop: 0 }}>
         <p className="wc-intro">
-          共 {COMPS.length} 套五黑阵容，含养猪流、速推流等流派；点开看思路、弱点与推荐 Ban 位。
+          共 {COMPS.length} 套阵容：五黑体系、双排/三排和娱乐打法；点开看思路、弱点、核心与推荐 Ban 位。
         </p>
 
         <div className="wc-sticky">
@@ -374,12 +390,12 @@ export default function Comps({ params }) {
                       </span>
                       <span className="wc-name">{c.name}</span>
                       <span className="wc-chip-row">
-                        {c.style.split(" · ").map((s) => (
+                        {c.style.split(" · ").filter((s) => s !== modeLabel(c)).map((s) => (
                           <span className="pill" key={s}>
                             {s}
                           </span>
                         ))}
-                        <span className="pill">五黑</span>
+                        <span className={`pill wc-mode ${c.mode === "fun" ? "is-fun" : ""}`}>{modeLabel(c)}</span>
                       </span>
                     </span>
                     <span className="wc-tail">
@@ -392,6 +408,19 @@ export default function Comps({ params }) {
 
                   {open ? (
                     <div className="wc-body">
+                      {c.core?.length ? (
+                        <div className="wc-core">
+                          <b>核心</b>
+                          <span className="wc-core-name">{c.core.join(" + ")}</span>
+                          <span>
+                            {c.mode === "duo"
+                              ? "双排核心，其余三位按分路补位"
+                              : c.mode === "trio"
+                                ? "三排核心，其余两位按分路补位"
+                                : "娱乐打法核心"}
+                          </span>
+                        </div>
+                      ) : null}
                       <div className="wc-lanes">
                         {LANE_ORDER.map((lane) => {
                           const name = c.picks[lane];

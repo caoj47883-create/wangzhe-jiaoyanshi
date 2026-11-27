@@ -111,8 +111,8 @@ export default function Search({ params }) {
                   <Icon name="users" style={{ width: 16, height: 16 }} />
                 </span>
                 <span className="grow">
-                  <span className="title">全部五黑阵容</span>
-                  <span className="sub">30 套体系 · 带思路与 Ban 位</span>
+                  <span className="title">全部阵容</span>
+                  <span className="sub">{COMPS.length} 套 · 五黑 / 双排 / 三排 / 娱乐</span>
                 </span>
                 <span className="chev">
                   <Icon name="chevronRight" />
@@ -124,7 +124,7 @@ export default function Search({ params }) {
                 </span>
                 <span className="grow">
                   <span className="title">名师课堂</span>
-                  <span className="sub">51 位技术主播</span>
+                  <span className="sub">{COACHES.length} 位技术主播</span>
                 </span>
                 <span className="chev">
                   <Icon name="chevronRight" />
@@ -198,9 +198,17 @@ export default function Search({ params }) {
                 <div className="list">
                   {results.coaches.map((c) => (
                     <button key={c.name} className="row" onClick={() => navigate("coaches", { focus: c.name })}>
-                      <span className="coach-ava" style={{ width: 34, height: 34, marginBottom: 0, fontSize: ".9rem" }}>
-                        {c.name.slice(0, 1)}
-                      </span>
+                      <img
+                        className="coach-ava coach-img"
+                        src={c.avatar ? `/${c.avatar}` : "/coaches/_default.jpg"}
+                        alt={c.name}
+                        loading="lazy"
+                        style={{ width: 34, height: 34, marginBottom: 0, objectFit: "cover", borderRadius: "50%" }}
+                        onError={(e) => {
+                          e.currentTarget.onerror = null;
+                          e.currentTarget.src = "/coaches/_default.jpg";
+                        }}
+                      />
                       <span className="grow">
                         <span className="title">
                           {c.name}

@@ -87,7 +87,7 @@ public class MainActivity extends Activity {
     private File siteDir;
     private SpeechRecognizer speechRecognizer;
     private WebView webView;
-    private String appVersion = "2.7.3";
+    private String appVersion = "2.8.2";
     private String systemVoiceRequestId = null;
     private boolean speechListening = false;
     private String speechRequestId = null;
@@ -191,6 +191,7 @@ public class MainActivity extends Activity {
     private void configureWebView() {
         WebSettings settings = this.webView.getSettings();
         settings.setJavaScriptEnabled(true);
+        settings.setDefaultTextEncodingName("UTF-8");
         settings.setDomStorageEnabled(true);
         settings.setUseWideViewPort(true);
         settings.setLoadWithOverviewMode(false);
@@ -463,7 +464,7 @@ public class MainActivity extends Activity {
             }
             byte[] data = readFully(targetFile);
             String head = "HTTP/1.1 200 OK\r\n"
-                    + "Content-Type: " + mimeOf(targetFile.getName()) + "\r\n"
+                    + "Content-Type: " + (isTextual(mimeOf(targetFile.getName())) ? mimeOf(targetFile.getName()) + "; charset=utf-8" : mimeOf(targetFile.getName())) + "\r\n"
                     + "Content-Length: " + data.length + "\r\n"
                     + "Cache-Control: no-store\r\n"
                     + "Access-Control-Allow-Origin: *\r\n"

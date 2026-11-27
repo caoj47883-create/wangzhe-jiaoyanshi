@@ -11,11 +11,14 @@ const PLATFORM_FILTERS = [
   { id: "bilibili", label: "B站" },
 ];
 
-const platformLabel = (platform) => (platform === "douyin" ? "抖音" : "B站");
+const GROUP_TABS = [
+  { id: "theory", label: "思路教学", sub: "全局解说 · 做课主播" },
+  { id: "peak", label: "巅峰顶尖", sub: "顶尖选手 · 巅峰赛" },
+  { id: "master", label: "英雄绝活", sub: "国服绝活 · 英雄专精" },
+];
 
-const DOUYIN_COUNT = COACHES.filter((c) => c.platform === "douyin").length;
-const BILI_COUNT = COACHES.filter((c) => c.platform === "bilibili").length;
-const KPL_COUNT = COACHES.filter((c) => c.pro).length;
+const platformLabel = (platform) => (platform === "douyin" ? "抖音" : "B站");
+const avatarUrl = (coach) => (coach.avatar ? `/${coach.avatar}` : "/coaches/_default.jpg");
 
 /** 各平台主页搜索地址（与原站一致） */
 const homeUrl = (coach) =>
@@ -25,6 +28,35 @@ const homeUrl = (coach) =>
 
 const CSS = `
 .co-intro { margin: 2px 0 12px; font-size: .76rem; line-height: 1.78; color: var(--muted); }
+.co-group-tabs {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px; margin: 0 0 11px;
+}
+.co-group-tab {
+  min-width: 0; padding: 9px 8px 8px; text-align: left;
+  border: 1px solid var(--line); border-radius: 10px;
+  background: var(--surface); color: var(--ink-2);
+  transition: border-color .15s ease, background .15s ease, color .15s ease;
+}
+.co-group-tab b {
+  display: flex; align-items: baseline; gap: 4px;
+  font-family: var(--sans); font-size: .78rem; font-weight: 800;
+  letter-spacing: 0; white-space: nowrap;
+}
+.co-group-tab b em {
+  margin-left: auto; font-family: var(--mono); font-size: .58rem;
+  font-style: normal; font-weight: 600; color: var(--faint);
+}
+.co-group-tab span {
+  display: block; margin-top: 3px;
+  font-size: .55rem; line-height: 1.35; color: var(--faint);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.co-group-tab.on {
+  border-color: color-mix(in srgb, var(--blue) 44%, transparent);
+  background: var(--blue-soft); color: var(--blue);
+}
+.co-group-tab.on b em, .co-group-tab.on span { color: color-mix(in srgb, var(--blue) 72%, var(--muted)); }
 .co-stats { margin-bottom: 13px; }
 .co-stats b { font-size: 1rem; }
 .co-sticky {
@@ -78,6 +110,10 @@ const CSS = `
 }
 .co-ava-wrap { position: relative; flex-shrink: 0; align-self: flex-start; }
 .co-ava-wrap .coach-ava { width: 44px; height: 44px; margin-bottom: 0; font-size: 1.05rem; }
+.co-ava-wrap .coach-img {
+  display: block; width: 44px; height: 44px; border-radius: 50%;
+  object-fit: cover; background: var(--surface-2); border: 1px solid var(--line-2);
+}
 .co-dot {
   position: absolute; right: -1px; bottom: -1px;
   width: 11px; height: 11px; border-radius: 50%;
@@ -164,6 +200,7 @@ const CSS = `
 export default function Coaches({ params }) {
   const { back, pushRecent, showToast, theme, setTheme } = useApp();
   const focus = params?.focus || null;
+  const [group, setGroup] = useState("theory");
   const [platform, setPlatform] = useState("all");
   const [kplOnly, setKplOnly] = useState(false);
   const [query, setQuery] = useState("");
@@ -172,7 +209,7 @@ export default function Coaches({ params }) {
   const cardRefs = useRef({});
 
   const filtered = useMemo(() => {
-    let list = COACHES;
+    let list = COACHES.filter((c) => c.group === group);
     if (platform !== "all") list = list.filter((c) => c.platform === platform);
     if (kplOnly) list = list.filter((c) => c.pro);
     const k = query.trim().toLowerCase();
@@ -182,11 +219,13 @@ export default function Coaches({ params }) {
       );
     }
     return list;
-  }, [platform, kplOnly, query]);
+  }, [group, platform, kplOnly, query]);
 
-  // 首页点入的 focus 教练：滚动到卡片并高亮
+  // 首页点入的 focus 教练：切到对应栏目、滚动到卡片并高亮
   useEffect(() => {
-    if (!focus || !COACHES.some((c) => c.name === focus)) return undefined;
+    const target = focus ? COACHES.find((c) => c.name === focus) : null;
+    if (!target) return undefined;
+    setGroup(target.group || "theory");
     setFlash(focus);
     const scrollTimer = setTimeout(() => {
       const el = cardRefs.current[focus];
@@ -205,6 +244,7 @@ export default function Coaches({ params }) {
   };
 
   const resetAll = () => {
+    setGroup("theory");
     setPlatform("all");
     setKplOnly(false);
     setQuery("");
@@ -228,7 +268,7 @@ export default function Coaches({ params }) {
     }
   };
 
-  const hasFilter = platform !== "all" || kplOnly || query.trim().length > 0;
+  const hasFilter = group !== "theory" || platform !== "all" || kplOnly || query.trim().length > 0;
 
   return (
     <div className="page">
@@ -236,7 +276,7 @@ export default function Coaches({ params }) {
       <PageHead
         eyebrow="COACHES"
         title="名师课堂"
-        sub={`技术主播 · ${COACHES.length} 位`}
+        sub={`${COACHES.length} 位主播 · 三个栏目`}
         onBack={back}
         actions={
           <button
@@ -251,26 +291,26 @@ export default function Coaches({ params }) {
 
       <div className="page-inner" style={{ paddingTop: 0 }}>
         <p className="co-intro">
-          共收录 {COACHES.length} 位；按主平台去重，双平台均有号的已在简介标注。信息来自公开资料整理，平台与主玩英雄可能随时间变动。
+          共收录 {COACHES.length} 位；按「思路教学 / 巅峰顶尖 / 英雄绝活」三栏整理，头像使用本人账号头像，信息来自公开资料整理。
         </p>
 
-        <div className="stats co-stats">
-          <div className="cell">
-            <b>{COACHES.length}</b>
-            <span>位名师</span>
-          </div>
-          <div className="cell">
-            <b>{DOUYIN_COUNT}</b>
-            <span>抖音</span>
-          </div>
-          <div className="cell">
-            <b>{BILI_COUNT}</b>
-            <span>B站</span>
-          </div>
-          <div className="cell">
-            <b>{KPL_COUNT}</b>
-            <span>KPL</span>
-          </div>
+        <div className="co-group-tabs" role="tablist" aria-label="名师栏目">
+          {GROUP_TABS.map((t) => {
+            const count = COACHES.filter((c) => c.group === t.id).length;
+            return (
+              <button
+                type="button"
+                role="tab"
+                aria-selected={group === t.id}
+                key={t.id}
+                className={`co-group-tab ${group === t.id ? "on" : ""}`}
+                onClick={() => setGroup(t.id)}
+              >
+                <b>{t.label}<em>{count}</em></b>
+                <span>{t.sub}</span>
+              </button>
+            );
+          })}
         </div>
 
         <div className="co-sticky">
@@ -316,8 +356,9 @@ export default function Coaches({ params }) {
 
         <div className="co-result">
           <span>
-            <b>{filtered.length}</b> 位主播
+            本栏 <b>{filtered.length}</b> 位
           </span>
+          <span className="co-result-tag">{GROUP_TABS.find((t) => t.id === group)?.label}</span>
           {platform !== "all" ? <span className="co-result-tag">{platformLabel(platform)}</span> : null}
           {kplOnly ? <span className="co-result-tag">KPL</span> : null}
           {query.trim() ? <span className="co-result-tag">“{query.trim()}”</span> : null}
@@ -341,7 +382,16 @@ export default function Coaches({ params }) {
                   className={`co-card ${flash === c.name ? "co-flash" : ""}`}
                 >
                   <span className="co-ava-wrap">
-                    <span className="coach-ava">{c.name.slice(0, 1)}</span>
+                    <img
+                      className="coach-ava coach-img"
+                      src={avatarUrl(c)}
+                      alt={c.name}
+                      loading="lazy"
+                      onError={(e) => {
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src = "/coaches/_default.jpg";
+                      }}
+                    />
                     <i className={`co-dot ${c.platform}`} />
                   </span>
                   <div className="co-main">
@@ -387,14 +437,14 @@ export default function Coaches({ params }) {
           </span>
           <div>
             <b>怎么用这份名单</b>
-            <p>先看 KPL 选手的 BP 与转线思路，再学绝活主播的对线细节；点「主玩」英雄可查看克制链与针对出装。</p>
+            <p>思路教学看全局节奏，巅峰顶尖看职业级 BP 与转线，英雄绝活看具体对线细节；点「主玩」英雄可查看克制链与针对出装。</p>
           </div>
         </div>
 
         <p className="co-page-foot">
           名单整理自公开资料 · 平台与主玩英雄可能变动
           <br />
-          仅作学习参考
+          头像为本人账号公开头像 · 仅作学习参考
         </p>
       </div>
 

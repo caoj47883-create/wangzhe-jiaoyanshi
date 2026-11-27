@@ -54,7 +54,7 @@ export default function More() {
           <div className="list">
             {item("route", ["var(--blue-soft)", "var(--blue)"], "公式化打法", "五个分路 · 原图路线", () => navigate("formula"))}
             {item("spark", ["var(--gold-soft)", "var(--gold)"], "AI 问答", "结合本版本数据回答 · 需配置外部接口", () => navigate("ai"))}
-            {item("users", ["var(--gold-soft)", "var(--gold)"], "五黑阵容", `${COMPS.length} 套体系 · 思路 / 弱点 / Ban 位`, () => navigate("comps"))}
+            {item("users", ["var(--gold-soft)", "var(--gold)"], "阵容库", `${COMPS.length} 套 · 五黑 / 双排 / 三排 / 娱乐`, () => navigate("comps"))}
             {item("book", ["var(--blue-soft)", "var(--blue)"], "名师课堂", `${COACHES.length} 位技术主播`, () => navigate("coaches"))}
             {item("search", ["var(--surface-2)", "var(--muted)"], "全局搜索", "英雄 / 阵容 / 名师，一次搜全站", () => navigate("search"))}
           </div>

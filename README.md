@@ -4,7 +4,7 @@
 
 ![Platform](https://img.shields.io/badge/Android-6.0%2B-3ddc84?logo=android&logoColor=white)
 ![WebView](https://img.shields.io/badge/WebView-%E2%89%A5%20111-4285F4?logo=googlechrome&logoColor=white)
-![Version](https://img.shields.io/badge/version-2.7.3-3370ff)
+![Version](https://img.shields.io/badge/version-2.8.2-3370ff)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Build APK](https://github.com/caoj47883-create/wangzhe-jiaoyanshi/actions/workflows/build-apk.yml/badge.svg)
 
@@ -23,7 +23,7 @@
 一个私人使用的 Android App（个人项目，非官方、非商业）：
 
 - **不需要登录**，断网也能用；
-- 内置 134 位英雄、900+ 条克制关系、30 套五黑阵容、51 位 KPL 选手/主播；
+- 内置 134 位英雄、900+ 条克制关系、110 套阵容（五黑/双排/三排/娱乐）、65 位主播/选手；
 - **BP 助手**：输入敌方 Ban 位 → 推测对面想玩谁 → 按分路给反制推荐 → 一键带入出装；
 - **BP 离线语音输入**：按住语音条说「对面 ban 东皇太一」「选马可波罗」，端侧 sherpa-onnx 中文模型 + 本地英雄词典自动填槽，不依赖系统语音服务/网络；
 - **数据热更新**：赛季中英雄/装备调整后，不重装 APK，App 自动拉取新数据；
@@ -43,8 +43,8 @@
 | BP 语音输入 | 按住说话，端侧 sherpa-onnx 中文 ASR + 134 英雄词典拼音/方言音模糊匹配；自动填 Ban/Pick、候选默认全选、混合意图分支 |
 | 公式化打法 | 按对抗路 / 打野 / 中路 / 发育路 / 游走拆公式；王者峡谷原图叠加分路路线、1 分钟中路线权窗口、资源与龙团节奏 |
 | 针对出装 | 敌阵 5 位置 → 基础六件 / 针对性装备 / 铭文 / 实战提示 / 分享图 |
-| 五黑阵容 | 30 套体系，筛选/搜索/思路/弱点/Ban 位/分享/去 BP 练习 |
-| 名师课堂 | 51 位 KPL 选手与主播，平台筛选、搜索、外链主页 |
+| 阵容库 | 110 套（五黑/双排/三排/娱乐），筛选/搜索/核心位置/思路/弱点/Ban 位/分享/去 BP 练习 |
+| 名师课堂 | 65 位，分「思路教学/巅峰顶尖/英雄绝活」三栏，真实头像、平台筛选、搜索、外链主页 |
 | 全局搜索 | 英雄 / 阵容 / 名师一次搜全站 |
 | 收藏与最近 | 本地持久化，可清空 |
 | 设置 | 暗夜/纸感主题、字号、数据与更新、AI 配置、数据清理 |
@@ -86,6 +86,22 @@
   <tr>
     <td><img src="next/shots/formula-lane-jungle-dark.png" alt="打野公式与路线"></td>
     <td><img src="next/shots/formula-lane-clash-dark.png" alt="对抗路公式与路线"></td>
+  </tr>
+</table>
+
+### V2.8.0–V2.8.2：名师三栏 + 阵容库扩充 + 编码修复
+
+这版主要是把「人」和「阵容」两块补厚，不是换皮。
+
+- **名师课堂**：65 位，按「思路教学 15 / 巅峰顶尖 20 / 英雄绝活 30」分三栏；头像换成各自主页头像，不再用姓名首字。
+- **阵容库**：30 套扩到 110 套；原五黑体系补全 Ban 位（养猪/四保一、电梯、强开等按类型加到 4–6 个），另外加了 10 套双排、12 套三排、8 套娱乐。
+- **双排/三排**：卡片会标核心组合和补位思路，不要求五个人固定阵容。
+- **编码修复**：本地 HTTP 响应统一补 `charset=utf-8`，WebView 也显式指定 UTF-8，修部分机型页面中文变问号的问题。
+
+<table>
+  <tr>
+    <td><img src="next/shots/v280-coaches-light.png" alt="名师课堂三栏"></td>
+    <td><img src="next/shots/v280-comps-light.png" alt="阵容库 110 套"></td>
   </tr>
 </table>
 
@@ -235,7 +251,7 @@ pnpm build          # 产物：next/dist
 仓库已内置 [`.github/workflows/build-apk.yml`](.github/workflows/build-apk.yml)：
 
 - **手动触发**：Actions → `Build APK` → Run workflow（产物在 Artifacts）；
-- **打 tag 自动发布**：`git tag v2.7.3 && git push origin v2.7.3` → 自动构建并创建 Release。
+- **打 tag 自动发布**：`git tag v2.8.2 && git push origin v2.8.2` → 自动构建并创建 Release。
 
 签名通过仓库 Secrets 注入（见下方「签名配置」）；未配置时会构建未签名 APK。CI 会自动下载 sherpa-onnx 运行时与中文模型（缓存于 `.asr-cache`），构建产物约 193MB（本地 Windows 构建约 162MB）。
 
@@ -365,7 +381,8 @@ GitHub Pages（数据仓库）         App（启动/手动检查）
 - [x] V2.5.0：S45 数据刷新、首页/英雄/更多页信息精简
 - [x] V2.6.0–V2.6.1：飞书式工作台 UI/UX 全量重写、常用入口与 BP 前置
 - [x] V2.7.0–V2.7.3：按分路公式化打法页、王者峡谷原图路线、夏侯惇 T0.5、刀锋宝贝、S45 数据 2026.11.27
-- [ ] V2.8：模型/热词继续调优、BP→出装联动、阵容收藏、英雄对比、更新日志详情页
+- [x] V2.8.0–V2.8.2：名师三栏 65 位、阵容库 110 套（双排/三排/娱乐）、本地页面编码修复
+- [ ] V2.9：模型/热词继续调优、BP→出装联动、阵容收藏、英雄对比、更新日志详情页
 
 ## 许可与声明
 

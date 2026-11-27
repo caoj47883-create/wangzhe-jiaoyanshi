@@ -3,9 +3,9 @@
 > 由 `next/scripts/build-voice-lexicon.mjs` 自动生成，请勿手改本文件。
 > 手工维护别名请改 `next/src/data/hero-voice-aliases.json`，然后重新运行生成脚本。
 
-- 数据版本：2026.11.27.200（快照 2026-11-26）
+- 数据版本：2026.11.27.202（快照 2026-11-27）
 - 英雄数：134
-- 别名/ASR 变体：263 条
+- 别名/ASR 变体：265 条
 - 单字英雄（只接受精确命中）：镜、瑶、暃、澜、铠、影、曜、苍
 - 共享词条：`元流之子`（5 个形态）
 
@@ -144,4 +144,4 @@
 | 元流之子(刺客) | jungle |  | 元刺、元流刺客 | yuan liu zhi zi ci ke |
 | 杨戬 | clash |  | 二郎神、二郎 | yang jian |
 | 程咬金 | clash |  | 咬金、老程 | cheng yao jin |
-| 刀锋宝贝 | jungle |  | — | dao feng bao bei |
+| 刀锋宝贝 | jungle |  | 刀锋、刀锋宝 | dao feng bao bei |

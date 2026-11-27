@@ -26,7 +26,7 @@ export default function Home() {
     { page: "formula", icon: "route", title: "公式化打法", sub: "五个分路、线权与路线图" },
     { tab: "strength", icon: "crown", title: "英雄强度", sub: "按分路看当前版本梯度" },
     { tab: "items", icon: "shield", title: "针对出装", sub: "敌方阵容、装备与铭文" },
-    { page: "comps", icon: "users", title: "五黑阵容", sub: "30 套体系，含 Ban 位" },
+    { page: "comps", icon: "users", title: "阵容库", sub: `${COMPS.length} 套 · 五黑 / 双排 / 三排 / 娱乐` },
   ];
 
   const recentHeroes = recents.filter((r) => r.type === "hero").slice(0, 8);
@@ -93,7 +93,7 @@ export default function Home() {
         </section>
 
         <section className="section">
-          <SectionHead title="本周阵容" sub="五黑体系库" onMore={() => navigate("comps")} />
+          <SectionHead title="本周阵容" sub="五黑 / 双排 / 三排 / 娱乐" onMore={() => navigate("comps")} />
           <div className="rail">
             {COMPS.slice(0, 6).map((c) => (
               <button className="comp-card" key={c.id} onClick={() => navigate("comps", { focus: c.id })}>
@@ -112,11 +112,20 @@ export default function Home() {
         </section>
 
         <section className="section">
-          <SectionHead title="名师课堂" sub="技术主播" onMore={() => navigate("coaches")} />
+          <SectionHead title="名师课堂" sub={`三个栏目 · ${COACHES.length} 位`} onMore={() => navigate("coaches")} />
           <div className="list">
             {COACHES.slice(0, 4).map((c) => (
               <button className="row" key={c.name} onClick={() => navigate("coaches", { focus: c.name })}>
-                <span className="coach-ava">{c.name.slice(0, 1)}</span>
+                <img
+                  className="coach-ava coach-img"
+                  src={c.avatar ? `/${c.avatar}` : "/coaches/_default.jpg"}
+                  alt={c.name}
+                  loading="lazy"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = "/coaches/_default.jpg";
+                  }}
+                />
                 <span className="grow">
                   <span className="title">{c.name}</span>
                   <span className="sub">{c.heroes.slice(0, 2).join(" · ")}</span>

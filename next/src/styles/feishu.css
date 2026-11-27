@@ -597,6 +597,10 @@ a { color: var(--blue); }
   background: var(--blue-soft); color: var(--blue);
   font-family: var(--sans); font-weight: 600; font-size: .78rem;
 }
+.coach-ava.coach-img {
+  display: block; object-fit: cover; border-radius: 50%;
+  background: var(--surface-2); border: 1px solid var(--line-2);
+}
 .coach-card .name { font-family: var(--sans); font-size: .84rem; font-weight: 500; }
 .coach-card .desc { margin: 2px 0 7px; font-size: .68rem; color: var(--muted); }
 

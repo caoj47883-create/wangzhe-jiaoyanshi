@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "sourceDataVersion": "2026.11.27.200",
-  "sourceSnapshot": "2026-11-26",
+  "sourceDataVersion": "2026.11.27.202",
+  "sourceSnapshot": "2026-11-27",
   "heroCount": 134,
-  "aliasTermCount": 263,
+  "aliasTermCount": 265,
   "singleCharHeroes": [
     "镜",
     "瑶",
@@ -5170,6 +5170,25 @@
             "feng",
             "bao",
             "bei"
+          ]
+        },
+        {
+          "text": "刀锋",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "dao",
+            "feng"
+          ]
+        },
+        {
+          "text": "刀锋宝",
+          "kind": "alias",
+          "weight": 0.97,
+          "pinyin": [
+            "dao",
+            "feng",
+            "bao"
           ]
         }
       ]
