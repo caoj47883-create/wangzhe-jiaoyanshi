@@ -1,4 +1,4 @@
-// 生成英雄语音词库：把 133 个英雄、别名/外号、ASR 常见错字和拼音
+// 生成英雄语音词库：把当前数据里的英雄、别名/外号、ASR 常见错字和拼音
 // 预编译成运行时可用的 JSON，避免每次启动在 WebView 里反复算拼音。
 //
 // 用法（在 next/ 下）：
@@ -89,7 +89,7 @@ for (const hero of DATA.heroes) {
   });
 }
 
-const expectedHeroes = 133;
+const expectedHeroes = DATA.heroes.length;
 if (entries.length !== expectedHeroes) {
   throw new Error(`英雄数量异常：期望 ${expectedHeroes}，实际 ${entries.length}`);
 }
